@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>منصة مدارس الأحد - التصميم السماوي</title>
+    <title>منصة مدارس الأحد - صفحة الخادم</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=El+Messiri:wght@400;600;700&display=swap" rel="stylesheet" />
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         /* ===== RESET & ROOT ===== */
@@ -34,10 +34,10 @@
             --ok: #2e7d32;
             --bad: #c62828;
             --gold: #f9a825;
+            --pending: #f57c00;
             --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* Dark Mode */
         [data-theme="dark"] {
             --bg-primary: #0a1628;
             --bg-secondary: #13203a;
@@ -55,6 +55,7 @@
             --ok: #66bb6a;
             --bad: #ef5350;
             --gold: #ffd54f;
+            --pending: #ffa726;
         }
 
         body {
@@ -68,7 +69,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated background bubbles */
         body::before {
             content: '';
             position: fixed;
@@ -111,7 +111,6 @@
             z-index: 1;
         }
 
-        /* ===== GLASS CARD ===== */
         .glass {
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
@@ -125,6 +124,13 @@
             overflow: hidden;
         }
 
+        .glass:hover {
+            background: var(--bg-glass-hover);
+            border-color: var(--sky-dark);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
         .glass::before {
             content: '';
             position: absolute;
@@ -134,13 +140,6 @@
             height: 200%;
             background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
             pointer-events: none;
-        }
-
-        .glass:hover {
-            background: var(--bg-glass-hover);
-            border-color: var(--sky-dark);
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-4px);
         }
 
         /* ===== HEADER ===== */
@@ -245,7 +244,6 @@
             gap: 8px;
         }
 
-        /* Status badge for servant */
         .status-badge {
             padding: 2px 12px;
             border-radius: 40px;
@@ -267,7 +265,12 @@
             border: 1px solid rgba(198, 40, 40, 0.3);
         }
 
-        /* Theme Toggle */
+        .status-badge.pending {
+            background: rgba(245, 124, 0, 0.2);
+            color: var(--pending);
+            border: 1px solid rgba(245, 124, 0, 0.3);
+        }
+
         .theme-toggle {
             background: var(--bg-glass);
             border: 1px solid var(--border-glass);
@@ -368,51 +371,22 @@
             transform: translateY(-2px);
         }
 
+        .btn-pending {
+            background: rgba(245, 124, 0, 0.15);
+            color: var(--pending);
+            border: 1px solid rgba(245, 124, 0, 0.3);
+        }
+
+        .btn-pending:hover {
+            background: var(--pending);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
         .btn:disabled {
             opacity: 0.4;
             cursor: not-allowed;
             transform: none !important;
-        }
-
-        /* ===== CARDS GRID ===== */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
-        }
-
-        .card {
-            background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-glass);
-            border-radius: 28px;
-            padding: 24px;
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--sky-dark);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .card .icon {
-            font-size: 2.8rem;
-            color: var(--sky-dark);
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .card h3 {
-            color: var(--text-primary);
-            font-size: 1.4rem;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            margin-top: 6px;
         }
 
         /* ===== FORMS ===== */
@@ -492,6 +466,7 @@
             padding: 14px 18px;
             text-align: right;
             border-bottom: 1px solid var(--border-glass);
+            vertical-align: middle;
         }
 
         th {
@@ -506,18 +481,6 @@
             background: rgba(33, 150, 243, 0.04);
         }
 
-        /* Inactive servant rows */
-        .inactive-row td {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .inactive-row td .btn {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        /* ===== BADGES ===== */
         .badge {
             padding: 4px 18px;
             border-radius: 40px;
@@ -538,6 +501,12 @@
             border: 1px solid rgba(198, 40, 40, 0.2);
         }
 
+        .badge-pending {
+            background: rgba(245, 124, 0, 0.15);
+            color: var(--pending);
+            border: 1px solid rgba(245, 124, 0, 0.2);
+        }
+
         .code-pill {
             background: rgba(33, 150, 243, 0.1);
             color: var(--sky-dark);
@@ -550,21 +519,16 @@
             font-family: monospace;
         }
 
-        .copy-btn {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass);
-            border-radius: 30px;
-            padding: 2px 14px;
+        .empty {
             color: var(--text-muted);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.8rem;
+            text-align: center;
+            padding: 40px 0;
+            font-size: 1.1rem;
         }
 
-        .copy-btn:hover {
-            background: var(--sky-dark);
-            color: #fff;
-            border-color: var(--sky-dark);
+        .panel {
+            max-width: 520px;
+            margin: 0 auto;
         }
 
         /* ===== ALERTS ===== */
@@ -591,25 +555,15 @@
         }
 
         .alert-warning {
-            background: rgba(249, 168, 37, 0.12);
-            border: 1px solid rgba(249, 168, 37, 0.2);
-            color: var(--gold);
+            background: rgba(245, 124, 0, 0.12);
+            border: 1px solid rgba(245, 124, 0, 0.2);
+            color: var(--pending);
         }
 
-        .empty {
-            color: var(--text-muted);
-            text-align: center;
-            padding: 40px 0;
-            font-size: 1.1rem;
-        }
-
-        .panel {
-            max-width: 520px;
-            margin: 0 auto;
-        }
-
-        .panel.wide {
-            max-width: 1100px;
+        .alert-info {
+            background: rgba(33, 150, 243, 0.12);
+            border: 1px solid rgba(33, 150, 243, 0.2);
+            color: var(--sky-dark);
         }
 
         /* ===== HERO ===== */
@@ -663,25 +617,44 @@
             flex-wrap: wrap;
         }
 
-        /* ===== STATUS GROUP ===== */
-        .status-group {
-            display: flex;
-            gap: 18px;
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
         }
 
-        .status-group label {
-            flex-direction: row;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            flex: 0 1 auto;
+        .card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 28px;
+            padding: 24px;
+            transition: var(--transition);
+            text-align: center;
         }
 
-        .status-group input[type="radio"] {
-            accent-color: var(--sky-dark);
-            width: 18px;
-            height: 18px;
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--sky-dark);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card .icon {
+            font-size: 2.8rem;
+            color: var(--sky-dark);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .card h3 {
+            color: var(--text-primary);
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-top: 6px;
         }
 
         /* ===== FOOTER ===== */
@@ -704,7 +677,23 @@
             font-size: 1.3rem;
         }
 
-        /* ===== RESPONSIVE ===== */
+        .copy-btn {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 30px;
+            padding: 2px 14px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--sky-dark);
+            color: #fff;
+            border-color: var(--sky-dark);
+        }
+
         @media (max-width: 640px) {
             .hero h1 {
                 font-size: 2.2rem;
@@ -729,7 +718,6 @@
             }
         }
 
-        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -773,7 +761,7 @@
     <footer class="site">
         <div class="container">
             <i class="fas fa-cross" style="color:var(--sky-dark);margin-left:8px;"></i>
-            منصة مدارس الأحد - Developed by: <strong>Keroles Ayman, Arsany Moftah</strong>
+            منصة مدارس الأحد - Developed by: <strong>Keroles Ayman</strong>
         </div>
     </footer>
 
@@ -811,7 +799,6 @@
         let routeParam = null;
         let flash = null;
         let currentTheme = localStorage.getItem('theme') || 'light';
-        let isInitialLoad = true;
 
         // ============ SESSION MANAGEMENT ============
         function saveSession(username, name) {
@@ -837,15 +824,22 @@
         async function loadDB() {
             try {
                 const snap = await getDoc(dataDocRef);
-                if (snap.exists()) db = snap.data().payload;
-                // Ensure all servants have isActive field
+                if (snap.exists()) {
+                    db = snap.data().payload;
+                } else {
+                    db = { servants: [], children: [], attendance: [] };
+                    await saveDB();
+                }
                 db.servants = db.servants.map(s => ({
                     ...s,
-                    isActive: s.isActive !== undefined ? s.isActive : true
+                    isActive: s.isActive !== undefined ? s.isActive : false,
+                    isPending: s.isPending !== undefined ? s.isPending : true,
+                    assignedClass: s.assignedClass || null,
+                    pendingSince: s.pendingSince || null
                 }));
             } catch (e) {
                 console.error('❌ تعذر تحميل البيانات', e);
-                alert('تعذر الاتصال بقاعدة البيانات. تأكد من ضبط إعدادات Firebase ومن اتصالك بالإنترنت.');
+                alert('تعذر الاتصال بقاعدة البيانات.');
             }
         }
 
@@ -854,7 +848,7 @@
                 await setDoc(dataDocRef, { payload: db });
             } catch (e) {
                 console.error('❌ تعذر حفظ البيانات', e);
-                alert('حدث خطأ أثناء حفظ البيانات، تأكد من اتصالك بالإنترنت وحاول مرة أخرى.');
+                alert('حدث خطأ أثناء حفظ البيانات.');
             }
         }
 
@@ -864,22 +858,11 @@
                     db = snap.data().payload;
                     db.servants = db.servants.map(s => ({
                         ...s,
-                        isActive: s.isActive !== undefined ? s.isActive : true
+                        isActive: s.isActive !== undefined ? s.isActive : false,
+                        isPending: s.isPending !== undefined ? s.isPending : true,
+                        assignedClass: s.assignedClass || null,
+                        pendingSince: s.pendingSince || null
                     }));
-
-                    // Check if current session servant is still active
-                    if (session) {
-                        const servant = db.servants.find(s => s.username === session.username);
-                        if (servant && servant.isActive === false) {
-                            // If servant was deactivated, log them out
-                            setFlash('⚠️ تم إيقاف حسابك. لا يمكنك الوصول إلى لوحة التحكم.', 'warning');
-                            session = null;
-                            clearSession();
-                            go('home');
-                            return;
-                        }
-                    }
-
                     render();
                 }
             });
@@ -924,19 +907,9 @@
             return new Date().toISOString().slice(0, 10);
         }
 
-        function defaultWeekDate() {
-            const d = new Date();
-            const day = d.getDay();
-            let diff = 5 - day;
-            if (diff < 0) diff += 7;
-            d.setDate(d.getDate() + diff);
-            return d.toISOString().slice(0, 10);
-        }
-
         function setFlash(msg, type = 'success') { flash = { msg, type }; }
 
         function go(r, param = null) {
-            // If trying to access protected pages without session, redirect to login
             if ((r === 'dashboard' || r === 'attendance' || r === 'childReport') && !session) {
                 r = 'login';
             }
@@ -949,10 +922,14 @@
             return db.children.filter(c => c.servantUsername === session?.username);
         }
 
-        // Check if current servant is active
         function isServantActive(username) {
             const servant = db.servants.find(s => s.username === username);
-            return servant ? servant.isActive !== false : true;
+            return servant ? servant.isActive === true : false;
+        }
+
+        function isServantPending(username) {
+            const servant = db.servants.find(s => s.username === username);
+            return servant ? servant.isPending === true : false;
         }
 
         // ============ RENDER NAV ============
@@ -965,15 +942,24 @@
             `;
             if (session) {
                 const isActive = isServantActive(session.username);
-                const statusText = isActive ? 'نشط' : 'موقوف';
-                const statusClass = isActive ? 'active' : 'inactive';
+                const isPending = isServantPending(session.username);
+                let statusText = 'نشط';
+                let statusClass = 'active';
+                if (isPending) {
+                    statusText = 'قيد الانتظار';
+                    statusClass = 'pending';
+                } else if (!isActive) {
+                    statusText = 'موقوف';
+                    statusClass = 'inactive';
+                }
                 html += `
                     <span class="who">
                         <i class="fas fa-user-circle"></i> ${esc(session.name)}
                         <span class="status-badge ${statusClass}">${statusText}</span>
                     </span>
-                    <a href="#" onclick="go('dashboard');return false;"><i class="fas fa-chart-pie"></i> لوحة التحكم</a>
-                    <a href="#" onclick="go('attendance');return false;"><i class="fas fa-clipboard-list"></i> تسجيل الحضور</a>
+                    ${isActive && !isPending ? `<a href="#" onclick="go('dashboard');return false;"><i class="fas fa-chart-pie"></i> لوحة التحكم</a>` : ''}
+                    ${isActive && !isPending ? `<a href="#" onclick="go('attendance');return false;"><i class="fas fa-clipboard-list"></i> تسجيل الحضور</a>` : ''}
+                    ${isPending ? `<span style="color:var(--pending);padding:6px 12px;"><i class="fas fa-clock"></i> ينتظر موافقة الأدمن</span>` : ''}
                     <button class="linklike" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
                 `;
             } else {
@@ -995,8 +981,9 @@
         // ============ ALERT ============
         function alertHtml() {
             if (!flash) return '';
-            const icon = flash.type === 'success' ? 'fa-check-circle' : flash.type === 'warning' ? 'fa-exclamation-triangle' :
-                'fa-exclamation-circle';
+            const icon = flash.type === 'success' ? 'fa-check-circle' :
+                flash.type === 'warning' ? 'fa-exclamation-triangle' :
+                flash.type === 'info' ? 'fa-info-circle' : 'fa-exclamation-circle';
             const html =
                 `<div class="alert alert-${flash.type || 'success'}"><i class="fas ${icon}"></i> ${esc(flash.msg)}</div>`;
             flash = null;
@@ -1013,17 +1000,27 @@
                     <p>سجّل حضور وغياب أطفال فصلك أسبوعيًا، وامنح كل طفل كودًا خاصًا يستعلم به عن تقريره بنفسه.</p>
                     <div class="actions">
                         ${session
-                            ? `<button class="btn btn-primary" onclick="go('dashboard')"><i class="fas fa-chart-pie"></i> الذهاب للوحة التحكم</button>`
+                            ? (isServantPending(session.username)
+                                ? `<div class="alert alert-warning"><i class="fas fa-clock"></i> حسابك في انتظار موافقة الأدمن</div>`
+                                : (isServantActive(session.username)
+                                    ? `<button class="btn btn-primary" onclick="go('dashboard')"><i class="fas fa-chart-pie"></i> الذهاب للوحة التحكم</button>`
+                                    : `<div class="alert alert-error"><i class="fas fa-times-circle"></i> حسابك موقوف. تواصل مع الأدمن.</div>`))
                             : `<button class="btn btn-primary" onclick="go('login')"><i class="fas fa-sign-in-alt"></i> دخول الخادم</button>
-                               <button class="btn btn-gold" onclick="go('student')"><i class="fas fa-search"></i> استعلام الطالب</button>`
+                               <button class="btn btn-gold" onclick="go('register')"><i class="fas fa-user-plus"></i> حساب جديد</button>
+                               <button class="btn btn-secondary" onclick="go('student')"><i class="fas fa-search"></i> استعلام الطالب</button>`
                         }
                     </div>
                 </section>
                 <section class="cards">
                     <div class="card">
+                        <span class="icon"><i class="fas fa-user-clock"></i></span>
+                        <h3>انتظار الموافقة</h3>
+                        <p>سجل كخادم جديد وانتظر موافقة الأدمن على حسابك.</p>
+                    </div>
+                    <div class="card">
                         <span class="icon"><i class="fas fa-chalkboard-teacher"></i></span>
                         <h3>للخادم</h3>
-                        <p>يضيف أطفال فصله، ويسجل الحضور والغياب أسبوعيًا، ويتابع تقرير كل طفل.</p>
+                        <p>بعد الموافقة، يضيف أطفال فصله، ويسجل الحضور والغياب أسبوعيًا.</p>
                     </div>
                     <div class="card">
                         <span class="icon"><i class="fas fa-child"></i></span>
@@ -1031,30 +1028,26 @@
                         <p>باستخدام كوده الخاص، يطّلع الطالب على تقرير حضوره دون أي صلاحية تعديل.</p>
                     </div>
                     <div class="card">
-                        <span class="icon"><i class="fas fa-users"></i></span>
+                        <span class="icon"><i class="fas fa-layer-group"></i></span>
                         <h3>فصول منفصلة</h3>
                         <p>كل خادم يرى أطفاله فقط ضمن فصله، بمعزل تام عن باقي الخدام.</p>
-                    </div>
-                    <div class="card">
-                        <span class="icon"><i class="fas fa-cloud-sun"></i></span>
-                        <h3>تصميم متطور</h3>
-                        <p>واجهة زجاجية سائلة مع تأثيرات ضبابية وحركية، ووضعين فاتح وداكن.</p>
                     </div>
                 </section>`;
         }
 
-        // ---- REGISTER ----
+        // ---- REGISTER (يظل معلق حتى موافقة الأدمن) ----
         function viewRegister() {
             return `
                 <section class="panel glass">
-                    <h2><i class="fas fa-user-plus" style="color:var(--sky-dark);"></i> إنشاء حساب خادم جديد</h2>
+                    <h2><i class="fas fa-user-plus" style="color:var(--sky-dark);"></i> تسجيل خادم جديد</h2>
+                    <p style="color:var(--text-muted);">سجل حسابك وسيتم مراجعته من قبل الأدمن. بعد الموافقة، ستتمكن من الدخول.</p>
                     <div id="formMsg"></div>
                     <form class="form" onsubmit="return submitRegister(event)">
                         <label><i class="fas fa-user"></i> الاسم <input name="name" required placeholder="أدخل اسمك الكامل" /></label>
                         <label><i class="fas fa-at"></i> اسم المستخدم <input name="username" required placeholder="اختر اسم مستخدم" /></label>
                         <label><i class="fas fa-lock"></i> كلمة المرور <input type="password" name="password" required placeholder="6 أحرف على الأقل" /></label>
                         <label><i class="fas fa-check-double"></i> تأكيد كلمة المرور <input type="password" name="confirm" required placeholder="أعد كتابة كلمة المرور" /></label>
-                        <button class="btn btn-primary" type="submit"><i class="fas fa-user-plus"></i> إنشاء الحساب</button>
+                        <button class="btn btn-gold" type="submit"><i class="fas fa-user-plus"></i> تسجيل (بانتظار الموافقة)</button>
                     </form>
                     <p style="margin-top:14px;color:var(--text-muted);">
                         <i class="fas fa-question-circle"></i> لديك حساب بالفعل؟ <a href="#" onclick="go('login');return false;">تسجيل الدخول</a>
@@ -1093,12 +1086,18 @@
             }
 
             const passwordHash = await sha256(password);
-            // First user is active by default
-            const isActive = db.servants.length === 0;
-            db.servants.push({ name, username, passwordHash, isActive });
+            db.servants.push({
+                name,
+                username,
+                passwordHash,
+                isActive: false,
+                isPending: true,
+                assignedClass: null,
+                pendingSince: todayDate()
+            });
             await saveDB();
-            setFlash('✅ تم إنشاء الحساب بنجاح! سجّل الدخول الآن.');
-            go('login');
+            setFlash('✅ تم تسجيل حسابك بنجاح! في انتظار موافقة الأدمن.', 'warning');
+            go('home');
             return false;
         }
 
@@ -1115,7 +1114,7 @@
                         <button class="btn btn-primary" type="submit"><i class="fas fa-sign-in-alt"></i> دخول</button>
                     </form>
                     <p style="margin-top:14px;color:var(--text-muted);">
-                        <i class="fas fa-question-circle"></i> ليس لديك حساب؟ <a href="#" onclick="go('register');return false;">أنشئ حسابًا جديدًا</a>
+                        <i class="fas fa-question-circle"></i> ليس لديك حساب؟ <a href="#" onclick="go('register');return false;">سجل حسابًا جديدًا</a>
                     </p>
                 </section>`;
         }
@@ -1135,14 +1134,18 @@
                 return false;
             }
 
-            // Check if servant is active
-            if (servant.isActive === false) {
+            if (servant.isPending) {
                 msgBox.innerHTML =
-                    `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> ⚠️ هذا الحساب موقوف. لا يمكنك الدخول إلى لوحة التحكم.</div>`;
+                    `<div class="alert alert-warning"><i class="fas fa-clock"></i> ⏳ حسابك في انتظار موافقة الأدمن. يرجى التحقق لاحقًا.</div>`;
                 return false;
             }
 
-            // Save session to localStorage
+            if (servant.isActive === false) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-times-circle"></i> ⛔ هذا الحساب موقوف. تواصل مع الأدمن.</div>`;
+                return false;
+            }
+
             session = { username: servant.username, name: servant.name };
             saveSession(session.username, session.name);
             setFlash('✅ تم تسجيل الدخول بنجاح!');
@@ -1152,18 +1155,22 @@
 
         // ---- DASHBOARD ----
         function viewDashboard() {
-            // Check again if session exists and is active (for safety)
             if (!session) {
                 go('login');
                 return '';
             }
 
             const isActive = isServantActive(session.username);
+            const isPending = isServantPending(session.username);
+
+            if (isPending) {
+                setFlash('⏳ حسابك في انتظار موافقة الأدمن.', 'warning');
+                go('home');
+                return '';
+            }
+
             if (!isActive) {
-                // If somehow inactive, log out
-                setFlash('⚠️ حسابك موقوف. لا يمكنك الوصول إلى لوحة التحكم.', 'warning');
-                session = null;
-                clearSession();
+                setFlash('⛔ حسابك موقوف. تواصل مع الأدمن.', 'error');
                 go('home');
                 return '';
             }
@@ -1330,16 +1337,22 @@
             }
 
             const isActive = isServantActive(session.username);
+            const isPending = isServantPending(session.username);
+
+            if (isPending) {
+                setFlash('⏳ حسابك في انتظار موافقة الأدمن.', 'warning');
+                go('home');
+                return '';
+            }
+
             if (!isActive) {
-                setFlash('⚠️ حسابك موقوف. لا يمكنك الوصول إلى صفحة الحضور.', 'warning');
-                session = null;
-                clearSession();
+                setFlash('⛔ حسابك موقوف. تواصل مع الأدمن.', 'error');
                 go('home');
                 return '';
             }
 
             const children = myChildren();
-            const weekDate = routeParam || defaultWeekDate();
+            const weekDate = routeParam || todayDate();
 
             const rows = children.map(c => {
                 const rec = db.attendance.find(a => a.childId === c.id && a.weekDate === weekDate);
@@ -1530,17 +1543,23 @@
             renderNav();
             const app = document.getElementById('app');
 
-            // Protect routes
             if ((route === 'dashboard' || route === 'attendance' || route === 'childReport') && !session) {
                 route = 'login';
             }
 
-            // Check if session is still valid
-            if (session && !isServantActive(session.username)) {
-                setFlash('⚠️ حسابك موقوف. لا يمكنك الوصول إلى لوحة التحكم.', 'warning');
-                session = null;
-                clearSession();
-                route = 'home';
+            if (session) {
+                const servant = db.servants.find(s => s.username === session.username);
+                if (servant && servant.isPending) {
+                    if (route === 'dashboard' || route === 'attendance') {
+                        setFlash('⏳ حسابك في انتظار موافقة الأدمن.', 'warning');
+                        route = 'home';
+                    }
+                } else if (servant && !servant.isActive && !servant.isPending) {
+                    if (route === 'dashboard' || route === 'attendance') {
+                        setFlash('⛔ حسابك موقوف. تواصل مع الأدمن.', 'error');
+                        route = 'home';
+                    }
+                }
             }
 
             switch (route) {
@@ -1575,16 +1594,16 @@
             await loadDB();
             applyTheme(currentTheme);
 
-            // Try to restore session from localStorage
             const savedSession = loadSession();
             if (savedSession) {
                 const servant = db.servants.find(s => s.username === savedSession.username);
-                if (servant && servant.isActive !== false) {
+                if (servant && servant.isActive && !servant.isPending) {
                     session = { username: servant.username, name: servant.name };
-                    // Auto-redirect to dashboard if on home or login
                     if (route === 'home' || route === 'login') {
                         route = 'dashboard';
                     }
+                } else if (servant && servant.isPending) {
+                    session = { username: servant.username, name: servant.name };
                 } else {
                     clearSession();
                 }
