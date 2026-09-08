@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>منصة مدارس الأحد</title>
+    <title>منصة مدارس الأحد - التصميم السماوي</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=El+Messiri:wght@400;600;700&display=swap" rel="stylesheet" />
     <!-- Font Awesome for icons -->
@@ -240,6 +240,31 @@
             font-weight: 600;
             border: 1px solid var(--border-glass);
             backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Status badge for servant */
+        .status-badge {
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.active {
+            background: rgba(46, 125, 50, 0.2);
+            color: var(--ok);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+        }
+
+        .status-badge.inactive {
+            background: rgba(198, 40, 40, 0.2);
+            color: var(--bad);
+            border: 1px solid rgba(198, 40, 40, 0.3);
         }
 
         /* Theme Toggle */
@@ -481,6 +506,17 @@
             background: rgba(33, 150, 243, 0.04);
         }
 
+        /* Inactive servant rows */
+        .inactive-row td {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .inactive-row td .btn {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
         /* ===== BADGES ===== */
         .badge {
             padding: 4px 18px;
@@ -552,6 +588,12 @@
             background: rgba(198, 40, 40, 0.12);
             border: 1px solid rgba(198, 40, 40, 0.2);
             color: var(--bad);
+        }
+
+        .alert-warning {
+            background: rgba(249, 168, 37, 0.12);
+            border: 1px solid rgba(249, 168, 37, 0.2);
+            color: var(--gold);
         }
 
         .empty {
@@ -732,9 +774,6 @@
         <div class="container">
             <i class="fas fa-cross" style="color:var(--sky-dark);margin-left:8px;"></i>
             منصة مدارس الأحد - Developed by: <strong>Keroles Ayman, Arsany Moftah</strong>
-            <span style="display:block;font-size:0.8rem;margin-top:4px;opacity:0.6;">
-               
-            </span>
         </div>
     </footer>
 
@@ -772,12 +811,38 @@
         let routeParam = null;
         let flash = null;
         let currentTheme = localStorage.getItem('theme') || 'light';
+        let isInitialLoad = true;
+
+        // ============ SESSION MANAGEMENT ============
+        function saveSession(username, name) {
+            localStorage.setItem('session', JSON.stringify({ username, name }));
+        }
+
+        function loadSession() {
+            try {
+                const saved = localStorage.getItem('session');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    return data;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function clearSession() {
+            localStorage.removeItem('session');
+        }
 
         // ============ DB FUNCTIONS ============
         async function loadDB() {
             try {
                 const snap = await getDoc(dataDocRef);
                 if (snap.exists()) db = snap.data().payload;
+                // Ensure all servants have isActive field
+                db.servants = db.servants.map(s => ({
+                    ...s,
+                    isActive: s.isActive !== undefined ? s.isActive : true
+                }));
             } catch (e) {
                 console.error('❌ تعذر تحميل البيانات', e);
                 alert('تعذر الاتصال بقاعدة البيانات. تأكد من ضبط إعدادات Firebase ومن اتصالك بالإنترنت.');
@@ -797,6 +862,24 @@
             onSnapshot(dataDocRef, (snap) => {
                 if (snap.exists()) {
                     db = snap.data().payload;
+                    db.servants = db.servants.map(s => ({
+                        ...s,
+                        isActive: s.isActive !== undefined ? s.isActive : true
+                    }));
+
+                    // Check if current session servant is still active
+                    if (session) {
+                        const servant = db.servants.find(s => s.username === session.username);
+                        if (servant && servant.isActive === false) {
+                            // If servant was deactivated, log them out
+                            setFlash('⚠️ تم إيقاف حسابك. لا يمكنك الوصول إلى لوحة التحكم.', 'warning');
+                            session = null;
+                            clearSession();
+                            go('home');
+                            return;
+                        }
+                    }
+
                     render();
                 }
             });
@@ -808,12 +891,8 @@
             document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
             localStorage.setItem('theme', theme);
             const icon = document.querySelector('.theme-toggle i');
-            const label = document.getElementById('themeLabel');
             if (icon) {
                 icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            }
-            if (label) {
-                label.textContent = theme === 'dark' ? 'داكن' : 'فاتح';
             }
         }
 
@@ -856,12 +935,24 @@
 
         function setFlash(msg, type = 'success') { flash = { msg, type }; }
 
-        function go(r, param = null) { route = r;
+        function go(r, param = null) {
+            // If trying to access protected pages without session, redirect to login
+            if ((r === 'dashboard' || r === 'attendance' || r === 'childReport') && !session) {
+                r = 'login';
+            }
+            route = r;
             routeParam = param;
-            render(); }
+            render();
+        }
 
         function myChildren() {
             return db.children.filter(c => c.servantUsername === session?.username);
+        }
+
+        // Check if current servant is active
+        function isServantActive(username) {
+            const servant = db.servants.find(s => s.username === username);
+            return servant ? servant.isActive !== false : true;
         }
 
         // ============ RENDER NAV ============
@@ -873,8 +964,14 @@
                 </button>
             `;
             if (session) {
+                const isActive = isServantActive(session.username);
+                const statusText = isActive ? 'نشط' : 'موقوف';
+                const statusClass = isActive ? 'active' : 'inactive';
                 html += `
-                    <span class="who"><i class="fas fa-user-circle"></i> ${esc(session.name)}</span>
+                    <span class="who">
+                        <i class="fas fa-user-circle"></i> ${esc(session.name)}
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </span>
                     <a href="#" onclick="go('dashboard');return false;"><i class="fas fa-chart-pie"></i> لوحة التحكم</a>
                     <a href="#" onclick="go('attendance');return false;"><i class="fas fa-clipboard-list"></i> تسجيل الحضور</a>
                     <button class="linklike" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
@@ -889,13 +986,17 @@
             nav.innerHTML = html;
         }
 
-        function logout() { session = null;
-            go('home'); }
+        function logout() {
+            session = null;
+            clearSession();
+            go('home');
+        }
 
         // ============ ALERT ============
         function alertHtml() {
             if (!flash) return '';
-            const icon = flash.type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            const icon = flash.type === 'success' ? 'fa-check-circle' : flash.type === 'warning' ? 'fa-exclamation-triangle' :
+                'fa-exclamation-circle';
             const html =
                 `<div class="alert alert-${flash.type || 'success'}"><i class="fas ${icon}"></i> ${esc(flash.msg)}</div>`;
             flash = null;
@@ -971,24 +1072,30 @@
             const msgBox = document.getElementById('formMsg');
 
             if (!name || !username || !password) {
-                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أكمل جميع الحقول.</div>`;
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أكمل جميع الحقول.</div>`;
                 return false;
             }
             if (password !== confirm) {
-                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> كلمتا المرور غير متطابقتين.</div>`;
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> كلمتا المرور غير متطابقتين.</div>`;
                 return false;
             }
             if (password.length < 6) {
-                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> كلمة المرور 6 أحرف على الأقل.</div>`;
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> كلمة المرور 6 أحرف على الأقل.</div>`;
                 return false;
             }
             if (db.servants.some(s => s.username === username)) {
-                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> اسم المستخدم مستخدم بالفعل.</div>`;
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> اسم المستخدم مستخدم بالفعل.</div>`;
                 return false;
             }
 
             const passwordHash = await sha256(password);
-            db.servants.push({ name, username, passwordHash });
+            // First user is active by default
+            const isActive = db.servants.length === 0;
+            db.servants.push({ name, username, passwordHash, isActive });
             await saveDB();
             setFlash('✅ تم إنشاء الحساب بنجاح! سجّل الدخول الآن.');
             go('login');
@@ -1023,18 +1130,47 @@
             const servant = db.servants.find(s => s.username === username);
             const hash = await sha256(password);
             if (!servant || servant.passwordHash !== hash) {
-                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> اسم المستخدم أو كلمة المرور غير صحيحة.</div>`;
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> اسم المستخدم أو كلمة المرور غير صحيحة.</div>`;
                 return false;
             }
+
+            // Check if servant is active
+            if (servant.isActive === false) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> ⚠️ هذا الحساب موقوف. لا يمكنك الدخول إلى لوحة التحكم.</div>`;
+                return false;
+            }
+
+            // Save session to localStorage
             session = { username: servant.username, name: servant.name };
+            saveSession(session.username, session.name);
+            setFlash('✅ تم تسجيل الدخول بنجاح!');
             go('dashboard');
             return false;
         }
 
         // ---- DASHBOARD ----
         function viewDashboard() {
+            // Check again if session exists and is active (for safety)
+            if (!session) {
+                go('login');
+                return '';
+            }
+
+            const isActive = isServantActive(session.username);
+            if (!isActive) {
+                // If somehow inactive, log out
+                setFlash('⚠️ حسابك موقوف. لا يمكنك الوصول إلى لوحة التحكم.', 'warning');
+                session = null;
+                clearSession();
+                go('home');
+                return '';
+            }
+
             const children = myChildren();
             const today = todayDate();
+
             const rows = children.map(c => {
                 const todayRec = db.attendance.find(a => a.childId === c.id && a.weekDate === today);
                 const todayBadge = todayRec ?
@@ -1064,7 +1200,17 @@
 
             return `
                 <section>
-                    <div class="glass">
+                    <div class="glass" style="border-color:var(--ok);">
+                        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+                            <div>
+                                <h3 style="margin:0;color:var(--ok);"><i class="fas fa-check-circle"></i> حسابك نشط</h3>
+                                <p style="color:var(--text-muted);margin:4px 0 0;">يمكنك إدارة أطفالك وتسجيل الحضور والغياب.</p>
+                            </div>
+                            <span class="badge badge-ok"><i class="fas fa-circle" style="font-size:0.6rem;"></i> مفعل</span>
+                        </div>
+                    </div>
+
+                    <div class="glass" style="margin-top:20px;">
                         <h2><i class="fas fa-user-plus" style="color:var(--sky-dark);"></i> إضافة طفل جديد</h2>
                         <div id="formMsg"></div>
                         <form class="form-row" onsubmit="return submitAddChild(event)">
@@ -1094,6 +1240,13 @@
 
         // ---- QUICK MARK ----
         async function quickMark(childId, status) {
+            if (!session) return;
+            if (!isServantActive(session.username)) {
+                setFlash('⚠️ حسابك موقوف. لا يمكنك تسجيل الحضور.', 'warning');
+                render();
+                return;
+            }
+
             const today = todayDate();
             const idx = db.attendance.findIndex(a => a.childId === childId && a.weekDate === today);
             const record = { childId, weekDate: today, status, note: idx >= 0 ? db.attendance[idx].note : '' };
@@ -1108,12 +1261,21 @@
         // ---- ADD CHILD ----
         async function submitAddChild(ev) {
             ev.preventDefault();
+
+            if (!session) return false;
+            if (!isServantActive(session.username)) {
+                setFlash('⚠️ حسابك موقوف. لا يمكنك إضافة أطفال.', 'warning');
+                render();
+                return false;
+            }
+
             const f = ev.target;
             const name = f.childName.value.trim();
             const classId = f.classId.value;
             const msgBox = document.getElementById('formMsg');
             if (!name || classId === '') {
-                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أدخل اسم الطفل واختر الفصل.</div>`;
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أدخل اسم الطفل واختر الفصل.</div>`;
                 return false;
             }
 
@@ -1142,6 +1304,13 @@
 
         // ---- DELETE CHILD ----
         async function deleteChild(childId) {
+            if (!session) return;
+            if (!isServantActive(session.username)) {
+                setFlash('⚠️ حسابك موقوف. لا يمكنك حذف الأطفال.', 'warning');
+                render();
+                return;
+            }
+
             const child = db.children.find(c => c.id === childId && c.servantUsername === session?.username);
             if (!child) return;
             if (!confirm(`❗ هل أنت متأكد من حذف "${child.name}"؟ سيتم حذف كل سجلات حضوره أيضًا.`)) return;
@@ -1155,6 +1324,20 @@
 
         // ---- ATTENDANCE ----
         function viewAttendance() {
+            if (!session) {
+                go('login');
+                return '';
+            }
+
+            const isActive = isServantActive(session.username);
+            if (!isActive) {
+                setFlash('⚠️ حسابك موقوف. لا يمكنك الوصول إلى صفحة الحضور.', 'warning');
+                session = null;
+                clearSession();
+                go('home');
+                return '';
+            }
+
             const children = myChildren();
             const weekDate = routeParam || defaultWeekDate();
 
@@ -1203,6 +1386,13 @@
         }
 
         async function saveAttendance(weekDate) {
+            if (!session) return;
+            if (!isServantActive(session.username)) {
+                setFlash('⚠️ حسابك موقوف. لا يمكنك حفظ بيانات الحضور.', 'warning');
+                render();
+                return;
+            }
+
             const children = myChildren();
             children.forEach(c => {
                 const radios = document.getElementsByName('status_' + c.id);
@@ -1223,6 +1413,11 @@
 
         // ---- CHILD REPORT ----
         function viewChildReport(childId) {
+            if (!session) {
+                go('login');
+                return '';
+            }
+
             const child = db.children.find(c => c.id === childId && c.servantUsername === session?.username);
             if (!child) {
                 setFlash('هذا الطفل غير موجود ضمن أطفالك.', 'error');
@@ -1230,7 +1425,7 @@
                 return '';
             }
             const records = db.attendance.filter(a => a.childId === childId).sort((a, b) => b.weekDate.localeCompare(a
-            .weekDate));
+                .weekDate));
             const presentDates = records.filter(r => r.status === 'حاضر').map(r => r.weekDate);
             const absentDates = records.filter(r => r.status === 'غائب').map(r => r.weekDate);
 
@@ -1306,7 +1501,7 @@
                 return false;
             }
             const records = db.attendance.filter(a => a.childId === child.id).sort((a, b) => b.weekDate.localeCompare(a
-            .weekDate));
+                .weekDate));
             const presentDates = records.filter(r => r.status === 'حاضر').map(r => r.weekDate);
             const absentDates = records.filter(r => r.status === 'غائب').map(r => r.weekDate);
             const rows = records.map(r => `
@@ -1335,8 +1530,17 @@
             renderNav();
             const app = document.getElementById('app');
 
+            // Protect routes
             if ((route === 'dashboard' || route === 'attendance' || route === 'childReport') && !session) {
                 route = 'login';
+            }
+
+            // Check if session is still valid
+            if (session && !isServantActive(session.username)) {
+                setFlash('⚠️ حسابك موقوف. لا يمكنك الوصول إلى لوحة التحكم.', 'warning');
+                session = null;
+                clearSession();
+                route = 'home';
             }
 
             switch (route) {
@@ -1364,20 +1568,28 @@
                 default:
                     app.innerHTML = viewHome();
             }
-
-            // Update theme indicators
-            const icon = document.querySelector('.theme-toggle i');
-            const label = document.getElementById('themeLabel');
-            if (icon) {
-                icon.className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            }
-           
         }
 
         // ============ INIT ============
         (async function init() {
             await loadDB();
             applyTheme(currentTheme);
+
+            // Try to restore session from localStorage
+            const savedSession = loadSession();
+            if (savedSession) {
+                const servant = db.servants.find(s => s.username === savedSession.username);
+                if (servant && servant.isActive !== false) {
+                    session = { username: servant.username, name: servant.name };
+                    // Auto-redirect to dashboard if on home or login
+                    if (route === 'home' || route === 'login') {
+                        route = 'dashboard';
+                    }
+                } else {
+                    clearSession();
+                }
+            }
+
             render();
             watchDB();
         })();
