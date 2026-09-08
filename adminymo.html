@@ -22,8 +22,6 @@
             --text-primary: #0a1a2f;
             --text-secondary: #1a3a5c;
             --text-muted: #5a7a9a;
-            --sky-light: #e6f3ff;
-            --sky-medium: #7ec8f0;
             --sky-dark: #2196f3;
             --sky-gradient: linear-gradient(145deg, #b3e0ff, #4fc3f7);
             --shadow: 0 8px 32px rgba(33, 150, 243, 0.15);
@@ -35,6 +33,8 @@
             --pending: #f57c00;
             --admin-gradient: linear-gradient(135deg, #6a1b9a, #4a148c);
             --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 0px;
         }
 
         [data-theme="dark"] {
@@ -45,8 +45,6 @@
             --text-primary: #e8f4fd;
             --text-secondary: #b0d4f0;
             --text-muted: #7a9ab8;
-            --sky-light: #1a2a4a;
-            --sky-medium: #4a8ac8;
             --sky-dark: #64b5f6;
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.6);
@@ -141,6 +139,133 @@
             pointer-events: none;
         }
 
+        /* ===== SIDEBAR ===== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            backdrop-filter: blur(4px);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-left: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-hover);
+            z-index: 1000;
+            padding: 24px 20px;
+            transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .sidebar-header .brand-text {
+            font-family: 'Lalezar', cursive;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+
+        .sidebar-header .brand-text .mark {
+            color: var(--sky-dark);
+        }
+
+        .sidebar-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar-close:hover {
+            transform: rotate(90deg);
+            color: var(--bad);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--bg-glass-hover);
+            color: var(--sky-dark);
+            border: 1px solid var(--border-glass);
+        }
+
+        .sidebar-menu a i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-menu .badge-count {
+            background: var(--bad);
+            color: #fff;
+            border-radius: 50%;
+            padding: 0 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 22px;
+            text-align: center;
+            line-height: 22px;
+            margin-right: auto;
+        }
+
+        .sidebar-footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-glass);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
         /* ===== HEADER ===== */
         header.top {
             padding: 12px 0;
@@ -204,7 +329,31 @@
             -webkit-text-fill-color: #fff;
         }
 
-        /* ===== NAV ===== */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 40px;
+            padding: 8px 14px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+            backdrop-filter: blur(8px);
+        }
+
+        .menu-toggle:hover {
+            background: var(--sky-dark);
+            border-color: var(--sky-dark);
+            color: #fff;
+        }
+
         nav {
             display: flex;
             align-items: center;
@@ -265,18 +414,6 @@
             background: rgba(46, 125, 50, 0.2);
             color: var(--ok);
             border: 1px solid rgba(46, 125, 50, 0.3);
-        }
-
-        .status-badge.inactive {
-            background: rgba(198, 40, 40, 0.2);
-            color: var(--bad);
-            border: 1px solid rgba(198, 40, 40, 0.3);
-        }
-
-        .status-badge.pending {
-            background: rgba(245, 124, 0, 0.2);
-            color: var(--pending);
-            border: 1px solid rgba(245, 124, 0, 0.3);
         }
 
         .status-badge.admin {
@@ -408,6 +545,11 @@
             font-size: 0.8rem;
         }
 
+        .btn-xs {
+            padding: 3px 10px;
+            font-size: 0.7rem;
+        }
+
         .btn:disabled {
             opacity: 0.4;
             cursor: not-allowed;
@@ -430,6 +572,7 @@
             padding: 18px;
             text-align: center;
             transition: var(--transition);
+            cursor: default;
         }
 
         .stat-card:hover {
@@ -458,7 +601,7 @@
             margin-bottom: 4px;
         }
 
-        /* ===== TAB SYSTEM ===== */
+        /* ===== TABS ===== */
         .tabs {
             display: flex;
             gap: 8px;
@@ -514,6 +657,15 @@
             }
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         /* ===== FORMS ===== */
         .form {
             display: flex;
@@ -561,6 +713,11 @@
             border-color: var(--sky-dark);
             box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.12);
             background: var(--bg-glass-hover);
+        }
+
+        select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
 
         /* ===== TABLE ===== */
@@ -640,6 +797,12 @@
             border: 1px solid rgba(33, 150, 243, 0.2);
         }
 
+        .badge-info {
+            background: rgba(33, 150, 243, 0.15);
+            color: var(--sky-dark);
+            border: 1px solid rgba(33, 150, 243, 0.2);
+        }
+
         .code-pill {
             background: rgba(33, 150, 243, 0.1);
             color: var(--sky-dark);
@@ -694,7 +857,6 @@
             color: var(--sky-dark);
         }
 
-        /* ===== FOOTER ===== */
         footer.site {
             text-align: center;
             padding: 30px 0 10px;
@@ -735,6 +897,124 @@
             display: inline-block;
         }
 
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .class-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 16px;
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+        }
+
+        .class-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--sky-dark);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .class-card .class-name {
+            font-family: 'Lalezar', cursive;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .class-card .class-stats {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .class-card .class-actions {
+            margin-top: 8px;
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            color: var(--bad);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav a,
+            nav button.linklike {
+                display: none;
+            }
+
+            nav .who {
+                display: none;
+            }
+
+            .brand .sky-text {
+                display: none;
+            }
+
+            .brand .admin-badge {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
             .brand {
                 font-size: 1.4rem;
@@ -755,14 +1035,21 @@
                 padding: 6px 14px;
                 font-size: 0.8rem;
             }
-            nav a,
-            nav button.linklike {
-                padding: 5px 12px;
-                font-size: 0.8rem;
-            }
             .btn {
                 padding: 8px 16px;
                 font-size: 0.85rem;
+            }
+            .class-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .sidebar {
+                width: 260px;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .form-row label {
+                flex: 1 1 100%;
             }
         }
 
@@ -772,6 +1059,13 @@
             }
             .stat-card .num {
                 font-size: 1.6rem;
+            }
+            .class-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                width: 100%;
+                border-radius: 0;
             }
         }
 
@@ -791,35 +1085,131 @@
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--sky-medium);
+            background: var(--sky-dark);
+            opacity: 0.8;
+        }
+
+        /* ===== TOAST NOTIFICATIONS ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            padding: 14px 24px;
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-hover);
+            animation: slideUp 0.4s ease;
+            min-width: 200px;
+            max-width: 400px;
+            font-size: 0.95rem;
+        }
+
+        .toast-success {
+            background: rgba(46, 125, 50, 0.15);
+            color: var(--ok);
+            border-color: rgba(46, 125, 50, 0.2);
+        }
+
+        .toast-error {
+            background: rgba(198, 40, 40, 0.15);
+            color: var(--bad);
+            border-color: rgba(198, 40, 40, 0.2);
+        }
+
+        .toast-warning {
+            background: rgba(245, 124, 0, 0.15);
+            color: var(--pending);
+            border-color: rgba(245, 124, 0, 0.2);
+        }
+
+        .toast-info {
+            background: rgba(33, 150, 243, 0.15);
+            color: var(--sky-dark);
+            border-color: rgba(33, 150, 243, 0.2);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="window.closeSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="brand-text">
+                <span class="mark"><i class="fas fa-cross"></i></span>
+                منصة مدارس الأحد
+            </span>
+            <button class="sidebar-close" onclick="window.closeSidebar()"><i class="fas fa-times"></i></button>
+        </div>
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <li><a href="#" onclick="window.go('admin');window.closeSidebar();" class="active"><i class="fas fa-shield-alt"></i> لوحة الأدمن</a></li>
+            <li><a href="#" onclick="window.go('admin');window.switchTab('classes');window.closeSidebar();"><i class="fas fa-layer-group"></i> الصفوف</a></li>
+            <li><a href="#" onclick="window.go('admin');window.switchTab('servants');window.closeSidebar();"><i class="fas fa-users"></i> الخدام</a></li>
+            <li><a href="#" onclick="window.go('admin');window.switchTab('children');window.closeSidebar();"><i class="fas fa-child"></i> الأطفال</a></li>
+            <li><a href="#" onclick="window.go('admin');window.switchTab('attendance');window.closeSidebar();"><i class="fas fa-clipboard-list"></i> الحضور</a></li>
+            <li><a href="#" onclick="window.go('admin');window.switchTab('add-servant');window.closeSidebar();"><i class="fas fa-user-plus"></i> إضافة خادم</a></li>
+            <li><a href="#" onclick="window.go('admin');window.switchTab('add-child');window.closeSidebar();"><i class="fas fa-child"></i> إضافة طفل</a></li>
+            <li><a href="#" onclick="window.go('admin');window.switchTab('reports');window.closeSidebar();"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <i class="fas fa-cross" style="color:var(--sky-dark);"></i>
+            منصة مدارس الأحد v2.0
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
     <header class="top">
         <div class="container row">
-            <a href="#" class="brand" onclick="go('home');return false;">
+            <a href="#" class="brand" onclick="window.go('home');return false;">
                 <span class="mark"><i class="fas fa-cross"></i></span>
                 <span class="sky-text">منصة مدارس الأحد</span>
                 <span class="admin-badge">أدمن</span>
             </a>
-            <nav id="nav">
-                <button class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع">
-                    <i class="fas fa-moon"></i>
+            <div class="header-actions">
+                <button class="menu-toggle" onclick="window.toggleSidebar()" title="القائمة">
+                    <i class="fas fa-bars"></i>
                 </button>
-            </nav>
+                <nav id="nav">
+                    <button class="theme-toggle" onclick="window.toggleTheme()" title="تبديل الوضع">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </nav>
+            </div>
         </div>
     </header>
 
+    <!-- ===== MAIN ===== -->
     <main class="container" id="app">
         <div class="loading"><i class="fas fa-spinner fa-spin"></i> جارِ تحميل لوحة الأدمن...</div>
     </main>
 
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== FOOTER ===== -->
     <footer class="site">
         <div class="container">
             <i class="fas fa-cross" style="color:var(--sky-dark);margin-left:8px;"></i>
-            منصة مدارس الأحد - Developed by: <strong>Keroles Ayman, Arsany Moftah</strong>
+            منصة مدارس الأحد - Developed by: <strong>Keroles Ayman</strong>
         </div>
     </footer>
 
@@ -846,31 +1236,13 @@
         const dataDocRef = doc(firestore, "sunday-school", "data");
 
         /* ============ STATE ============ */
-        const CLASSES = ['حضانة', 'تمهيدي', 'أولى ابتدائي', 'ثانية ابتدائي', 'ثالثة ابتدائي',
-            'رابعة ابتدائي', 'خامسة ابتدائي', 'سادسة ابتدائي', 'أولى إعدادي', 'ثانية إعدادي',
-            'ثالثة إعدادي', 'أولى ثانوي', 'ثانية ثانوي', 'ثالثة ثانوي'
-        ];
-
-        // بيانات الأدمن الافتراضية
-        const DEFAULT_ADMIN = {
-            name: "المدير العام",
-            username: "admin",
-            passwordHash: "",
-            isActive: true,
-            isAdmin: true,
-            isPending: false,
-            assignedClass: null
-        };
-
-        const ADMIN_PASSWORD = "Admin@123";
-
-        let db = { servants: [], children: [], attendance: [] };
+        let db = { servants: [], children: [], attendance: [], classes: [] };
         let session = null;
         let route = 'home';
         let routeParam = null;
         let flash = null;
         let currentTheme = localStorage.getItem('theme') || 'light';
-        let activeTab = 'pending';
+        let activeTab = 'classes';
 
         // ============ SESSION MANAGEMENT ============
         function saveSession(username, name, isAdmin) {
@@ -899,9 +1271,7 @@
                 if (snap.exists()) {
                     db = snap.data().payload;
                 } else {
-                    const passwordHash = await sha256(ADMIN_PASSWORD);
-                    const adminData = { ...DEFAULT_ADMIN, passwordHash };
-                    db = { servants: [adminData], children: [], attendance: [] };
+                    db = { servants: [], children: [], attendance: [], classes: [] };
                     await saveDB();
                 }
                 db.servants = db.servants.map(s => ({
@@ -912,9 +1282,10 @@
                     assignedClass: s.assignedClass || null,
                     pendingSince: s.pendingSince || null
                 }));
+                if (!db.classes) db.classes = [];
             } catch (e) {
                 console.error('❌ تعذر تحميل البيانات', e);
-                alert('تعذر الاتصال بقاعدة البيانات.');
+                showToast('تعذر الاتصال بقاعدة البيانات.', 'error');
             }
         }
 
@@ -923,7 +1294,7 @@
                 await setDoc(dataDocRef, { payload: db });
             } catch (e) {
                 console.error('❌ تعذر حفظ البيانات', e);
-                alert('حدث خطأ أثناء حفظ البيانات.');
+                showToast('حدث خطأ أثناء حفظ البيانات.', 'error');
             }
         }
 
@@ -939,6 +1310,7 @@
                         assignedClass: s.assignedClass || null,
                         pendingSince: s.pendingSince || null
                     }));
+                    if (!db.classes) db.classes = [];
                     render();
                 }
             });
@@ -959,6 +1331,41 @@
             applyTheme(currentTheme === 'light' ? 'dark' : 'light');
         }
 
+        // ============ TOAST ============
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(20px)';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // ============ SIDEBAR ============
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
         // ============ HELPERS ============
         function esc(s) {
             return (s ?? '').toString()
@@ -968,6 +1375,15 @@
         async function sha256(text) {
             const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
             return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function genCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code;
+            do {
+                code = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+            } while (db.children.some(c => c.code === code));
+            return code;
         }
 
         function todayDate() {
@@ -990,39 +1406,70 @@
             return db.servants.filter(s => s.isPending === true).length;
         }
 
+        function getClassChildren(classId) {
+            return db.children.filter(c => c.classId === classId);
+        }
+
+        function getClassServants(classId) {
+            return db.servants.filter(s => s.assignedClass === classId && !s.isPending);
+        }
+
+        function hasAdmin() {
+            return db.servants.some(s => s.isAdmin === true);
+        }
+
         // ============ RENDER NAV ============
         function renderNav() {
             const nav = document.getElementById('nav');
             let html = `
-                <button class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع">
+                <button class="theme-toggle" onclick="window.toggleTheme()" title="تبديل الوضع">
                     <i class="fas ${currentTheme === 'dark' ? 'fa-sun' : 'fa-moon'}"></i>
                 </button>
             `;
             if (session) {
-                const isActive = session.isAdmin ? true : false;
-                const isAdminUser = session.isAdmin || false;
                 const pendingCount = getPendingCount();
                 html += `
                     <span class="who">
                         <i class="fas fa-user-circle"></i> ${esc(session.name)}
                         <span class="status-badge admin">أدمن</span>
+                        ${pendingCount > 0 ? `<span class="notification-badge">${pendingCount}</span>` : ''}
                     </span>
-                    <a href="#" onclick="go('admin');return false;"><i class="fas fa-shield-alt"></i> لوحة الأدمن ${pendingCount > 0 ? `<span class="notification-badge">${pendingCount}</span>` : ''}</a>
-                    <button class="linklike" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
+                    <a href="#" onclick="window.go('admin');return false;"><i class="fas fa-shield-alt"></i> لوحة الأدمن</a>
+                    <button class="linklike" onclick="window.logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
                 `;
             } else {
                 html += `
-                    <a href="#" onclick="go('adminLogin');return false;"><i class="fas fa-shield-alt"></i> دخول الأدمن</a>
-                    <a href="#" onclick="go('home');return false;"><i class="fas fa-home"></i> الصفحة الرئيسية</a>
+                    <a href="#" onclick="window.go('adminLogin');return false;"><i class="fas fa-shield-alt"></i> دخول الأدمن</a>
+                    <a href="#" onclick="window.go('home');return false;"><i class="fas fa-home"></i> الصفحة الرئيسية</a>
                 `;
             }
             nav.innerHTML = html;
+
+            // تحديث القائمة الجانبية
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            if (sidebarMenu && session) {
+                const pendingCount = getPendingCount();
+                const links = sidebarMenu.querySelectorAll('a');
+                links.forEach(link => {
+                    link.classList.remove('active');
+                });
+                // تحديث شارة الإشعارات
+                const pendingItem = sidebarMenu.querySelector('a[onclick*="pending"]');
+                if (pendingItem) {
+                    const badge = pendingItem.querySelector('.badge-count');
+                    if (badge) {
+                        badge.textContent = pendingCount;
+                        badge.style.display = pendingCount > 0 ? 'inline-block' : 'none';
+                    }
+                }
+            }
         }
 
         function logout() {
             session = null;
             clearSession();
             go('home');
+            closeSidebar();
         }
 
         // ============ ALERT ============
@@ -1037,8 +1484,13 @@
             return html;
         }
 
+        // ==============================================================
         // ============ PAGES ============
+        // ==============================================================
+
         function viewHome() {
+            const adminExists = hasAdmin();
+
             return `
                 ${alertHtml()}
                 <section style="text-align:center;padding:40px 0;">
@@ -1049,27 +1501,35 @@
                         لوحة تحكم الأدمن
                     </h1>
                     <p style="color:var(--text-muted);max-width:600px;margin:10px auto 28px;font-size:1.15rem;">
-                        إدارة الخدام، الموافقة على الطلبات الجديدة، وتعيين الخدام للصفوف.
+                        إدارة الصفوف، الخدام، الموافقة على الطلبات، ومتابعة الحضور والغياب.
                     </p>
                     <div class="actions" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                        <button class="btn btn-admin" onclick="go('adminLogin')"><i class="fas fa-sign-in-alt"></i> دخول الأدمن</button>
+                        ${adminExists ? `<button class="btn btn-admin" onclick="window.go('adminLogin')"><i class="fas fa-sign-in-alt"></i> دخول الأدمن</button>` :
+                            `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> ⚠️ لا يوجد أدمن في النظام. يرجى إضافة أدمن أولاً.</div>`}
                     </div>
                 </section>
+
+                <section style="margin-top:40px;">
+                    <h2><i class="fas fa-layer-group" style="color:var(--sky-dark);"></i> الصفوف الدراسية</h2>
+                    <p style="color:var(--text-muted);">عرض جميع الصفوف مع إحصائياتها</p>
+                    ${renderClassesGrid()}
+                </section>
+
                 <section class="cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:30px;">
+                    <div class="card" style="background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-glass);border-radius:28px;padding:24px;text-align:center;transition:var(--transition);">
+                        <span class="icon" style="font-size:2.8rem;color:var(--sky-dark);display:block;margin-bottom:12px;"><i class="fas fa-layer-group"></i></span>
+                        <h3 style="color:var(--text-primary);font-size:1.4rem;">إدارة الصفوف</h3>
+                        <p style="color:var(--text-muted);">إضافة، تعديل، حذف الصفوف.</p>
+                    </div>
                     <div class="card" style="background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-glass);border-radius:28px;padding:24px;text-align:center;transition:var(--transition);">
                         <span class="icon" style="font-size:2.8rem;color:var(--pending);display:block;margin-bottom:12px;"><i class="fas fa-user-clock"></i></span>
                         <h3 style="color:var(--text-primary);font-size:1.4rem;">طلبات التسجيل</h3>
                         <p style="color:var(--text-muted);">مراجعة طلبات الخدام الجدد والموافقة عليها.</p>
                     </div>
                     <div class="card" style="background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-glass);border-radius:28px;padding:24px;text-align:center;transition:var(--transition);">
-                        <span class="icon" style="font-size:2.8rem;color:var(--sky-dark);display:block;margin-bottom:12px;"><i class="fas fa-layer-group"></i></span>
-                        <h3 style="color:var(--text-primary);font-size:1.4rem;">تعيين الصفوف</h3>
-                        <p style="color:var(--text-muted);">تحديد الصف الذي سيديره كل خادم.</p>
-                    </div>
-                    <div class="card" style="background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-glass);border-radius:28px;padding:24px;text-align:center;transition:var(--transition);">
                         <span class="icon" style="font-size:2.8rem;color:var(--sky-dark);display:block;margin-bottom:12px;"><i class="fas fa-users"></i></span>
                         <h3 style="color:var(--text-primary);font-size:1.4rem;">إدارة الخدام</h3>
-                        <p style="color:var(--text-muted);">تفعيل، إيقاف، حذف الخدام.</p>
+                        <p style="color:var(--text-muted);">تفعيل، إيقاف، حذف الخدام وتعيين الصفوف.</p>
                     </div>
                     <div class="card" style="background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-glass);border-radius:28px;padding:24px;text-align:center;transition:var(--transition);">
                         <span class="icon" style="font-size:2.8rem;color:var(--sky-dark);display:block;margin-bottom:12px;"><i class="fas fa-clipboard-list"></i></span>
@@ -1079,7 +1539,39 @@
                 </section>`;
         }
 
-        // ---- ADMIN LOGIN ----
+        // ===== عرض الصفوف في شبكة =====
+        function renderClassesGrid() {
+            const classes = db.classes.sort((a, b) => a.order - b.order);
+
+            if (classes.length === 0) {
+                return `<p class="empty"><i class="fas fa-inbox"></i> لا توجد صفوف</p>`;
+            }
+
+            return `
+                <div class="class-grid">
+                    ${classes.map(cls => {
+                        const children = getClassChildren(cls.id);
+                        const servants = getClassServants(cls.id);
+                        const attCount = db.attendance.filter(a => {
+                            const child = db.children.find(c => c.id === a.childId);
+                            return child && child.classId === cls.id;
+                        }).length;
+                        return `
+                            <div class="class-card" onclick="window.go('classDetail','${cls.id}')">
+                                <div class="class-name">${esc(cls.name)}</div>
+                                <div class="class-stats">
+                                    <i class="fas fa-child"></i> ${children.length} طفل
+                                    <i class="fas fa-chalkboard-teacher"></i> ${servants.length} خادم
+                                    <i class="fas fa-clipboard-check"></i> ${attCount}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // ===== ADMIN LOGIN =====
         function viewAdminLogin() {
             return `
                 <section class="panel" style="max-width:520px;margin:0 auto;">
@@ -1089,13 +1581,13 @@
                         <p style="color:var(--text-muted);text-align:center;margin-bottom:20px;">هذه الصفحة خاصة بمدير النظام فقط</p>
                         ${alertHtml()}
                         <div id="formMsg"></div>
-                        <form class="form" onsubmit="return submitAdminLogin(event)">
+                        <form class="form" onsubmit="return window.submitAdminLogin(event)">
                             <label><i class="fas fa-user"></i> اسم المستخدم <input name="username" required autofocus placeholder="أدخل اسم المستخدم" /></label>
                             <label><i class="fas fa-lock"></i> كلمة المرور <input type="password" name="password" required placeholder="أدخل كلمة المرور" /></label>
                             <button class="btn btn-admin" type="submit"><i class="fas fa-shield-alt"></i> دخول الأدمن</button>
                         </form>
                         <p style="margin-top:14px;color:var(--text-muted);text-align:center;">
-                            <i class="fas fa-arrow-left"></i> <a href="#" onclick="go('home');return false;">العودة للصفحة الرئيسية</a>
+                            <i class="fas fa-arrow-left"></i> <a href="#" onclick="window.go('home');return false;">العودة للصفحة الرئيسية</a>
                         </p>
                     </div>
                 </section>`;
@@ -1131,7 +1623,7 @@
 
             session = { username: servant.username, name: servant.name, isAdmin: true };
             saveSession(session.username, session.name, session.isAdmin);
-            setFlash('✅ تم تسجيل الدخول بنجاح! مرحبًا بك في لوحة الأدمن.');
+            showToast('✅ تم تسجيل الدخول بنجاح! مرحبًا بك في لوحة الأدمن.', 'success');
             go('admin');
             return false;
         }
@@ -1141,7 +1633,7 @@
         // ==============================================================
         function viewAdmin() {
             if (!session || !session.isAdmin) {
-                setFlash('⛔ هذه الصفحة مخصصة للأدمن فقط.', 'error');
+                showToast('⛔ هذه الصفحة مخصصة للأدمن فقط.', 'error');
                 go('home');
                 return '';
             }
@@ -1149,10 +1641,9 @@
             const totalServants = db.servants.length;
             const totalChildren = db.children.length;
             const totalAttendance = db.attendance.length;
+            const totalClasses = db.classes.length;
             const activeServants = db.servants.filter(s => s.isActive === true && !s.isPending).length;
-            const inactiveServants = db.servants.filter(s => s.isActive === false && !s.isPending).length;
             const pendingCount = getPendingCount();
-            const adminCount = db.servants.filter(s => s.isAdmin).length;
 
             return `
                 <section>
@@ -1160,7 +1651,8 @@
                     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
                         <h2 style="margin:0;"><i class="fas fa-shield-alt" style="color:#6a1b9a;"></i> لوحة تحكم الأدمن</h2>
                         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                            <button class="btn btn-admin btn-sm" onclick="exportData()"><i class="fas fa-download"></i> تصدير البيانات</button>
+                            <button class="btn btn-admin btn-sm" onclick="window.exportData()"><i class="fas fa-download"></i> تصدير البيانات</button>
+                            <button class="btn btn-secondary btn-sm" onclick="window.go('admin');window.switchTab('reports')"><i class="fas fa-chart-bar"></i> التقارير</button>
                         </div>
                     </div>
 
@@ -1176,69 +1668,474 @@
                             <div class="num" style="color:var(--ok);">${activeServants}</div>
                             <div class="label">🟢 خدام نشطين</div>
                         </div>
-                        <div class="stat-card" style="border-color:var(--bad);">
-                            <div class="icon" style="color:var(--bad);"><i class="fas fa-times-circle"></i></div>
-                            <div class="num" style="color:var(--bad);">${inactiveServants}</div>
-                            <div class="label">🔴 خدام موقوفين</div>
-                        </div>
                         <div class="stat-card">
-                            <div class="icon"><i class="fas fa-users"></i></div>
-                            <div class="num">${totalServants}</div>
-                            <div class="label">👨‍🏫 إجمالي الخدام</div>
+                            <div class="icon"><i class="fas fa-layer-group"></i></div>
+                            <div class="num">${totalClasses}</div>
+                            <div class="label">📚 عدد الصفوف</div>
                         </div>
                         <div class="stat-card">
                             <div class="icon"><i class="fas fa-child"></i></div>
                             <div class="num">${totalChildren}</div>
                             <div class="label">🧒 إجمالي الأطفال</div>
                         </div>
+                        <div class="stat-card">
+                            <div class="icon"><i class="fas fa-clipboard-list"></i></div>
+                            <div class="num">${totalAttendance}</div>
+                            <div class="label">📋 سجلات الحضور</div>
+                        </div>
                         <div class="stat-card" style="border-color:#6a1b9a;">
                             <div class="icon" style="color:#6a1b9a;"><i class="fas fa-star"></i></div>
-                            <div class="num" style="color:#6a1b9a;">${adminCount}</div>
+                            <div class="num" style="color:#6a1b9a;">${db.servants.filter(s => s.isAdmin).length}</div>
                             <div class="label">⭐ عدد الأدمن</div>
                         </div>
                     </div>
 
                     <!-- Tabs -->
                     <div class="tabs">
-                        <button class="tab-btn ${activeTab === 'pending' ? 'active' : ''}" onclick="switchTab('pending')">
+                        <button class="tab-btn ${activeTab === 'classes' ? 'active' : ''}" onclick="window.switchTab('classes')">
+                            <i class="fas fa-layer-group"></i> الصفوف
+                        </button>
+                        <button class="tab-btn ${activeTab === 'pending' ? 'active' : ''}" onclick="window.switchTab('pending')">
                             <i class="fas fa-user-clock"></i> طلبات التسجيل ${pendingCount > 0 ? `<span class="notification-badge">${pendingCount}</span>` : ''}
                         </button>
-                        <button class="tab-btn ${activeTab === 'servants' ? 'active' : ''}" onclick="switchTab('servants')">
+                        <button class="tab-btn ${activeTab === 'servants' ? 'active' : ''}" onclick="window.switchTab('servants')">
                             <i class="fas fa-users"></i> الخدام
                         </button>
-                        <button class="tab-btn ${activeTab === 'children' ? 'active' : ''}" onclick="switchTab('children')">
+                        <button class="tab-btn ${activeTab === 'children' ? 'active' : ''}" onclick="window.switchTab('children')">
                             <i class="fas fa-child"></i> الأطفال
                         </button>
-                        <button class="tab-btn ${activeTab === 'attendance' ? 'active' : ''}" onclick="switchTab('attendance')">
+                        <button class="tab-btn ${activeTab === 'attendance' ? 'active' : ''}" onclick="window.switchTab('attendance')">
                             <i class="fas fa-clipboard-list"></i> سجلات الحضور
                         </button>
+                        <button class="tab-btn ${activeTab === 'add-servant' ? 'active' : ''}" onclick="window.switchTab('add-servant')">
+                            <i class="fas fa-user-plus"></i> إضافة خادم
+                        </button>
+                        <button class="tab-btn ${activeTab === 'add-child' ? 'active' : ''}" onclick="window.switchTab('add-child')">
+                            <i class="fas fa-child"></i> إضافة طفل
+                        </button>
+                        <button class="tab-btn ${activeTab === 'reports' ? 'active' : ''}" onclick="window.switchTab('reports')">
+                            <i class="fas fa-chart-bar"></i> التقارير
+                        </button>
+                    </div>
+
+                    <!-- Classes Tab -->
+                    <div class="tab-content ${activeTab === 'classes' ? 'active' : ''}" id="tab-classes">
+                        ${renderAdminClassesTab()}
                     </div>
 
                     <!-- Pending Tab -->
                     <div class="tab-content ${activeTab === 'pending' ? 'active' : ''}" id="tab-pending">
-                        ${renderPendingTab()}
+                        ${renderAdminPendingTab()}
                     </div>
 
                     <!-- Servants Tab -->
                     <div class="tab-content ${activeTab === 'servants' ? 'active' : ''}" id="tab-servants">
-                        ${renderServantsTab()}
+                        ${renderAdminServantsTab()}
                     </div>
 
                     <!-- Children Tab -->
                     <div class="tab-content ${activeTab === 'children' ? 'active' : ''}" id="tab-children">
-                        ${renderChildrenTab()}
+                        ${renderAdminChildrenTab()}
                     </div>
 
                     <!-- Attendance Tab -->
                     <div class="tab-content ${activeTab === 'attendance' ? 'active' : ''}" id="tab-attendance">
-                        ${renderAttendanceTab()}
+                        ${renderAdminAttendanceTab()}
+                    </div>
+
+                    <!-- Add Servant Tab -->
+                    <div class="tab-content ${activeTab === 'add-servant' ? 'active' : ''}" id="tab-add-servant">
+                        ${renderAddServantTab()}
+                    </div>
+
+                    <!-- Add Child Tab -->
+                    <div class="tab-content ${activeTab === 'add-child' ? 'active' : ''}" id="tab-add-child">
+                        ${renderAddChildTab()}
+                    </div>
+
+                    <!-- Reports Tab -->
+                    <div class="tab-content ${activeTab === 'reports' ? 'active' : ''}" id="tab-reports">
+                        ${renderReportsTab()}
                     </div>
                 </section>
             `;
         }
 
-        // ===== PENDING TAB =====
-        function renderPendingTab() {
+        // ==============================================================
+        // ===== ADMIN: CLASSES TAB (مع إمكانية التعديل) =====
+        // ==============================================================
+        function renderAdminClassesTab() {
+            let html = `
+                <div class="glass" style="margin-bottom:20px;">
+                    <h3><i class="fas fa-plus-circle" style="color:var(--sky-dark);"></i> إضافة صف جديد</h3>
+                    <div id="addClassMsg"></div>
+                    <form class="form-row" onsubmit="return window.submitAddClass(event)">
+                        <label>اسم الصف <input name="className" required placeholder="مثال: الصف الأول" /></label>
+                        <label>الترتيب <input type="number" name="order" value="${db.classes.length + 1}" min="1" /></label>
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-plus"></i> إضافة</button>
+                    </form>
+                </div>
+            `;
+
+            const classes = db.classes.sort((a, b) => a.order - b.order);
+
+            if (classes.length === 0) {
+                html += `<p class="empty"><i class="fas fa-inbox"></i> لا توجد صفوف</p>`;
+            } else {
+                html += `
+                    <div class="glass">
+                        <h3><i class="fas fa-layer-group"></i> قائمة الصفوف (${classes.length})</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th>اسم الصف</th><th>الترتيب</th><th>الأطفال</th><th>الخدام</th><th>سجلات الحضور</th><th>إجراءات</th></tr></thead>
+                                <tbody>
+                                    ${classes.map(cls => {
+                                        const children = getClassChildren(cls.id);
+                                        const servants = getClassServants(cls.id);
+                                        const attCount = db.attendance.filter(a => {
+                                            const child = db.children.find(c => c.id === a.childId);
+                                            return child && child.classId === cls.id;
+                                        }).length;
+                                        return `
+                                            <tr>
+                                                <td><strong>${esc(cls.name)}</strong></td>
+                                                <td>${cls.order}</td>
+                                                <td>${children.length} طفل</td>
+                                                <td>${servants.length} خادم</td>
+                                                <td>${attCount} سجل</td>
+                                                <td>
+                                                    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                                                        <button class="btn btn-sm btn-secondary" onclick="window.openEditClassModal('${cls.id}')"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-secondary" onclick="window.go('classDetail','${cls.id}')"><i class="fas fa-eye"></i></button>
+                                                        <button class="btn btn-sm btn-bad" onclick="window.deleteClass('${cls.id}')"><i class="fas fa-trash"></i></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return html;
+        }
+
+        // ===== MODAL: تعديل الصف =====
+        function openEditClassModal(classId) {
+            const cls = db.classes.find(c => c.id === classId);
+            if (!cls) return;
+
+            const modal = document.getElementById('editClassModal');
+            document.getElementById('editClassId').value = cls.id;
+            document.getElementById('editClassName').value = cls.name;
+            document.getElementById('editClassOrder').value = cls.order;
+            modal.classList.add('active');
+        }
+
+        function closeEditClassModal() {
+            document.getElementById('editClassModal').classList.remove('active');
+        }
+
+        async function submitEditClass(ev) {
+            ev.preventDefault();
+            const f = ev.target;
+            const classId = f.classId.value;
+            const name = f.className.value.trim();
+            const order = parseInt(f.classOrder.value);
+
+            if (!name) {
+                showToast('⚠️ أدخل اسم الصف.', 'warning');
+                return false;
+            }
+
+            const cls = db.classes.find(c => c.id === classId);
+            if (!cls) return false;
+
+            // التحقق من عدم تكرار الاسم
+            const duplicate = db.classes.some(c => c.name === name && c.id !== classId);
+            if (duplicate) {
+                showToast('⚠️ هذا الصف موجود بالفعل.', 'warning');
+                return false;
+            }
+
+            cls.name = name;
+            cls.order = order;
+            await saveDB();
+            closeEditClassModal();
+            showToast(`✅ تم تحديث الصف "${name}" بنجاح.`, 'success');
+            render();
+            return false;
+        }
+
+        // ==============================================================
+        // ===== ADMIN: ADD SERVANT TAB =====
+        // ==============================================================
+        function renderAddServantTab() {
+            return `
+                <div class="glass">
+                    <h3><i class="fas fa-user-plus" style="color:var(--sky-dark);"></i> إضافة خادم جديد</h3>
+                    <p style="color:var(--text-muted);">قم بإضافة خادم جديد. يمكنك تعيين صف له وتفعيله مباشرة.</p>
+                    <div id="addServantMsg"></div>
+                    <form class="form" onsubmit="return window.submitAddServant(event)">
+                        <div class="form-row">
+                            <label><i class="fas fa-user"></i> الاسم <input name="name" required placeholder="أدخل اسم الخادم" /></label>
+                            <label><i class="fas fa-at"></i> اسم المستخدم <input name="username" required placeholder="اختر اسم مستخدم" /></label>
+                        </div>
+                        <div class="form-row">
+                            <label><i class="fas fa-lock"></i> كلمة المرور <input type="password" name="password" required placeholder="6 أحرف على الأقل" /></label>
+                            <label><i class="fas fa-check-double"></i> تأكيد كلمة المرور <input type="password" name="confirm" required placeholder="أعد كتابة كلمة المرور" /></label>
+                        </div>
+                        <div class="form-row">
+                            <label><i class="fas fa-layer-group"></i> الصف
+                                <select name="classId">
+                                    <option value="">بدون صف</option>
+                                    ${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+                                </select>
+                            </label>
+                            <label style="flex-direction:row;align-items:center;gap:10px;flex:0 1 auto;">
+                                <input type="checkbox" name="isActive" checked style="width:20px;height:20px;accent-color:var(--ok);" />
+                                <span style="font-weight:600;">🟢 مفعل فوراً</span>
+                            </label>
+                            <label style="flex-direction:row;align-items:center;gap:10px;flex:0 1 auto;">
+                                <input type="checkbox" name="isAdmin" style="width:20px;height:20px;accent-color:#6a1b9a;" />
+                                <span style="font-weight:600;">⭐ أدمن</span>
+                            </label>
+                        </div>
+                        <button class="btn btn-admin" type="submit"><i class="fas fa-user-plus"></i> إضافة الخادم</button>
+                    </form>
+                </div>
+            `;
+        }
+
+        async function submitAddServant(ev) {
+            ev.preventDefault();
+            if (!session || !session.isAdmin) return false;
+
+            const f = ev.target;
+            const name = f.name.value.trim();
+            const username = f.username.value.trim();
+            const password = f.password.value;
+            const confirm = f.confirm.value;
+            const classId = f.classId.value || null;
+            const isActive = f.isActive.checked;
+            const isAdmin = f.isAdmin.checked;
+            const msgBox = document.getElementById('addServantMsg');
+
+            if (!name || !username || !password) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أكمل جميع الحقول.</div>`;
+                return false;
+            }
+            if (password !== confirm) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> كلمتا المرور غير متطابقتين.</div>`;
+                return false;
+            }
+            if (password.length < 6) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> كلمة المرور 6 أحرف على الأقل.</div>`;
+                return false;
+            }
+            if (db.servants.some(s => s.username === username)) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> اسم المستخدم مستخدم بالفعل.</div>`;
+                return false;
+            }
+
+            const passwordHash = await sha256(password);
+            db.servants.push({
+                name,
+                username,
+                passwordHash,
+                isActive: isActive,
+                isAdmin: isAdmin,
+                isPending: false,
+                assignedClass: classId,
+                pendingSince: null
+            });
+            await saveDB();
+            const statusMsg = isActive ? 'مفعل' : 'موقوف';
+            const roleMsg = isAdmin ? 'أدمن' : 'خادم';
+            msgBox.innerHTML =
+                `<div class="alert alert-success"><i class="fas fa-check-circle"></i> ✅ تم إضافة "${name}" كـ ${roleMsg} (${statusMsg}) بنجاح.</div>`;
+            showToast(`✅ تم إضافة "${name}" كـ ${roleMsg}`, 'success');
+            setTimeout(() => { window.switchTab('servants');
+                render(); }, 1500);
+            return false;
+        }
+
+        // ==============================================================
+        // ===== ADMIN: ADD CHILD TAB =====
+        // ==============================================================
+        function renderAddChildTab() {
+            return `
+                <div class="glass">
+                    <h3><i class="fas fa-child" style="color:var(--sky-dark);"></i> إضافة طفل جديد</h3>
+                    <p style="color:var(--text-muted);">قم بإضافة طفل وتعيينه لخادم معين وصف محدد.</p>
+                    <div id="addChildMsg"></div>
+                    <form class="form" onsubmit="return window.submitAdminAddChild(event)">
+                        <div class="form-row">
+                            <label><i class="fas fa-user"></i> اسم الطفل <input name="childName" required placeholder="أدخل اسم الطفل" /></label>
+                            <label><i class="fas fa-layer-group"></i> الصف
+                                <select name="classId" required>
+                                    <option value="">اختر الصف</option>
+                                    ${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+                                </select>
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <label><i class="fas fa-chalkboard-teacher"></i> الخادم المسؤول
+                                <select name="servantUsername" required>
+                                    <option value="">اختر الخادم</option>
+                                    ${db.servants.filter(s => s.isActive && !s.isPending).map(s => `<option value="${s.username}">${s.name}</option>`).join('')}
+                                </select>
+                            </label>
+                        </div>
+                        <button class="btn btn-admin" type="submit"><i class="fas fa-child"></i> إضافة الطفل</button>
+                    </form>
+                </div>
+            `;
+        }
+
+        async function submitAdminAddChild(ev) {
+            ev.preventDefault();
+            if (!session || !session.isAdmin) return false;
+
+            const f = ev.target;
+            const name = f.childName.value.trim();
+            const classId = f.classId.value;
+            const servantUsername = f.servantUsername.value;
+            const msgBox = document.getElementById('addChildMsg');
+
+            if (!name || !classId || !servantUsername) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أكمل جميع الحقول.</div>`;
+                return false;
+            }
+
+            const servant = db.servants.find(s => s.username === servantUsername);
+            if (!servant || !servant.isActive) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> الخادم غير نشط.</div>`;
+                return false;
+            }
+
+            const code = genCode();
+            db.children.push({
+                id: crypto.randomUUID(),
+                servantUsername: servantUsername,
+                name,
+                classId,
+                code
+            });
+            await saveDB();
+            msgBox.innerHTML =
+                `<div class="alert alert-success"><i class="fas fa-check-circle"></i> ✅ تم إضافة "${name}" بنجاح. كود الاستعلام: ${code}</div>`;
+            showToast(`✅ تم إضافة "${name}" بنجاح.`, 'success');
+            setTimeout(() => { window.switchTab('children');
+                render(); }, 1500);
+            return false;
+        }
+
+        // ==============================================================
+        // ===== ADMIN: REPORTS TAB =====
+        // ==============================================================
+        function renderReportsTab() {
+            const totalServants = db.servants.length;
+            const totalChildren = db.children.length;
+            const totalAttendance = db.attendance.length;
+            const activeServants = db.servants.filter(s => s.isActive === true && !s.isPending).length;
+            const pendingCount = getPendingCount();
+
+            // إحصائيات الحضور
+            const presentCount = db.attendance.filter(a => a.status === 'حاضر').length;
+            const absentCount = db.attendance.filter(a => a.status === 'غائب').length;
+
+            // توزيع الأطفال على الصفوف
+            const classDistribution = db.classes.map(cls => {
+                const count = db.children.filter(c => c.classId === cls.id).length;
+                return { name: cls.name, count };
+            }).sort((a, b) => b.count - a.count);
+
+            return `
+                <div class="glass">
+                    <h3><i class="fas fa-chart-bar" style="color:var(--sky-dark);"></i> التقارير والإحصائيات</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px;">
+                        <div class="stat-card">
+                            <div class="num">${totalServants}</div>
+                            <div class="label">👨‍🏫 إجمالي الخدام</div>
+                        </div>
+                        <div class="stat-card" style="border-color:var(--ok);">
+                            <div class="num" style="color:var(--ok);">${activeServants}</div>
+                            <div class="label">🟢 خدام نشطين</div>
+                        </div>
+                        <div class="stat-card" style="border-color:var(--pending);">
+                            <div class="num" style="color:var(--pending);">${pendingCount}</div>
+                            <div class="label">⏳ بانتظار الموافقة</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="num">${totalChildren}</div>
+                            <div class="label">🧒 إجمالي الأطفال</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="num">${totalAttendance}</div>
+                            <div class="label">📋 سجلات الحضور</div>
+                        </div>
+                        <div class="stat-card" style="border-color:var(--ok);">
+                            <div class="num" style="color:var(--ok);">${presentCount}</div>
+                            <div class="label">✅ حضور</div>
+                        </div>
+                        <div class="stat-card" style="border-color:var(--bad);">
+                            <div class="num" style="color:var(--bad);">${absentCount}</div>
+                            <div class="label">❌ غياب</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="num">${db.classes.length}</div>
+                            <div class="label">📚 عدد الصفوف</div>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top:20px;"><i class="fas fa-users"></i> توزيع الأطفال على الصفوف</h4>
+                    ${classDistribution.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : `
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+                        ${classDistribution.map(item => `
+                            <div style="background:var(--bg-glass);border-radius:16px;padding:12px 20px;border:1px solid var(--border-glass);flex:1;min-width:120px;text-align:center;">
+                                <div style="font-size:1.4rem;font-family:'Lalezar',cursive;color:var(--sky-dark);">${item.count}</div>
+                                <div style="font-size:0.8rem;color:var(--text-muted);">${esc(item.name)}</div>
+                            </div>
+                        `).join('')}
+                    </div>`}
+
+                    <h4 style="margin-top:20px;"><i class="fas fa-calendar-alt"></i> آخر 5 سجلات حضور</h4>
+                    ${db.attendance.length === 0 ? `<p class="empty">لا توجد سجلات</p>` : `
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>الطفل</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+                            <tbody>
+                                ${db.attendance.slice().sort((a,b) => b.weekDate.localeCompare(a.weekDate)).slice(0,5).map(a => {
+                                    const child = db.children.find(c => c.id === a.childId);
+                                    return `
+                                        <tr>
+                                            <td>${child ? esc(child.name) : '❓ محذوف'}</td>
+                                            <td>${esc(a.weekDate)}</td>
+                                            <td><span class="badge ${a.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}">${esc(a.status)}</span></td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>`}
+                </div>
+            `;
+        }
+
+        // ==============================================================
+        // ===== ADMIN: PENDING TAB =====
+        // ==============================================================
+        function renderAdminPendingTab() {
             const pendingServants = db.servants.filter(s => s.isPending === true);
 
             if (pendingServants.length === 0) {
@@ -1260,15 +2157,15 @@
                         <td><span class="badge badge-pending">⏳ قيد الانتظار</span></td>
                         <td>${daysWaiting} يوم</td>
                         <td>
-                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
                                 <select id="classSelect_${s.username}" style="padding:6px 12px;border-radius:16px;border:1px solid var(--border-glass);background:var(--bg-glass);color:var(--text-primary);">
                                     <option value="">اختر الصف</option>
-                                    ${CLASSES.map(c => `<option value="${c}">${c}</option>`).join('')}
+                                    ${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
                                 </select>
-                                <button class="btn btn-sm btn-ok" onclick="approveServant('${s.username}')">
+                                <button class="btn btn-sm btn-ok" onclick="window.approveServant('${s.username}')">
                                     <i class="fas fa-check"></i> موافقة
                                 </button>
-                                <button class="btn btn-sm btn-bad" onclick="rejectServant('${s.username}')">
+                                <button class="btn btn-sm btn-bad" onclick="window.rejectServant('${s.username}')">
                                     <i class="fas fa-times"></i> رفض
                                 </button>
                             </div>
@@ -1291,15 +2188,17 @@
             `;
         }
 
-        // ===== SERVANTS TAB =====
-        function renderServantsTab() {
+        // ==============================================================
+        // ===== ADMIN: SERVANTS TAB =====
+        // ==============================================================
+        function renderAdminServantsTab() {
             const servants = db.servants.filter(s => !s.isPending);
 
             const rows = servants.map(s => {
                 const childCount = db.children.filter(c => c.servantUsername === s.username).length;
                 const isActive = s.isActive === true;
                 const isAdminUser = s.isAdmin || false;
-                const assignedClass = s.assignedClass || 'غير محدد';
+                const assignedClass = s.assignedClass ? db.classes.find(c => c.id === s.assignedClass) : null;
                 return `
                     <tr>
                         <td><i class="fas fa-user-circle" style="color:var(--sky-dark);"></i> ${esc(s.name)}</td>
@@ -1310,20 +2209,20 @@
                             </span>
                             ${isAdminUser ? '<span class="badge badge-admin">⭐ أدمن</span>' : '<span class="badge badge-servant">👨‍🏫 خادم</span>'}
                         </td>
-                        <td><span class="badge badge-info" style="background:rgba(33,150,243,0.15);color:var(--sky-dark);border:1px solid rgba(33,150,243,0.2);">${esc(assignedClass)}</span></td>
+                        <td>${assignedClass ? esc(assignedClass.name) : 'غير محدد'}</td>
                         <td>${childCount} طفل</td>
                         <td>
-                            <div style="display:flex;gap:4px;flex-wrap:wrap;">
-                                <button class="btn btn-sm ${isActive ? 'btn-bad' : 'btn-ok'}" onclick="toggleServantStatus('${s.username}')">
+                            <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
+                                <button class="btn btn-sm ${isActive ? 'btn-bad' : 'btn-ok'}" onclick="window.toggleServantStatus('${s.username}')">
                                     ${isActive ? '<i class="fas fa-pause"></i> إيقاف' : '<i class="fas fa-play"></i> تفعيل'}
                                 </button>
                                 <select id="classEdit_${s.username}" style="padding:4px 8px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass);color:var(--text-primary);font-size:0.8rem;">
                                     <option value="">تغيير الصف</option>
-                                    ${CLASSES.map(c => `<option value="${c}" ${c === s.assignedClass ? 'selected' : ''}>${c}</option>`).join('')}
+                                    ${db.classes.map(c => `<option value="${c.id}" ${c.id === s.assignedClass ? 'selected' : ''}>${c.name}</option>`).join('')}
                                 </select>
-                                <button class="btn btn-sm btn-secondary" onclick="updateServantClass('${s.username}')"><i class="fas fa-save"></i></button>
-                                ${!isAdminUser && s.username !== 'admin' ? `<button class="btn btn-sm btn-bad" onclick="deleteServant('${s.username}')"><i class="fas fa-trash"></i></button>` : ''}
-                                ${!isAdminUser ? `<button class="btn btn-sm btn-gold" onclick="makeAdmin('${s.username}')"><i class="fas fa-star"></i></button>` : ''}
+                                <button class="btn btn-sm btn-secondary" onclick="window.updateServantClass('${s.username}')"><i class="fas fa-save"></i></button>
+                                ${!isAdminUser && s.username !== 'admin' ? `<button class="btn btn-sm btn-bad" onclick="window.deleteServant('${s.username}')"><i class="fas fa-trash"></i></button>` : ''}
+                                ${!isAdminUser ? `<button class="btn btn-sm btn-gold" onclick="window.makeAdmin('${s.username}')"><i class="fas fa-star"></i></button>` : ''}
                                 ${s.username === 'admin' ? '<span class="badge badge-admin">أدمن أساسي</span>' : ''}
                             </div>
                         </td>
@@ -1347,20 +2246,23 @@
             `;
         }
 
-        // ===== CHILDREN TAB =====
-        function renderChildrenTab() {
+        // ==============================================================
+        // ===== ADMIN: CHILDREN TAB =====
+        // ==============================================================
+        function renderAdminChildrenTab() {
             const rows = db.children.map(c => {
                 const servant = db.servants.find(s => s.username === c.servantUsername);
+                const cls = db.classes.find(cl => cl.id === c.classId);
                 const attendanceCount = db.attendance.filter(a => a.childId === c.id).length;
                 return `
                     <tr>
                         <td><i class="fas fa-user-graduate" style="color:var(--sky-dark);"></i> ${esc(c.name)}</td>
-                        <td>${esc(c.className)}</td>
+                        <td>${cls ? esc(cls.name) : 'غير محدد'}</td>
                         <td><code class="code-pill">${esc(c.code)}</code></td>
-                        <td>${servant ? esc(servant.name) + ' (' + esc(servant.assignedClass || 'غير محدد') + ')' : '❓ غير معروف'}</td>
+                        <td>${servant ? esc(servant.name) : '❓ غير معروف'}</td>
                         <td>${attendanceCount} سجل</td>
                         <td>
-                            <button class="btn btn-sm btn-bad" onclick="adminDeleteChild('${c.id}')"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-sm btn-bad" onclick="window.adminDeleteChild('${c.id}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -1374,7 +2276,7 @@
                     ${db.children.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد أطفال</p>` : `
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>الاسم</th><th>الفصل</th><th>الكود</th><th>الخادم المسؤول</th><th>سجلات الحضور</th><th>إجراءات</th></tr></thead>
+                            <thead><tr><th>الاسم</th><th>الصف</th><th>الكود</th><th>الخادم المسؤول</th><th>سجلات الحضور</th><th>إجراءات</th></tr></thead>
                             <tbody>${rows}</tbody>
                         </table>
                     </div>`}
@@ -1382,16 +2284,19 @@
             `;
         }
 
-        // ===== ATTENDANCE TAB =====
-        function renderAttendanceTab() {
+        // ==============================================================
+        // ===== ADMIN: ATTENDANCE TAB =====
+        // ==============================================================
+        function renderAdminAttendanceTab() {
             const records = db.attendance.slice().sort((a, b) => b.weekDate.localeCompare(a.weekDate)).slice(0, 100);
             const rows = records.map(a => {
                 const child = db.children.find(c => c.id === a.childId);
+                const cls = child ? db.classes.find(c => c.id === child.classId) : null;
                 const servant = child ? db.servants.find(s => s.username === child.servantUsername) : null;
                 return `
                     <tr>
                         <td>${child ? esc(child.name) : '❓ محذوف'}</td>
-                        <td>${child ? esc(child.className) : '—'}</td>
+                        <td>${cls ? esc(cls.name) : '—'}</td>
                         <td>${servant ? esc(servant.name) : '—'}</td>
                         <td>${esc(a.weekDate)}</td>
                         <td><span class="badge ${a.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}">${esc(a.status)}</span></td>
@@ -1408,7 +2313,7 @@
                     ${db.attendance.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد سجلات حضور</p>` : `
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>الطفل</th><th>الفصل</th><th>الخادم</th><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead>
+                            <thead><tr><th>الطفل</th><th>الصف</th><th>الخادم</th><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead>
                             <tbody>${rows}</tbody>
                         </table>
                     </div>`}
@@ -1416,164 +2321,396 @@
             `;
         }
 
+        // ==============================================================
+        // ===== CLASS DETAIL PAGE =====
+        // ==============================================================
+        function viewClassDetail(classId) {
+            const cls = db.classes.find(c => c.id === classId);
+            if (!cls) {
+                showToast('❌ الصف غير موجود.', 'error');
+                go('home');
+                return '';
+            }
+
+            const children = getClassChildren(cls.id);
+            const servants = getClassServants(cls.id);
+
+            const childrenRows = children.map(c => {
+                const attCount = db.attendance.filter(a => a.childId === c.id).length;
+                const lastAtt = db.attendance.filter(a => a.childId === c.id).sort((a, b) => b.weekDate.localeCompare(a
+                    .weekDate))[0];
+                return `
+                    <tr>
+                        <td><i class="fas fa-user-graduate" style="color:var(--sky-dark);"></i> ${esc(c.name)}</td>
+                        <td><code class="code-pill">${esc(c.code)}</code></td>
+                        <td>${attCount} سجل</td>
+                        <td>${lastAtt ? esc(lastAtt.weekDate) + ' (' + esc(lastAtt.status) + ')' : 'لا يوجد'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" onclick="window.go('childReport','${c.id}')"><i class="fas fa-eye"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            const servantsRows = servants.map(s => {
+                const childCount = db.children.filter(c => c.servantUsername === s.username).length;
+                return `
+                    <tr>
+                        <td><i class="fas fa-user-circle" style="color:var(--sky-dark);"></i> ${esc(s.name)}</td>
+                        <td><code style="background:var(--bg-glass);padding:2px 12px;border-radius:12px;">${esc(s.username)}</code></td>
+                        <td>${childCount} طفل</td>
+                        <td><span class="badge ${s.isActive ? 'badge-ok' : 'badge-bad'}">${s.isActive ? '🟢 نشط' : '🔴 موقوف'}</span></td>
+                    </tr>
+                `;
+            }).join('');
+
+            const attCount = db.attendance.filter(a => {
+                const child = db.children.find(c => c.id === a.childId);
+                return child && child.classId === cls.id;
+            }).length;
+
+            return `
+                <section>
+                    <button class="btn btn-secondary btn-sm" style="margin-bottom:16px;" onclick="window.go('admin')"><i class="fas fa-arrow-right"></i> رجوع</button>
+
+                    <div class="glass" style="border-color:var(--sky-dark);">
+                        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+                            <div>
+                                <h2 style="margin:0;"><i class="fas fa-layer-group" style="color:var(--sky-dark);"></i> ${esc(cls.name)}</h2>
+                                <p style="color:var(--text-muted);margin:4px 0 0;">الترتيب: ${cls.order}</p>
+                            </div>
+                            <div>
+                                <span class="badge badge-info"><i class="fas fa-child"></i> ${children.length} طفل</span>
+                                <span class="badge badge-info"><i class="fas fa-chalkboard-teacher"></i> ${servants.length} خادم</span>
+                                <span class="badge badge-info"><i class="fas fa-clipboard-check"></i> ${attCount} حضور</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top:24px;"><i class="fas fa-child"></i> أطفال الصف</h3>
+                    ${children.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد أطفال في هذا الصف</p>` : `
+                    <div class="glass table-wrap">
+                        <table>
+                            <thead><tr><th>الاسم</th><th>الكود</th><th>سجلات الحضور</th><th>آخر حضور</th><th></th></tr></thead>
+                            <tbody>${childrenRows}</tbody>
+                        </table>
+                    </div>`}
+
+                    <h3 style="margin-top:24px;"><i class="fas fa-chalkboard-teacher"></i> الخدام المسؤولين عن الصف</h3>
+                    ${servants.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد خدام معينين لهذا الصف</p>` : `
+                    <div class="glass table-wrap">
+                        <table>
+                            <thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>عدد الأطفال</th><th>الحالة</th></tr></thead>
+                            <tbody>${servantsRows}</tbody>
+                        </table>
+                    </div>`}
+                </section>
+            `;
+        }
+
+        // ==============================================================
+        // ===== CHILD REPORT (for admin) =====
+        // ==============================================================
+        function viewChildReport(childId) {
+            const child = db.children.find(c => c.id === childId);
+            if (!child) {
+                showToast('❌ الطفل غير موجود.', 'error');
+                go('admin');
+                return '';
+            }
+
+            const records = db.attendance.filter(a => a.childId === child.id).sort((a, b) => b.weekDate.localeCompare(a
+                .weekDate));
+            const presentDates = records.filter(r => r.status === 'حاضر').map(r => r.weekDate);
+            const absentDates = records.filter(r => r.status === 'غائب').map(r => r.weekDate);
+            const cls = db.classes.find(c => c.id === child.classId);
+            const servant = db.servants.find(s => s.username === child.servantUsername);
+
+            const rows = records.map(r => `
+                    <tr>
+                        <td>${esc(r.weekDate)}</td>
+                        <td><span class="badge ${r.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}">${esc(r.status)}</span></td>
+                        <td>${esc(r.note || '—')}</td>
+                    </tr>`).join('');
+
+            return `
+                <section>
+                    <button class="btn btn-secondary btn-sm" style="margin-bottom:16px;" onclick="window.go('admin')"><i class="fas fa-arrow-right"></i> رجوع</button>
+                    <div class="glass">
+                        <h2><i class="fas fa-user-graduate" style="color:var(--sky-dark);"></i> ${esc(child.name)}</h2>
+                        <p><i class="fas fa-layer-group" style="color:var(--sky-dark);"></i> الصف: ${cls ? esc(cls.name) : 'غير محدد'}</p>
+                        <p><i class="fas fa-user-circle" style="color:var(--sky-dark);"></i> الخادم المسؤول: ${servant ? esc(servant.name) : 'غير معروف'}</p>
+                        <p><i class="fas fa-key" style="color:var(--sky-dark);"></i> الكود: <code class="code-pill">${esc(child.code)}</code></p>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                        <div class="glass" style="text-align:center;">
+                            <h4 style="color:var(--ok);"><i class="fas fa-check-circle"></i> الحضور (${presentDates.length})</h4>
+                            <div>${presentDates.length ? presentDates.map(d => `<span class="badge badge-ok" style="margin:2px;">${esc(d)}</span>`).join(' ') : 'لا يوجد'}</div>
+                        </div>
+                        <div class="glass" style="text-align:center;">
+                            <h4 style="color:var(--bad);"><i class="fas fa-times-circle"></i> الغياب (${absentDates.length})</h4>
+                            <div>${absentDates.length ? absentDates.map(d => `<span class="badge badge-bad" style="margin:2px;">${esc(d)}</span>`).join(' ') : 'لا يوجد'}</div>
+                        </div>
+                    </div>
+                    <h3 style="margin-top:20px;"><i class="fas fa-history"></i> سجل الحضور</h3>
+                    ${records.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد سجلات</p>` : `
+                    <div class="glass table-wrap">
+                        <table><thead><tr><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead><tbody>${rows}</tbody></table>
+                    </div>`}
+                </section>
+            `;
+        }
+
+        // ==============================================================
         // ===== ADMIN ACTIONS =====
+        // ==============================================================
 
-        // Approve a servant
-        async function approveServant(username) {
-            if (!session || !session.isAdmin) return;
-
-            const servant = db.servants.find(s => s.username === username);
-            if (!servant) return;
-
-            const classSelect = document.getElementById(`classSelect_${username}`);
-            const assignedClass = classSelect ? classSelect.value : '';
-
-            if (!assignedClass) {
-                setFlash('⚠️ يرجى اختيار الصف للخادم.', 'warning');
+        window.approveServant = async function(username) {
+            if (!session || !session.isAdmin) {
+                showToast('⛔ غير مصرح لك.', 'error');
                 render();
                 return;
             }
 
-            servant.isPending = false;
-            servant.isActive = true;
-            servant.assignedClass = assignedClass;
-            await saveDB();
-            setFlash(`✅ تمت الموافقة على "${servant.name}" وتعيينه لصف "${assignedClass}".`);
-            render();
-        }
+            const servant = db.servants.find(s => s.username === username);
+            if (!servant) {
+                showToast('❌ الخادم غير موجود.', 'error');
+                render();
+                return;
+            }
 
-        // Reject a servant
-        async function rejectServant(username) {
-            if (!session || !session.isAdmin) return;
+            const classSelect = document.getElementById(`classSelect_${username}`);
+            const assignedClassId = classSelect ? classSelect.value : '';
+
+            if (!assignedClassId) {
+                showToast('⚠️ يرجى اختيار الصف للخادم.', 'warning');
+                render();
+                return;
+            }
+
+            try {
+                servant.isPending = false;
+                servant.isActive = true;
+                servant.assignedClass = assignedClassId;
+                await saveDB();
+                const cls = db.classes.find(c => c.id === assignedClassId);
+                showToast(`✅ تمت الموافقة على "${servant.name}" وتعيينه لصف "${cls ? cls.name : 'غير محدد'}"`, 'success');
+                activeTab = 'pending';
+                render();
+            } catch (e) {
+                showToast('❌ حدث خطأ أثناء الموافقة.', 'error');
+                render();
+            }
+        };
+
+        window.rejectServant = async function(username) {
+            if (!session || !session.isAdmin) {
+                showToast('⛔ غير مصرح لك.', 'error');
+                render();
+                return;
+            }
 
             const servant = db.servants.find(s => s.username === username);
-            if (!servant) return;
+            if (!servant) {
+                showToast('❌ الخادم غير موجود.', 'error');
+                render();
+                return;
+            }
 
             if (!confirm(`⚠️ هل أنت متأكد من رفض طلب "${servant.name}"؟ سيتم حذف حسابه.`)) return;
 
-            db.servants = db.servants.filter(s => s.username !== username);
-            await saveDB();
-            setFlash(`🗑️ تم رفض طلب "${servant.name}" وحذف حسابه.`);
-            render();
-        }
+            try {
+                db.servants = db.servants.filter(s => s.username !== username);
+                await saveDB();
+                showToast(`🗑️ تم رفض طلب "${servant.name}" وحذف حسابه.`, 'success');
+                activeTab = 'pending';
+                render();
+            } catch (e) {
+                showToast('❌ حدث خطأ أثناء الرفض.', 'error');
+                render();
+            }
+        };
 
-        // Update servant's assigned class
-        async function updateServantClass(username) {
-            if (!session || !session.isAdmin) return;
+        window.updateServantClass = async function(username) {
+            if (!session || !session.isAdmin) {
+                showToast('⛔ غير مصرح لك.', 'error');
+                render();
+                return;
+            }
 
             const servant = db.servants.find(s => s.username === username);
-            if (!servant) return;
+            if (!servant) {
+                showToast('❌ الخادم غير موجود.', 'error');
+                render();
+                return;
+            }
 
             const classSelect = document.getElementById(`classEdit_${username}`);
-            const assignedClass = classSelect ? classSelect.value : '';
+            const assignedClassId = classSelect ? classSelect.value : '';
 
-            if (!assignedClass) {
-                setFlash('⚠️ يرجى اختيار الصف.', 'warning');
+            if (!assignedClassId) {
+                showToast('⚠️ يرجى اختيار الصف.', 'warning');
                 render();
                 return;
             }
 
-            servant.assignedClass = assignedClass;
-            await saveDB();
-            setFlash(`✅ تم تحديث صف "${servant.name}" إلى "${assignedClass}".`);
-            render();
-        }
+            try {
+                servant.assignedClass = assignedClassId;
+                await saveDB();
+                const cls = db.classes.find(c => c.id === assignedClassId);
+                showToast(`✅ تم تحديث صف "${servant.name}" إلى "${cls ? cls.name : 'غير محدد'}"`, 'success');
+                render();
+            } catch (e) {
+                showToast('❌ حدث خطأ أثناء التحديث.', 'error');
+                render();
+            }
+        };
 
-        // Toggle servant status
-        async function toggleServantStatus(username) {
-            if (!session || !session.isAdmin) return;
+        window.toggleServantStatus = async function(username) {
+            if (!session || !session.isAdmin) {
+                showToast('⛔ غير مصرح لك.', 'error');
+                render();
+                return;
+            }
             if (username === 'admin') {
-                setFlash('⚠️ لا يمكن تغيير حالة الأدمن الأساسي.', 'warning');
+                showToast('⚠️ لا يمكن تغيير حالة الأدمن الأساسي.', 'warning');
                 render();
                 return;
             }
             const servant = db.servants.find(s => s.username === username);
-            if (!servant) return;
+            if (!servant) {
+                showToast('❌ الخادم غير موجود.', 'error');
+                render();
+                return;
+            }
             if (servant.isAdmin) {
-                setFlash('⚠️ لا يمكن تغيير حالة الأدمن.', 'warning');
+                showToast('⚠️ لا يمكن تغيير حالة الأدمن.', 'warning');
                 render();
                 return;
             }
 
-            servant.isActive = !servant.isActive;
-            await saveDB();
-            setFlash(`✅ تم ${servant.isActive ? 'تفعيل' : 'إيقاف'} حساب "${servant.name}".`);
-            render();
-        }
+            try {
+                servant.isActive = !servant.isActive;
+                await saveDB();
+                showToast(`✅ تم ${servant.isActive ? 'تفعيل' : 'إيقاف'} حساب "${servant.name}".`, 'success');
+                render();
+            } catch (e) {
+                showToast('❌ حدث خطأ.', 'error');
+                render();
+            }
+        };
 
-        // Delete servant
-        async function deleteServant(username) {
-            if (!session || !session.isAdmin) return;
+        window.deleteServant = async function(username) {
+            if (!session || !session.isAdmin) {
+                showToast('⛔ غير مصرح لك.', 'error');
+                render();
+                return;
+            }
             if (username === 'admin') {
-                setFlash('⚠️ لا يمكن حذف الأدمن الأساسي.', 'warning');
+                showToast('⚠️ لا يمكن حذف الأدمن الأساسي.', 'warning');
                 render();
                 return;
             }
             const servant = db.servants.find(s => s.username === username);
-            if (!servant) return;
+            if (!servant) {
+                showToast('❌ الخادم غير موجود.', 'error');
+                render();
+                return;
+            }
             if (servant.isAdmin) {
-                setFlash('⚠️ لا يمكن حذف الأدمن.', 'warning');
+                showToast('⚠️ لا يمكن حذف الأدمن.', 'warning');
                 render();
                 return;
             }
 
             if (!confirm(`⚠️ هل أنت متأكد من حذف الخادم "${servant.name}" وجميع أطفاله وسجلاتهم؟ لا يمكن التراجع.`)) return;
 
-            const childIds = db.children.filter(c => c.servantUsername === username).map(c => c.id);
-            db.children = db.children.filter(c => c.servantUsername !== username);
-            db.attendance = db.attendance.filter(a => !childIds.includes(a.childId));
-            db.servants = db.servants.filter(s => s.username !== username);
-            await saveDB();
-            setFlash(`🗑️ تم حذف الخادم "${servant.name}" وجميع بياناته.`);
-            render();
-        }
+            try {
+                const childIds = db.children.filter(c => c.servantUsername === username).map(c => c.id);
+                db.children = db.children.filter(c => c.servantUsername !== username);
+                db.attendance = db.attendance.filter(a => !childIds.includes(a.childId));
+                db.servants = db.servants.filter(s => s.username !== username);
+                await saveDB();
+                showToast(`🗑️ تم حذف الخادم "${servant.name}" وجميع بياناته.`, 'success');
+                render();
+            } catch (e) {
+                showToast('❌ حدث خطأ أثناء الحذف.', 'error');
+                render();
+            }
+        };
 
-        // Make admin
-        async function makeAdmin(username) {
-            if (!session || !session.isAdmin) return;
+        window.makeAdmin = async function(username) {
+            if (!session || !session.isAdmin) {
+                showToast('⛔ غير مصرح لك.', 'error');
+                render();
+                return;
+            }
             if (username === 'admin') {
-                setFlash('⚠️ هذا الأدمن الأساسي بالفعل.', 'info');
+                showToast('⚠️ هذا الأدمن الأساسي بالفعل.', 'info');
                 render();
                 return;
             }
             const servant = db.servants.find(s => s.username === username);
-            if (!servant) return;
+            if (!servant) {
+                showToast('❌ الخادم غير موجود.', 'error');
+                render();
+                return;
+            }
             if (servant.isAdmin) {
-                setFlash('⚠️ هذا الخادم أدمن بالفعل.', 'info');
+                showToast('⚠️ هذا الخادم أدمن بالفعل.', 'info');
                 render();
                 return;
             }
 
             if (!confirm(`⚠️ هل أنت متأكد من ترقية "${servant.name}" إلى أدمن؟ سيحصل على صلاحية التحكم الكامل.`)) return;
 
-            servant.isAdmin = true;
-            await saveDB();
-            setFlash(`✅ تم ترقية "${servant.name}" إلى أدمن.`);
-            render();
-        }
+            try {
+                servant.isAdmin = true;
+                await saveDB();
+                showToast(`✅ تم ترقية "${servant.name}" إلى أدمن.`, 'success');
+                render();
+            } catch (e) {
+                showToast('❌ حدث خطأ أثناء الترقية.', 'error');
+                render();
+            }
+        };
 
-        // Admin delete child
-        async function adminDeleteChild(childId) {
-            if (!session || !session.isAdmin) return;
+        window.adminDeleteChild = async function(childId) {
+            if (!session || !session.isAdmin) {
+                showToast('⛔ غير مصرح لك.', 'error');
+                render();
+                return;
+            }
             const child = db.children.find(c => c.id === childId);
-            if (!child) return;
+            if (!child) {
+                showToast('❌ الطفل غير موجود.', 'error');
+                render();
+                return;
+            }
             if (!confirm(`⚠️ هل أنت متأكد من حذف "${child.name}"؟ سيتم حذف سجلات حضوره.`)) return;
 
-            db.children = db.children.filter(c => c.id !== childId);
-            db.attendance = db.attendance.filter(a => a.childId !== childId);
-            await saveDB();
-            setFlash(`🗑️ تم حذف "${child.name}" بنجاح.`);
-            render();
-        }
+            try {
+                db.children = db.children.filter(c => c.id !== childId);
+                db.attendance = db.attendance.filter(a => a.childId !== childId);
+                await saveDB();
+                showToast(`🗑️ تم حذف "${child.name}" بنجاح.`, 'success');
+                render();
+            } catch (e) {
+                showToast('❌ حدث خطأ أثناء الحذف.', 'error');
+                render();
+            }
+        };
 
-        // Switch tab
-        function switchTab(tab) {
+        window.switchTab = function(tab) {
             activeTab = tab;
             render();
-        }
+            // إغلاق القائمة الجانبية في الأجهزة الصغيرة
+            if (window.innerWidth <= 992) {
+                closeSidebar();
+            }
+        };
 
-        // Export data
-        function exportData() {
+        window.exportData = function() {
             const data = JSON.stringify(db, null, 2);
             const blob = new Blob([data], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -1582,11 +2719,83 @@
             a.download = `data-export-${todayDate()}.json`;
             a.click();
             URL.revokeObjectURL(url);
-            setFlash('✅ تم تصدير البيانات بنجاح.', 'success');
-            setTimeout(() => render(), 500);
-        }
+            showToast('✅ تم تصدير البيانات بنجاح.', 'success');
+        };
 
-        // ============ RENDER ENGINE ============
+        // ==============================================================
+        // ===== ADD CLASS =====
+        // ==============================================================
+        window.submitAddClass = async function(ev) {
+            ev.preventDefault();
+            if (!session || !session.isAdmin) return false;
+
+            const f = ev.target;
+            const name = f.className.value.trim();
+            const order = parseInt(f.order.value) || db.classes.length + 1;
+            const msgBox = document.getElementById('addClassMsg');
+
+            if (!name) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أدخل اسم الصف.</div>`;
+                return false;
+            }
+
+            if (db.classes.some(c => c.name === name)) {
+                msgBox.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> هذا الصف موجود بالفعل.</div>`;
+                return false;
+            }
+
+            db.classes.push({
+                id: 'c' + Date.now(),
+                name,
+                order
+            });
+            await saveDB();
+            msgBox.innerHTML =
+                `<div class="alert alert-success"><i class="fas fa-check-circle"></i> ✅ تم إضافة الصف "${name}" بنجاح.</div>`;
+            showToast(`✅ تم إضافة الصف "${name}" بنجاح.`, 'success');
+            setTimeout(() => { render(); }, 1000);
+            return false;
+        };
+
+        // ==============================================================
+        // ===== DELETE CLASS =====
+        // ==============================================================
+        window.deleteClass = async function(classId) {
+            if (!session || !session.isAdmin) return;
+            const cls = db.classes.find(c => c.id === classId);
+            if (!cls) return;
+
+            const children = getClassChildren(classId);
+            const servants = getClassServants(classId);
+
+            if (children.length > 0 || servants.length > 0) {
+                if (!confirm(`⚠️ هذا الصف يحتوي على ${children.length} طفل و ${servants.length} خادم. هل أنت متأكد من الحذف؟`)) return;
+            } else {
+                if (!confirm(`⚠️ هل أنت متأكد من حذف الصف "${cls.name}"؟`)) return;
+            }
+
+            if (children.length > 0) {
+                const otherClass = db.classes.find(c => c.id !== classId);
+                if (otherClass) {
+                    children.forEach(c => { c.classId = otherClass.id; });
+                } else {
+                    db.children = db.children.filter(c => c.classId !== classId);
+                }
+            }
+
+            servants.forEach(s => { s.assignedClass = null; });
+
+            db.classes = db.classes.filter(c => c.id !== classId);
+            await saveDB();
+            showToast(`🗑️ تم حذف الصف "${cls.name}" بنجاح.`, 'success');
+            render();
+        };
+
+        // ==============================================================
+        // ===== RENDER ENGINE =====
+        // ==============================================================
         function render() {
             renderNav();
             const app = document.getElementById('app');
@@ -1594,18 +2803,30 @@
             if (session) {
                 const servant = db.servants.find(s => s.username === session.username);
                 if (!servant || servant.isActive === false) {
-                    setFlash('⚠️ تم إيقاف حسابك.', 'warning');
-                    session = null;
-                    clearSession();
-                    route = 'home';
+                    if (!servant?.isAdmin) {
+                        showToast('⚠️ تم إيقاف حسابك.', 'warning');
+                        session = null;
+                        clearSession();
+                        route = 'home';
+                    }
                 } else {
-                    session.isAdmin = servant.isAdmin || false;
+                    session.isAdmin = servant?.isAdmin || false;
                 }
             }
 
             if (route === 'admin' && (!session || !session.isAdmin)) {
-                setFlash('⛔ هذه الصفحة مخصصة للأدمن فقط.', 'error');
+                showToast('⛔ هذه الصفحة مخصصة للأدمن فقط.', 'error');
                 route = 'home';
+            }
+
+            if (route === 'classDetail' && routeParam) {
+                app.innerHTML = viewClassDetail(routeParam);
+                return;
+            }
+
+            if (route === 'childReport' && routeParam) {
+                app.innerHTML = viewChildReport(routeParam);
+                return;
             }
 
             switch (route) {
@@ -1623,7 +2844,9 @@
             }
         }
 
-        // ============ INIT ============
+        // ==============================================================
+        // ===== INIT =====
+        // ==============================================================
         (async function init() {
             await loadDB();
             applyTheme(currentTheme);
@@ -1649,22 +2872,52 @@
             watchDB();
         })();
 
-        // ============ EXPOSE FUNCTIONS ============
-        Object.assign(window, {
-            go,
-            logout,
-            submitAdminLogin,
-            toggleTheme,
-            switchTab,
-            exportData,
-            approveServant,
-            rejectServant,
-            toggleServantStatus,
-            deleteServant,
-            makeAdmin,
-            adminDeleteChild,
-            updateServantClass,
-        });
+        // ==============================================================
+        // ===== EXPOSE ALL FUNCTIONS TO WINDOW =====
+        // ==============================================================
+        window.go = go;
+        window.toggleTheme = toggleTheme;
+        window.logout = logout;
+        window.toggleSidebar = toggleSidebar;
+        window.closeSidebar = closeSidebar;
+        window.submitAdminLogin = submitAdminLogin;
+        window.submitAddClass = submitAddClass;
+        window.submitAddServant = submitAddServant;
+        window.submitAdminAddChild = submitAdminAddChild;
+        window.submitEditClass = submitEditClass;
+        window.openEditClassModal = openEditClassModal;
+        window.closeEditClassModal = closeEditClassModal;
+        window.approveServant = approveServant;
+        window.rejectServant = rejectServant;
+        window.updateServantClass = updateServantClass;
+        window.toggleServantStatus = toggleServantStatus;
+        window.deleteServant = deleteServant;
+        window.makeAdmin = makeAdmin;
+        window.adminDeleteChild = adminDeleteChild;
+        window.deleteClass = deleteClass;
+        window.switchTab = switchTab;
+        window.exportData = exportData;
+        window.showToast = showToast;
+        window.viewClassDetail = viewClassDetail;
+        window.viewChildReport = viewChildReport;
     </script>
+
+    <!-- ===== MODAL: EDIT CLASS ===== -->
+    <div class="modal-overlay" id="editClassModal">
+        <div class="modal glass">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit" style="color:var(--sky-dark);"></i> تعديل الصف</h3>
+                <button class="modal-close" onclick="window.closeEditClassModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="return window.submitEditClass(event)">
+                <input type="hidden" name="classId" id="editClassId" />
+                <div class="form-row">
+                    <label>اسم الصف <input type="text" name="className" id="editClassName" required /></label>
+                    <label>الترتيب <input type="number" name="classOrder" id="editClassOrder" min="1" required /></label>
+                </div>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> حفظ التغييرات</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
