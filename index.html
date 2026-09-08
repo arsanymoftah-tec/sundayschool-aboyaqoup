@@ -1,650 +1,1401 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة مدارس الأحد</title>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#241b3a;
-    --plum:#3b2a6b;
-    --plum-dark:#291d4a;
-    --gold:#c9a34e;
-    --gold-dark:#a9803a;
-    --paper:#f7f4fb;
-    --card:#ffffff;
-    --line:#e4ddf2;
-    --muted:#77708f;
-    --ok:#1f8a53;
-    --bad:#c23a51;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:var(--paper); color:var(--ink);
-    font-family:'Cairo',sans-serif; line-height:1.7;
-  }
-  h1,h2,h3{ font-family:'Amiri',serif; font-weight:700; margin:0 0 .4em; }
-  a{color:var(--plum);}
-  .container{max-width:960px;margin:0 auto;padding:0 20px;}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>منصة مدارس الأحد - التصميم السماوي</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=El+Messiri:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  header.top{
-    background:linear-gradient(135deg,var(--plum),var(--plum-dark));
-    color:#fff; padding:16px 0; border-bottom:4px solid var(--gold);
-  }
-  header.top .row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-  .brand{font-family:'Amiri',serif;font-size:1.35rem;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;}
-  .brand .mark{color:var(--gold);font-size:1.5rem;}
-  nav a, nav button.linklike{
-    color:#f1ecfb; text-decoration:none; margin-inline-start:18px; background:none; border:none;
-    font-family:'Cairo',sans-serif; font-size:1rem; cursor:pointer; opacity:.9;
-  }
-  nav a:hover, nav button.linklike:hover{opacity:1;text-decoration:underline;}
-  nav .who{opacity:.8; margin-inline-start:18px;}
+        :root {
+            --bg-primary: #f0f8ff;
+            --bg-secondary: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.55);
+            --bg-glass-hover: rgba(255, 255, 255, 0.75);
+            --text-primary: #0a1a2f;
+            --text-secondary: #1a3a5c;
+            --text-muted: #5a7a9a;
+            --sky-light: #e6f3ff;
+            --sky-medium: #7ec8f0;
+            --sky-dark: #2196f3;
+            --sky-gradient: linear-gradient(145deg, #b3e0ff, #4fc3f7);
+            --shadow: 0 8px 32px rgba(33, 150, 243, 0.15);
+            --shadow-hover: 0 16px 48px rgba(33, 150, 243, 0.25);
+            --border-glass: rgba(33, 150, 243, 0.2);
+            --ok: #2e7d32;
+            --bad: #c62828;
+            --gold: #f9a825;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-  main{padding:36px 0 60px; min-height:60vh;}
+        /* Dark Mode */
+        [data-theme="dark"] {
+            --bg-primary: #0a1628;
+            --bg-secondary: #13203a;
+            --bg-glass: rgba(20, 40, 80, 0.6);
+            --bg-glass-hover: rgba(30, 60, 120, 0.75);
+            --text-primary: #e8f4fd;
+            --text-secondary: #b0d4f0;
+            --text-muted: #7a9ab8;
+            --sky-light: #1a2a4a;
+            --sky-medium: #4a8ac8;
+            --sky-dark: #64b5f6;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.6);
+            --border-glass: rgba(100, 181, 246, 0.2);
+            --ok: #66bb6a;
+            --bad: #ef5350;
+            --gold: #ffd54f;
+        }
 
-  .hero{text-align:center;padding:30px 0 10px;}
-  .hero .mark-big{font-size:2.4rem;color:var(--gold);}
-  .hero h1{font-size:2rem;margin-top:.2em;}
-  .hero p{color:var(--muted);max-width:560px;margin:10px auto 26px;}
-  .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+        body {
+            font-family: 'El Messiri', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: var(--transition);
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:34px;}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;}
-  .card h3{font-size:1.15rem;color:var(--plum);}
-  .card p{color:var(--muted);margin:0;}
+        /* Animated background bubbles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(100, 200, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(33, 150, 243, 0.06) 0%, transparent 50%);
+            animation: floatBubbles 20s ease-in-out infinite alternate;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-  .btn{display:inline-block;padding:10px 22px;border-radius:8px;border:2px solid var(--plum);
-    cursor:pointer;font-family:'Cairo',sans-serif;font-size:1rem;background:transparent;color:var(--plum);}
-  .btn-primary{background:var(--plum);color:#fff;}
-  .btn-primary:hover{background:var(--plum-dark);border-color:var(--plum-dark);}
-  .btn-gold{background:var(--gold);border-color:var(--gold);color:#2b2109;}
-  .btn-gold:hover{background:var(--gold-dark);border-color:var(--gold-dark);}
-  .btn-sm{padding:5px 14px;font-size:.85rem;}
-  .btn:disabled{opacity:.5;cursor:not-allowed;}
+        @keyframes floatBubbles {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(-5%, 5%) scale(1.05);
+            }
+        }
 
-  .panel{max-width:440px;margin:0 auto;}
-  .panel.wide{max-width:900px;}
-  .form{display:flex;flex-direction:column;gap:14px;}
-  .form-row{display:flex;gap:14px;flex-wrap:wrap;align-items:end;}
-  label{display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--muted);}
-  input,select{padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:1rem;font-family:inherit;background:#fff;color:var(--ink);}
-  input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px;}
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Lalezar', cursive;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 0.4em;
+            color: var(--text-primary);
+        }
 
-  .alert{padding:12px 16px;border-radius:8px;margin-bottom:18px;}
-  .alert-success{background:#e6f5ec;color:var(--ok);border:1px solid #b6e3c8;}
-  .alert-error{background:#fbe8ec;color:var(--bad);border:1px solid #f2c1cc;}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+            position: relative;
+            z-index: 1;
+        }
 
-  table{width:100%;border-collapse:collapse;}
-  th,td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--line);}
-  th{color:var(--muted);font-weight:600;}
-  .table-wrap{overflow-x:auto;}
+        /* ===== GLASS CARD ===== */
+        .glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+            padding: 28px 32px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
 
-  code.code-pill{background:#efe8fb;color:var(--plum);padding:3px 10px;border-radius:6px;font-weight:bold;letter-spacing:2px;}
-  .copy-btn{margin-inline-start:6px;border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 9px;cursor:pointer;font-size:.8rem;}
+        .glass::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
 
-  .status-group{display:flex;gap:14px;}
-  .status-group label{flex-direction:row;align-items:center;gap:5px;color:var(--ink);font-size:1rem;}
+        .glass:hover {
+            background: var(--bg-glass-hover);
+            border-color: var(--sky-dark);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
 
-  .badge{padding:3px 12px;border-radius:12px;font-size:.85rem;}
-  .badge-ok{background:#e6f5ec;color:var(--ok);}
-  .badge-bad{background:#fbe8ec;color:var(--bad);}
+        /* ===== HEADER ===== */
+        header.top {
+            padding: 12px 0;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
 
-  .empty{color:var(--muted);text-align:center;padding:24px 0;}
-  .back{display:inline-block;margin-bottom:16px;}
+        header.top .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
 
-  footer.site{text-align:center;padding:22px 0;color:var(--muted);border-top:1px solid var(--line);background:var(--card);font-size:.92rem;}
-  footer.site strong{color:var(--plum);}
+        .brand {
+            font-family: 'Lalezar', cursive;
+            font-size: 2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
 
-  .loading{text-align:center;color:var(--muted);padding:60px 0;}
-</style>
+        .brand:hover {
+            transform: scale(1.02);
+        }
+
+        .brand .mark {
+            color: var(--sky-dark);
+            font-size: 2.4rem;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 8px rgba(33, 150, 243, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 24px rgba(33, 150, 243, 0.6));
+            }
+        }
+
+        .brand .sky-text {
+            background: var(--sky-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        nav a,
+        nav button.linklike {
+            color: var(--text-secondary);
+            background: var(--bg-glass);
+            backdrop-filter: blur(8px);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid var(--border-glass);
+            font-family: 'El Messiri', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        nav a:hover,
+        nav button.linklike:hover {
+            background: var(--sky-dark);
+            border-color: var(--sky-dark);
+            color: #fff;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(33, 150, 243, 0.3);
+        }
+
+        nav .who {
+            color: var(--text-secondary);
+            padding: 6px 18px;
+            background: var(--bg-glass);
+            border-radius: 40px;
+            font-weight: 600;
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 40px;
+            padding: 8px 16px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+            backdrop-filter: blur(8px);
+        }
+
+        .theme-toggle:hover {
+            background: var(--sky-dark);
+            border-color: var(--sky-dark);
+            color: #fff;
+            transform: rotate(20deg);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 32px;
+            border-radius: 50px;
+            border: none;
+            font-family: 'El Messiri', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4fc3f7, #2196f3);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(33, 150, 243, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(33, 150, 243, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-secondary:hover {
+            background: var(--sky-dark);
+            color: #fff;
+            border-color: var(--sky-dark);
+            transform: translateY(-3px);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #ffd54f, #f9a825);
+            color: #0a1628;
+            box-shadow: 0 4px 20px rgba(249, 168, 37, 0.3);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(249, 168, 37, 0.5);
+        }
+
+        .btn-sm {
+            padding: 6px 18px;
+            font-size: 0.85rem;
+        }
+
+        .btn-ok {
+            background: rgba(46, 125, 50, 0.15);
+            color: var(--ok);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-ok:hover {
+            background: var(--ok);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-bad {
+            background: rgba(198, 40, 40, 0.15);
+            color: var(--bad);
+            border: 1px solid rgba(198, 40, 40, 0.3);
+        }
+
+        .btn-bad:hover {
+            background: var(--bad);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ===== CARDS GRID ===== */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 28px;
+            padding: 24px;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--sky-dark);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card .icon {
+            font-size: 2.8rem;
+            color: var(--sky-dark);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .card h3 {
+            color: var(--text-primary);
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* ===== FORMS ===== */
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            flex: 1 1 180px;
+        }
+
+        input,
+        select {
+            padding: 14px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-glass);
+            backdrop-filter: blur(8px);
+            font-size: 1rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--sky-dark);
+            box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.12);
+            background: var(--bg-glass-hover);
+        }
+
+        select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* ===== TABLE ===== */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 24px;
+            background: rgba(0, 0, 0, 0.03);
+            padding: 4px;
+        }
+
+        [data-theme="dark"] .table-wrap {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th,
+        td {
+            padding: 14px 18px;
+            text-align: right;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        th {
+            color: var(--sky-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        tr:hover td {
+            background: rgba(33, 150, 243, 0.04);
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            padding: 4px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-ok {
+            background: rgba(46, 125, 50, 0.15);
+            color: var(--ok);
+            border: 1px solid rgba(46, 125, 50, 0.2);
+        }
+
+        .badge-bad {
+            background: rgba(198, 40, 40, 0.15);
+            color: var(--bad);
+            border: 1px solid rgba(198, 40, 40, 0.2);
+        }
+
+        .code-pill {
+            background: rgba(33, 150, 243, 0.1);
+            color: var(--sky-dark);
+            padding: 4px 18px;
+            border-radius: 40px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            border: 1px solid rgba(33, 150, 243, 0.15);
+            font-size: 0.9rem;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 30px;
+            padding: 2px 14px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--sky-dark);
+            color: #fff;
+            border-color: var(--sky-dark);
+        }
+
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 14px 22px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: rgba(46, 125, 50, 0.12);
+            border: 1px solid rgba(46, 125, 50, 0.2);
+            color: var(--ok);
+        }
+
+        .alert-error {
+            background: rgba(198, 40, 40, 0.12);
+            border: 1px solid rgba(198, 40, 40, 0.2);
+            color: var(--bad);
+        }
+
+        .empty {
+            color: var(--text-muted);
+            text-align: center;
+            padding: 40px 0;
+            font-size: 1.1rem;
+        }
+
+        .panel {
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .panel.wide {
+            max-width: 1100px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 30px 0 10px;
+        }
+
+        .hero .mark-big {
+            font-size: 4.5rem;
+            color: var(--sky-dark);
+            animation: float 6s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 30px rgba(33, 150, 243, 0.2));
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-16px) rotate(4deg);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.4rem;
+            background: var(--sky-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .hero h1 .highlight {
+            -webkit-text-fill-color: var(--text-primary);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 10px auto 28px;
+            font-size: 1.15rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== STATUS GROUP ===== */
+        .status-group {
+            display: flex;
+            gap: 18px;
+        }
+
+        .status-group label {
+            flex-direction: row;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            flex: 0 1 auto;
+        }
+
+        .status-group input[type="radio"] {
+            accent-color: var(--sky-dark);
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer.site {
+            text-align: center;
+            padding: 30px 0 10px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-glass);
+            margin-top: 50px;
+        }
+
+        footer.site strong {
+            color: var(--sky-dark);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 80px 0;
+            color: var(--text-muted);
+            font-size: 1.3rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .brand {
+                font-size: 1.4rem;
+            }
+            .glass {
+                padding: 16px 18px;
+            }
+            nav a,
+            nav button.linklike {
+                padding: 5px 14px;
+                font-size: 0.8rem;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            .hero .mark-big {
+                font-size: 3rem;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-glass);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--sky-dark);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--sky-medium);
+        }
+    </style>
 </head>
 <body>
-  <header class="top">
-    <div class="container row">
-      <a href="#" class="brand" onclick="go('home');return false;"><span class="mark">✝</span> منصة مدارس الأحد</a>
-      <nav id="nav"></nav>
-    </div>
-  </header>
-  <main class="container" id="app">
-    <div class="loading">جارِ تحميل المنصة…</div>
-  </main>
-  <footer class="site">
-    <div class="container">منصة مدارس الأحد - Developed by: <strong>Keroles Ayman</strong></div>
-  </footer>
 
-<script type="module">
-/* ============================================================
-   إعدادات Firebase — لازم تستبدلها ببيانات مشروعك من Firebase Console
-   (Project settings → Your apps → SDK setup and configuration)
-   ============================================================ */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import {
-  getFirestore, doc, getDoc, setDoc, onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBuGob9_AWGsDiAaJgB6XWWye-eEhMBVOo",
-  authDomain: "sunday-school-platform-8a08a.firebaseapp.com",
-  projectId: "sunday-school-platform-8a08a",
-  storageBucket: "sunday-school-platform-8a08a.firebasestorage.app",
-  messagingSenderId: "137098154880",
-  appId: "1:137098154880:web:c0731bcedfe384aba72765"
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
-const firestore = getFirestore(firebaseApp);
-const dataDocRef = doc(firestore, "sunday-school", "data");
-
-/* ============ الحالة والتخزين ============ */
-const CLASSES = ['حضانة','تمهيدي','أولى ابتدائي','ثانية ابتدائي','ثالثة ابتدائي',
-  'رابعة ابتدائي','خامسة ابتدائي','سادسة ابتدائي','أولى إعدادي','ثانية إعدادي',
-  'ثالثة إعدادي','أولى ثانوي','ثانية ثانوي','ثالثة ثانوي'];
-
-let db = { servants: [], children: [], attendance: [] };
-let session = null;      // { username, name }
-let route = 'home';
-let routeParam = null;
-let flash = null;
-
-// البيانات كلها متخزنة في مستند واحد على Firestore (سحابة جوجل)، فأي خادم أو
-// طالب يفتح نفس رابط المنصة من أي جهاز (يحتاج إنترنت) هيشوف نفس البيانات فورًا.
-async function loadDB(){
-  try{
-    const snap = await getDoc(dataDocRef);
-    if(snap.exists()){ db = snap.data().payload; }
-  }catch(e){
-    console.error('تعذر تحميل البيانات', e);
-    alert('تعذر الاتصال بقاعدة البيانات. تأكد من ضبط إعدادات Firebase في أعلى الملف ومن اتصالك بالإنترنت.');
-  }
-}
-async function saveDB(){
-  try{
-    await setDoc(dataDocRef, { payload: db });
-  }catch(e){
-    console.error('تعذر حفظ البيانات', e);
-    alert('حدث خطأ أثناء حفظ البيانات، تأكد من اتصالك بالإنترنت وحاول مرة أخرى.');
-  }
-}
-
-// تحديث فوري تلقائي: لو خادم أو طالب تاني عدّل البيانات من جهاز آخر، الصفحة
-// المفتوحة عندك تتحدّث وحدها بدون ما تعمل Refresh.
-function watchDB(){
-  onSnapshot(dataDocRef, (snap)=>{
-    if(snap.exists()){
-      db = snap.data().payload;
-      render();
-    }
-  });
-}
-
-/* ============ أدوات مساعدة ============ */
-function esc(s){
-  return (s ?? '').toString()
-    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
-}
-async function sha256(text){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-function genCode(){
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let code;
-  do{
-    code = Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
-  }while(db.children.some(c=>c.code===code));
-  return code;
-}
-function defaultWeekDate(){
-  const d = new Date();
-  const day = d.getDay(); // 0=Sun ... 5=Fri
-  let diff = 5 - day;
-  if(diff < 0) diff += 7;
-  d.setDate(d.getDate()+diff);
-  return d.toISOString().slice(0,10);
-}
-function setFlash(msg,type){ flash = {msg,type}; }
-
-function go(r, param=null){ route = r; routeParam = param; render(); }
-
-/* ============ التنقل العلوي ============ */
-function renderNav(){
-  const nav = document.getElementById('nav');
-  if(session){
-    nav.innerHTML = `
-      <span class="who">أهلاً، ${esc(session.name)}</span>
-      <a href="#" onclick="go('dashboard');return false;">لوحة التحكم</a>
-      <a href="#" onclick="go('attendance');return false;">تسجيل الحضور</a>
-      <button class="linklike" onclick="logout()">خروج</button>`;
-  } else {
-    nav.innerHTML = `
-      <a href="#" onclick="go('student');return false;">استعلام الطالب</a>
-      <a href="#" onclick="go('login');return false;">دخول الخادم</a>
-      <a href="#" onclick="go('register');return false;">حساب جديد</a>`;
-  }
-}
-function logout(){ session = null; go('home'); }
-
-/* ============ الصفحات ============ */
-function alertHtml(){
-  if(!flash) return '';
-  const html = `<div class="alert alert-${flash.type||'success'}">${esc(flash.msg)}</div>`;
-  flash = null;
-  return html;
-}
-
-function viewHome(){
-  return `
-    ${alertHtml()}
-    <section class="hero">
-      <div class="mark-big">✝</div>
-      <h1>منصة متابعة خدمة مدارس الأحد</h1>
-      <p>سجّل حضور وغياب أطفال فصلك أسبوعيًا بسهولة، وامنح كل طفل كودًا خاصًا يستعلم به عن تقريره بنفسه.</p>
-      <div class="actions">
-        ${session
-          ? `<button class="btn btn-primary" onclick="go('dashboard')">الذهاب للوحة التحكم</button>`
-          : `<button class="btn btn-primary" onclick="go('login')">دخول الخادم</button>
-             <button class="btn btn-gold" onclick="go('student')">استعلام الطالب عن تقريره</button>`}
-      </div>
-    </section>
-    <section class="cards">
-      <div class="card"><h3>للخادم</h3><p>يضيف أطفال فصله، ويسجل الحضور والغياب أسبوعيًا، ويتابع تقرير كل طفل على حدة.</p></div>
-      <div class="card"><h3>للطالب</h3><p>باستخدام كوده الخاص فقط، يطّلع الطالب على تقرير حضوره دون أي صلاحية تعديل.</p></div>
-      <div class="card"><h3>فصول منفصلة</h3><p>كل خادم يرى أطفاله فقط ضمن فصله، بمعزل تام عن باقي الخدام.</p></div>
-    </section>`;
-}
-
-function viewRegister(){
-  return `
-    <section class="panel">
-      <h2>إنشاء حساب خادم جديد</h2>
-      <div id="formMsg"></div>
-      <form class="card form" onsubmit="return submitRegister(event)">
-        <label>الاسم<input name="name" required></label>
-        <label>اسم المستخدم<input name="username" required></label>
-        <label>كلمة المرور<input type="password" name="password" required></label>
-        <label>تأكيد كلمة المرور<input type="password" name="confirm" required></label>
-        <button class="btn btn-primary" type="submit">إنشاء الحساب</button>
-      </form>
-      <p style="margin-top:12px">لديك حساب بالفعل؟ <a href="#" onclick="go('login');return false;">تسجيل الدخول</a></p>
-    </section>`;
-}
-
-async function submitRegister(ev){
-  ev.preventDefault();
-  const f = ev.target;
-  const name = f.name.value.trim();
-  const username = f.username.value.trim();
-  const password = f.password.value;
-  const confirm = f.confirm.value;
-  const msgBox = document.getElementById('formMsg');
-
-  if(!name || !username || !password){ msgBox.innerHTML = `<div class="alert alert-error">أكمل جميع الحقول.</div>`; return false; }
-  if(password !== confirm){ msgBox.innerHTML = `<div class="alert alert-error">كلمتا المرور غير متطابقتين.</div>`; return false; }
-  if(password.length < 6){ msgBox.innerHTML = `<div class="alert alert-error">كلمة المرور 6 أحرف على الأقل.</div>`; return false; }
-  if(db.servants.some(s=>s.username===username)){ msgBox.innerHTML = `<div class="alert alert-error">اسم المستخدم مستخدم بالفعل.</div>`; return false; }
-
-  const passwordHash = await sha256(password);
-  db.servants.push({name, username, passwordHash});
-  await saveDB();
-  setFlash('تم إنشاء الحساب بنجاح، سجّل الدخول الآن.');
-  go('login');
-  return false;
-}
-
-function viewLogin(){
-  return `
-    <section class="panel">
-      <h2>دخول الخادم</h2>
-      ${alertHtml()}
-      <div id="formMsg"></div>
-      <form class="card form" onsubmit="return submitLogin(event)">
-        <label>اسم المستخدم<input name="username" required autofocus></label>
-        <label>كلمة المرور<input type="password" name="password" required></label>
-        <button class="btn btn-primary" type="submit">دخول</button>
-      </form>
-      <p style="margin-top:12px">ليس لديك حساب؟ <a href="#" onclick="go('register');return false;">أنشئ حسابًا جديدًا</a></p>
-    </section>`;
-}
-
-async function submitLogin(ev){
-  ev.preventDefault();
-  const f = ev.target;
-  const username = f.username.value.trim();
-  const password = f.password.value;
-  const msgBox = document.getElementById('formMsg');
-
-  const servant = db.servants.find(s=>s.username===username);
-  const hash = await sha256(password);
-  if(!servant || servant.passwordHash !== hash){
-    msgBox.innerHTML = `<div class="alert alert-error">اسم المستخدم أو كلمة المرور غير صحيحة.</div>`;
-    return false;
-  }
-  session = {username: servant.username, name: servant.name};
-  go('dashboard');
-  return false;
-}
-
-function myChildren(){
-  return db.children.filter(c=>c.servantUsername===session.username);
-}
-
-function viewDashboard(){
-  const children = myChildren();
-  const today = todayDate();
-  const rows = children.map(c=>{
-    const todayRec = db.attendance.find(a=>a.childId===c.id && a.weekDate===today);
-    const todayBadge = todayRec
-      ? `<span class="badge badge-${todayRec.status==='حاضر'?'ok':'bad'}">اليوم: ${esc(todayRec.status)}</span>`
-      : `<span style="color:var(--muted);font-size:.85rem">لم يُسجَّل اليوم</span>`;
-    return `
-    <tr>
-      <td>${esc(c.name)}</td>
-      <td>${esc(c.className)}</td>
-      <td>
-        <code class="code-pill">${esc(c.code)}</code>
-        <button class="copy-btn" onclick="copyCode('${c.code}',this)">نسخ</button>
-      </td>
-      <td>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px">
-          <button class="btn btn-sm" style="border-color:var(--ok);color:var(--ok)" onclick="quickMark('${c.id}','حاضر')">✓ حضور اليوم</button>
-          <button class="btn btn-sm" style="border-color:var(--bad);color:var(--bad)" onclick="quickMark('${c.id}','غائب')">✗ غياب اليوم</button>
+    <header class="top">
+        <div class="container row">
+            <a href="#" class="brand" onclick="go('home');return false;">
+                <span class="mark"><i class="fas fa-cross"></i></span>
+                <span class="sky-text">منصة مدارس الأحد</span>
+            </a>
+            <nav id="nav">
+                <button class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
         </div>
-        <div>${todayBadge}</div>
-      </td>
-      <td>
-        <button class="btn btn-sm" onclick="go('childReport','${c.id}')">عرض التقرير</button>
-        <button class="btn btn-sm" style="border-color:var(--bad);color:var(--bad)" onclick="deleteChild('${c.id}')">حذف</button>
-      </td>
-    </tr>`;
-  }).join('');
+    </header>
 
-  return `
-    <section>
-      <h2>إضافة طفل جديد</h2>
-      <div id="formMsg"></div>
-      <form class="card form-row" onsubmit="return submitAddChild(event)">
-        <label>اسم الطفل<input name="childName" required></label>
-        <label>الفصل
-          <select name="classId" required>
-            <option value="">اختر الفصل</option>
-            ${CLASSES.map((c,i)=>`<option value="${i}">${esc(c)}</option>`).join('')}
-          </select>
-        </label>
-        <button class="btn btn-primary" type="submit">إضافة</button>
-      </form>
+    <main class="container" id="app">
+        <div class="loading"><i class="fas fa-spinner fa-spin"></i> جارِ تحميل المنصة...</div>
+    </main>
 
-      <h2 style="margin-top:30px">أطفال فصولي (${children.length})</h2>
-      <p style="color:var(--muted)">سجّل حضور أو غياب أي طفل بتاريخ اليوم (${today}) مباشرة من هنا. كل تسجيل يُضاف بتاريخه ضمن سجل الطفل ولا يمسح ما قبله.</p>
-      ${alertHtml()}
-      ${children.length===0 ? `<p class="empty">لا يوجد أطفال مضافون بعد.</p>` : `
-      <div class="card table-wrap">
-        <table>
-          <thead><tr><th>الاسم</th><th>الفصل</th><th>كود الاستعلام</th><th>حضور / غياب اليوم</th><th>إجراءات</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`}
-    </section>`;
-}
-
-function todayDate(){
-  return new Date().toISOString().slice(0,10);
-}
-
-async function quickMark(childId, status){
-  const today = todayDate();
-  const idx = db.attendance.findIndex(a=>a.childId===childId && a.weekDate===today);
-  const record = {childId, weekDate: today, status, note: idx>=0 ? db.attendance[idx].note : null};
-  if(idx>=0) db.attendance[idx] = record; else db.attendance.push(record);
-  await saveDB();
-  const child = db.children.find(c=>c.id===childId);
-  setFlash(`تم تسجيل "${status}" لـ "${child ? child.name : ''}" بتاريخ ${today}.`);
-  go('dashboard');
-}
-
-async function submitAddChild(ev){
-  ev.preventDefault();
-  const f = ev.target;
-  const name = f.childName.value.trim();
-  const classId = f.classId.value;
-  const msgBox = document.getElementById('formMsg');
-  if(!name || classId===''){ msgBox.innerHTML = `<div class="alert alert-error">أدخل اسم الطفل واختر الفصل.</div>`; return false; }
-
-  const code = genCode();
-  db.children.push({
-    id: crypto.randomUUID(),
-    servantUsername: session.username,
-    name, className: CLASSES[+classId],
-    code
-  });
-  await saveDB();
-  setFlash(`تمت إضافة "${name}" بنجاح. كود الاستعلام: ${code}`);
-  go('dashboard');
-  return false;
-}
-
-function copyCode(code, btn){
-  navigator.clipboard.writeText(code).then(()=>{
-    const old = btn.textContent;
-    btn.textContent = 'تم النسخ ✓';
-    setTimeout(()=>btn.textContent = old, 1400);
-  });
-}
-
-async function deleteChild(childId){
-  const child = db.children.find(c=>c.id===childId && c.servantUsername===session.username);
-  if(!child) return;
-  if(!confirm(`هل أنت متأكد من حذف "${child.name}"؟ سيتم حذف كل سجلات حضوره أيضًا ولا يمكن التراجع.`)) return;
-
-  db.children = db.children.filter(c=>c.id!==childId);
-  db.attendance = db.attendance.filter(a=>a.childId!==childId);
-  await saveDB();
-  setFlash(`تم حذف "${child.name}" بنجاح.`);
-  go('dashboard');
-}
-
-function viewAttendance(){
-  const children = myChildren();
-  const weekDate = routeParam || defaultWeekDate();
-
-  const rows = children.map(c=>{
-    const rec = db.attendance.find(a=>a.childId===c.id && a.weekDate===weekDate);
-    const status = rec ? rec.status : 'حاضر';
-    const note = rec ? (rec.note||'') : '';
-    return `
-      <tr>
-        <td>${esc(c.name)}</td>
-        <td>${esc(c.className)}</td>
-        <td>
-          <div class="status-group">
-            <label><input type="radio" name="status_${c.id}" value="حاضر" ${status==='حاضر'?'checked':''}> حاضر</label>
-            <label><input type="radio" name="status_${c.id}" value="غائب" ${status==='غائب'?'checked':''}> غائب</label>
-          </div>
-        </td>
-        <td><input type="text" data-note-for="${c.id}" value="${esc(note)}" placeholder="اختياري"></td>
-      </tr>`;
-  }).join('');
-
-  return `
-    <section>
-      <h2>تسجيل تقرير الحضور الأسبوعي</h2>
-      <form class="card form-row" style="max-width:260px" onsubmit="event.preventDefault();">
-        <label>الأسبوع
-          <input type="date" value="${weekDate}" onchange="go('attendance', this.value)">
-        </label>
-      </form>
-      ${alertHtml()}
-      ${children.length===0 ? `<p class="empty">لا يوجد أطفال بعد. أضِف أطفالًا من لوحة التحكم أولًا.</p>` : `
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>الاسم</th><th>الفصل</th><th>الحالة</th><th>ملاحظة</th></tr></thead>
-            <tbody id="attRows">${rows}</tbody>
-          </table>
+    <footer class="site">
+        <div class="container">
+            <i class="fas fa-cross" style="color:var(--sky-dark);margin-left:8px;"></i>
+            منصة مدارس الأحد - Developed by: <strong>Keroles Ayman, Arsany Moftah</strong>
+            <span style="display:block;font-size:0.8rem;margin-top:4px;opacity:0.6;">
+               
+            </span>
         </div>
-        <div style="margin-top:16px">
-          <button class="btn btn-primary" onclick="saveAttendance('${weekDate}')">حفظ تقرير هذا الأسبوع</button>
-        </div>
-      </div>`}
-    </section>`;
-}
+    </footer>
 
-async function saveAttendance(weekDate){
-  const children = myChildren();
-  children.forEach(c=>{
-    const radios = document.getElementsByName('status_'+c.id);
-    let status = 'حاضر';
-    radios.forEach(r=>{ if(r.checked) status = r.value; });
-    const noteInput = document.querySelector(`[data-note-for="${c.id}"]`);
-    const note = noteInput ? noteInput.value.trim() : '';
+    <script type="module">
+        /* ============================================================
+           Firebase Config
+           ============================================================ */
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import {
+            getFirestore, doc, getDoc, setDoc, onSnapshot
+        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-    const idx = db.attendance.findIndex(a=>a.childId===c.id && a.weekDate===weekDate);
-    const record = {childId:c.id, weekDate, status, note};
-    if(idx>=0) db.attendance[idx] = record; else db.attendance.push(record);
-  });
-  await saveDB();
-  setFlash(`تم حفظ تقرير أسبوع ${weekDate} بنجاح.`);
-  go('attendance', weekDate);
-}
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuGob9_AWGsDiAaJgB6XWWye-eEhMBVOo",
+            authDomain: "sunday-school-platform-8a08a.firebaseapp.com",
+            projectId: "sunday-school-platform-8a08a",
+            storageBucket: "sunday-school-platform-8a08a.firebasestorage.app",
+            messagingSenderId: "137098154880",
+            appId: "1:137098154880:web:c0731bcedfe384aba72765"
+        };
 
-function viewChildReport(childId){
-  const child = db.children.find(c=>c.id===childId && c.servantUsername===session.username);
-  if(!child){
-    setFlash('هذا الطفل غير موجود ضمن أطفالك.','error');
-    go('dashboard');
-    return '';
-  }
-  const records = db.attendance.filter(a=>a.childId===childId).sort((a,b)=>b.weekDate.localeCompare(a.weekDate));
-  const presentDates = records.filter(r=>r.status==='حاضر').map(r=>r.weekDate);
-  const absentDates = records.filter(r=>r.status==='غائب').map(r=>r.weekDate);
+        const firebaseApp = initializeApp(firebaseConfig);
+        const firestore = getFirestore(firebaseApp);
+        const dataDocRef = doc(firestore, "sunday-school", "data");
 
-  const rows = records.map(r=>`
-    <tr>
-      <td>${esc(r.weekDate)}</td>
-      <td><span class="badge badge-${r.status==='حاضر'?'ok':'bad'}">${esc(r.status)}</span></td>
-      <td>${esc(r.note || '—')}</td>
-    </tr>`).join('');
+        /* ============ STATE ============ */
+        const CLASSES = ['حضانة', 'تمهيدي', 'أولى ابتدائي', 'ثانية ابتدائي', 'ثالثة ابتدائي',
+            'رابعة ابتدائي', 'خامسة ابتدائي', 'سادسة ابتدائي', 'أولى إعدادي', 'ثانية إعدادي',
+            'ثالثة إعدادي', 'أولى ثانوي', 'ثانية ثانوي', 'ثالثة ثانوي'
+        ];
 
-  return `
-    <section>
-      <a class="back" href="#" onclick="go('dashboard');return false;">&rarr; رجوع للوحة التحكم</a>
-      <div class="card">
-        <h2>${esc(child.name)}</h2>
-        <p>الفصل: ${esc(child.className)}</p>
-        <p>كود الاستعلام: <code class="code-pill">${esc(child.code)}</code></p>
-      </div>
-      ${attendanceSummaryHtml(presentDates, absentDates)}
+        let db = { servants: [], children: [], attendance: [] };
+        let session = null;
+        let route = 'home';
+        let routeParam = null;
+        let flash = null;
+        let currentTheme = localStorage.getItem('theme') || 'light';
 
-      <p style="color:var(--muted);margin-top:20px">هذه الصفحة للعرض فقط. لتسجيل أو تعديل الحضور استخدم صفحة
-        <a href="#" onclick="go('attendance');return false;">تسجيل الحضور</a>.</p>
+        // ============ DB FUNCTIONS ============
+        async function loadDB() {
+            try {
+                const snap = await getDoc(dataDocRef);
+                if (snap.exists()) db = snap.data().payload;
+            } catch (e) {
+                console.error('❌ تعذر تحميل البيانات', e);
+                alert('تعذر الاتصال بقاعدة البيانات. تأكد من ضبط إعدادات Firebase ومن اتصالك بالإنترنت.');
+            }
+        }
 
-      <h3 style="margin-top:12px">سجل الحضور والغياب بالتفصيل</h3>
-      ${records.length===0 ? `<p class="empty">لا يوجد تقرير مسجل لهذا الطفل بعد.</p>` : `
-      <div class="card table-wrap">
-        <table><thead><tr><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead><tbody>${rows}</tbody></table>
-      </div>`}
-    </section>`;
-}
+        async function saveDB() {
+            try {
+                await setDoc(dataDocRef, { payload: db });
+            } catch (e) {
+                console.error('❌ تعذر حفظ البيانات', e);
+                alert('حدث خطأ أثناء حفظ البيانات، تأكد من اتصالك بالإنترنت وحاول مرة أخرى.');
+            }
+        }
 
-// يعرض عدد أيام الحضور والغياب مع تواريخ كل حالة
-function attendanceSummaryHtml(presentDates, absentDates){
-  const presentList = presentDates.length
-    ? presentDates.map(d=>`<span class="badge badge-ok" style="margin:2px">${esc(d)}</span>`).join(' ')
-    : '<span style="color:var(--muted)">لا يوجد</span>';
-  const absentList = absentDates.length
-    ? absentDates.map(d=>`<span class="badge badge-bad" style="margin:2px">${esc(d)}</span>`).join(' ')
-    : '<span style="color:var(--muted)">لا يوجد</span>';
+        function watchDB() {
+            onSnapshot(dataDocRef, (snap) => {
+                if (snap.exists()) {
+                    db = snap.data().payload;
+                    render();
+                }
+            });
+        }
 
-  return `
-    <div class="cards" style="grid-template-columns:1fr 1fr;margin-top:16px">
-      <div class="card">
-        <h3 style="color:var(--ok)">أيام الحضور (${presentDates.length})</h3>
-        <div>${presentList}</div>
-      </div>
-      <div class="card">
-        <h3 style="color:var(--bad)">أيام الغياب (${absentDates.length})</h3>
-        <div>${absentList}</div>
-      </div>
-    </div>`;
-}
+        // ============ THEME ============
+        function applyTheme(theme) {
+            currentTheme = theme;
+            document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+            localStorage.setItem('theme', theme);
+            const icon = document.querySelector('.theme-toggle i');
+            const label = document.getElementById('themeLabel');
+            if (icon) {
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            if (label) {
+                label.textContent = theme === 'dark' ? 'داكن' : 'فاتح';
+            }
+        }
 
-function viewStudent(){
-  return `
-    <section class="panel">
-      <h2>استعلام عن تقرير الحضور</h2>
-      <p style="color:var(--muted)">أدخل الكود الخاص بك الذي أعطاك إياه الخادم لعرض تقريرك فقط.</p>
-      <form class="card form-row" onsubmit="return submitStudentLookup(event)">
-        <label>الكود<input name="code" maxlength="10" style="text-transform:uppercase" required></label>
-        <button class="btn btn-primary" type="submit">استعلام</button>
-      </form>
-      <div id="studentResult"></div>
-    </section>`;
-}
+        function toggleTheme() {
+            applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+        }
 
-function submitStudentLookup(ev){
-  ev.preventDefault();
-  const code = ev.target.code.value.trim().toUpperCase();
-  const box = document.getElementById('studentResult');
-  const child = db.children.find(c=>c.code===code);
-  if(!child){
-    box.innerHTML = `<div class="alert alert-error">الكود غير صحيح، تأكد منه مع الخادم.</div>`;
-    return false;
-  }
-  const records = db.attendance.filter(a=>a.childId===child.id).sort((a,b)=>b.weekDate.localeCompare(a.weekDate));
-  const presentDates = records.filter(r=>r.status==='حاضر').map(r=>r.weekDate);
-  const absentDates = records.filter(r=>r.status==='غائب').map(r=>r.weekDate);
-  const rows = records.map(r=>`
-    <tr>
-      <td>${esc(r.weekDate)}</td>
-      <td><span class="badge badge-${r.status==='حاضر'?'ok':'bad'}">${esc(r.status)}</span></td>
-      <td>${esc(r.note || '—')}</td>
-    </tr>`).join('');
+        // ============ HELPERS ============
+        function esc(s) {
+            return (s ?? '').toString()
+                .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+        }
 
-  box.innerHTML = `
-    <div class="card" style="margin-top:16px">
-      <h3>${esc(child.name)}</h3>
-      <p>الفصل: ${esc(child.className)}</p>
-    </div>
-    ${attendanceSummaryHtml(presentDates, absentDates)}
-    ${records.length===0 ? `<p class="empty">لا يوجد تقرير مسجل بعد.</p>` : `
-    <div class="card table-wrap" style="margin-top:14px">
-      <table><thead><tr><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead><tbody>${rows}</tbody></table>
-    </div>`}`;
-  return false;
-}
+        async function sha256(text) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
 
-/* ============ عرض الصفحات ============ */
-function render(){
-  renderNav();
-  const app = document.getElementById('app');
-  if((route==='dashboard'||route==='attendance'||route==='childReport') && !session){
-    route = 'login';
-  }
-  switch(route){
-    case 'home': app.innerHTML = viewHome(); break;
-    case 'register': app.innerHTML = viewRegister(); break;
-    case 'login': app.innerHTML = viewLogin(); break;
-    case 'dashboard': app.innerHTML = viewDashboard(); break;
-    case 'attendance': app.innerHTML = viewAttendance(); break;
-    case 'childReport': app.innerHTML = viewChildReport(routeParam); break;
-    case 'student': app.innerHTML = viewStudent(); break;
-    default: app.innerHTML = viewHome();
-  }
-}
+        function genCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code;
+            do {
+                code = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+            } while (db.children.some(c => c.code === code));
+            return code;
+        }
 
-/* ============ بدء التشغيل ============ */
-(async function init(){
-  await loadDB();
-  render();
-  watchDB();
-})();
+        function todayDate() {
+            return new Date().toISOString().slice(0, 10);
+        }
 
-/* ============ إتاحة الدوال لـ onclick داخل HTML (لازمة لأن السكريبت أصبح module) ============ */
-Object.assign(window, {
-  go, logout, copyCode, deleteChild, quickMark,
-  submitRegister, submitLogin, submitAddChild, saveAttendance, submitStudentLookup
-});
-</script>
+        function defaultWeekDate() {
+            const d = new Date();
+            const day = d.getDay();
+            let diff = 5 - day;
+            if (diff < 0) diff += 7;
+            d.setDate(d.getDate() + diff);
+            return d.toISOString().slice(0, 10);
+        }
+
+        function setFlash(msg, type = 'success') { flash = { msg, type }; }
+
+        function go(r, param = null) { route = r;
+            routeParam = param;
+            render(); }
+
+        function myChildren() {
+            return db.children.filter(c => c.servantUsername === session?.username);
+        }
+
+        // ============ RENDER NAV ============
+        function renderNav() {
+            const nav = document.getElementById('nav');
+            let html = `
+                <button class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع">
+                    <i class="fas ${currentTheme === 'dark' ? 'fa-sun' : 'fa-moon'}"></i>
+                </button>
+            `;
+            if (session) {
+                html += `
+                    <span class="who"><i class="fas fa-user-circle"></i> ${esc(session.name)}</span>
+                    <a href="#" onclick="go('dashboard');return false;"><i class="fas fa-chart-pie"></i> لوحة التحكم</a>
+                    <a href="#" onclick="go('attendance');return false;"><i class="fas fa-clipboard-list"></i> تسجيل الحضور</a>
+                    <button class="linklike" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
+                `;
+            } else {
+                html += `
+                    <a href="#" onclick="go('student');return false;"><i class="fas fa-search"></i> استعلام الطالب</a>
+                    <a href="#" onclick="go('login');return false;"><i class="fas fa-sign-in-alt"></i> دخول الخادم</a>
+                    <a href="#" onclick="go('register');return false;"><i class="fas fa-user-plus"></i> حساب جديد</a>
+                `;
+            }
+            nav.innerHTML = html;
+        }
+
+        function logout() { session = null;
+            go('home'); }
+
+        // ============ ALERT ============
+        function alertHtml() {
+            if (!flash) return '';
+            const icon = flash.type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            const html =
+                `<div class="alert alert-${flash.type || 'success'}"><i class="fas ${icon}"></i> ${esc(flash.msg)}</div>`;
+            flash = null;
+            return html;
+        }
+
+        // ============ PAGES ============
+        function viewHome() {
+            return `
+                ${alertHtml()}
+                <section class="hero">
+                    <div class="mark-big"><i class="fas fa-cross"></i></div>
+                    <h1>منصة <span class="highlight">متابعة</span> مدارس الأحد</h1>
+                    <p>سجّل حضور وغياب أطفال فصلك أسبوعيًا، وامنح كل طفل كودًا خاصًا يستعلم به عن تقريره بنفسه.</p>
+                    <div class="actions">
+                        ${session
+                            ? `<button class="btn btn-primary" onclick="go('dashboard')"><i class="fas fa-chart-pie"></i> الذهاب للوحة التحكم</button>`
+                            : `<button class="btn btn-primary" onclick="go('login')"><i class="fas fa-sign-in-alt"></i> دخول الخادم</button>
+                               <button class="btn btn-gold" onclick="go('student')"><i class="fas fa-search"></i> استعلام الطالب</button>`
+                        }
+                    </div>
+                </section>
+                <section class="cards">
+                    <div class="card">
+                        <span class="icon"><i class="fas fa-chalkboard-teacher"></i></span>
+                        <h3>للخادم</h3>
+                        <p>يضيف أطفال فصله، ويسجل الحضور والغياب أسبوعيًا، ويتابع تقرير كل طفل.</p>
+                    </div>
+                    <div class="card">
+                        <span class="icon"><i class="fas fa-child"></i></span>
+                        <h3>للطالب</h3>
+                        <p>باستخدام كوده الخاص، يطّلع الطالب على تقرير حضوره دون أي صلاحية تعديل.</p>
+                    </div>
+                    <div class="card">
+                        <span class="icon"><i class="fas fa-users"></i></span>
+                        <h3>فصول منفصلة</h3>
+                        <p>كل خادم يرى أطفاله فقط ضمن فصله، بمعزل تام عن باقي الخدام.</p>
+                    </div>
+                    <div class="card">
+                        <span class="icon"><i class="fas fa-cloud-sun"></i></span>
+                        <h3>تصميم متطور</h3>
+                        <p>واجهة زجاجية سائلة مع تأثيرات ضبابية وحركية، ووضعين فاتح وداكن.</p>
+                    </div>
+                </section>`;
+        }
+
+        // ---- REGISTER ----
+        function viewRegister() {
+            return `
+                <section class="panel glass">
+                    <h2><i class="fas fa-user-plus" style="color:var(--sky-dark);"></i> إنشاء حساب خادم جديد</h2>
+                    <div id="formMsg"></div>
+                    <form class="form" onsubmit="return submitRegister(event)">
+                        <label><i class="fas fa-user"></i> الاسم <input name="name" required placeholder="أدخل اسمك الكامل" /></label>
+                        <label><i class="fas fa-at"></i> اسم المستخدم <input name="username" required placeholder="اختر اسم مستخدم" /></label>
+                        <label><i class="fas fa-lock"></i> كلمة المرور <input type="password" name="password" required placeholder="6 أحرف على الأقل" /></label>
+                        <label><i class="fas fa-check-double"></i> تأكيد كلمة المرور <input type="password" name="confirm" required placeholder="أعد كتابة كلمة المرور" /></label>
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-user-plus"></i> إنشاء الحساب</button>
+                    </form>
+                    <p style="margin-top:14px;color:var(--text-muted);">
+                        <i class="fas fa-question-circle"></i> لديك حساب بالفعل؟ <a href="#" onclick="go('login');return false;">تسجيل الدخول</a>
+                    </p>
+                </section>`;
+        }
+
+        async function submitRegister(ev) {
+            ev.preventDefault();
+            const f = ev.target;
+            const name = f.name.value.trim();
+            const username = f.username.value.trim();
+            const password = f.password.value;
+            const confirm = f.confirm.value;
+            const msgBox = document.getElementById('formMsg');
+
+            if (!name || !username || !password) {
+                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أكمل جميع الحقول.</div>`;
+                return false;
+            }
+            if (password !== confirm) {
+                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> كلمتا المرور غير متطابقتين.</div>`;
+                return false;
+            }
+            if (password.length < 6) {
+                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> كلمة المرور 6 أحرف على الأقل.</div>`;
+                return false;
+            }
+            if (db.servants.some(s => s.username === username)) {
+                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> اسم المستخدم مستخدم بالفعل.</div>`;
+                return false;
+            }
+
+            const passwordHash = await sha256(password);
+            db.servants.push({ name, username, passwordHash });
+            await saveDB();
+            setFlash('✅ تم إنشاء الحساب بنجاح! سجّل الدخول الآن.');
+            go('login');
+            return false;
+        }
+
+        // ---- LOGIN ----
+        function viewLogin() {
+            return `
+                <section class="panel glass">
+                    <h2><i class="fas fa-sign-in-alt" style="color:var(--sky-dark);"></i> دخول الخادم</h2>
+                    ${alertHtml()}
+                    <div id="formMsg"></div>
+                    <form class="form" onsubmit="return submitLogin(event)">
+                        <label><i class="fas fa-at"></i> اسم المستخدم <input name="username" required autofocus placeholder="أدخل اسم المستخدم" /></label>
+                        <label><i class="fas fa-lock"></i> كلمة المرور <input type="password" name="password" required placeholder="أدخل كلمة المرور" /></label>
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-sign-in-alt"></i> دخول</button>
+                    </form>
+                    <p style="margin-top:14px;color:var(--text-muted);">
+                        <i class="fas fa-question-circle"></i> ليس لديك حساب؟ <a href="#" onclick="go('register');return false;">أنشئ حسابًا جديدًا</a>
+                    </p>
+                </section>`;
+        }
+
+        async function submitLogin(ev) {
+            ev.preventDefault();
+            const f = ev.target;
+            const username = f.username.value.trim();
+            const password = f.password.value;
+            const msgBox = document.getElementById('formMsg');
+
+            const servant = db.servants.find(s => s.username === username);
+            const hash = await sha256(password);
+            if (!servant || servant.passwordHash !== hash) {
+                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> اسم المستخدم أو كلمة المرور غير صحيحة.</div>`;
+                return false;
+            }
+            session = { username: servant.username, name: servant.name };
+            go('dashboard');
+            return false;
+        }
+
+        // ---- DASHBOARD ----
+        function viewDashboard() {
+            const children = myChildren();
+            const today = todayDate();
+            const rows = children.map(c => {
+                const todayRec = db.attendance.find(a => a.childId === c.id && a.weekDate === today);
+                const todayBadge = todayRec ?
+                    `<span class="badge badge-${todayRec.status === 'حاضر' ? 'ok' : 'bad'}">📅 اليوم: ${esc(todayRec.status)}</span>` :
+                    `<span style="color:var(--text-muted);font-size:0.85rem;">⏳ لم يُسجَّل</span>`;
+                return `
+                    <tr>
+                        <td><i class="fas fa-user-graduate" style="color:var(--sky-dark);margin-left:8px;"></i>${esc(c.name)}</td>
+                        <td>${esc(c.className)}</td>
+                        <td>
+                            <code class="code-pill">${esc(c.code)}</code>
+                            <button class="copy-btn" onclick="copyCode('${c.code}',this)"><i class="fas fa-copy"></i> نسخ</button>
+                        </td>
+                        <td>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+                                <button class="btn btn-sm btn-ok" onclick="quickMark('${c.id}','حاضر')"><i class="fas fa-check"></i> حضور</button>
+                                <button class="btn btn-sm btn-bad" onclick="quickMark('${c.id}','غائب')"><i class="fas fa-times"></i> غياب</button>
+                            </div>
+                            <div>${todayBadge}</div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" onclick="go('childReport','${c.id}')"><i class="fas fa-file-alt"></i> تقرير</button>
+                            <button class="btn btn-sm btn-bad" onclick="deleteChild('${c.id}')"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+            }).join('');
+
+            return `
+                <section>
+                    <div class="glass">
+                        <h2><i class="fas fa-user-plus" style="color:var(--sky-dark);"></i> إضافة طفل جديد</h2>
+                        <div id="formMsg"></div>
+                        <form class="form-row" onsubmit="return submitAddChild(event)">
+                            <label><i class="fas fa-user"></i> اسم الطفل <input name="childName" required placeholder="أدخل اسم الطفل" /></label>
+                            <label><i class="fas fa-layer-group"></i> الفصل
+                                <select name="classId" required>
+                                    <option value="">اختر الفصل</option>
+                                    ${CLASSES.map((c,i)=>`<option value="${i}">${esc(c)}</option>`).join('')}
+                                </select>
+                            </label>
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-plus"></i> إضافة</button>
+                        </form>
+                    </div>
+
+                    <h2 style="margin-top:40px;"><i class="fas fa-users" style="color:var(--sky-dark);"></i> أطفال فصولي (${children.length})</h2>
+                    <p style="color:var(--text-muted);">سجّل حضور أو غياب أي طفل بتاريخ اليوم (${today}) مباشرة.</p>
+                    ${alertHtml()}
+                    ${children.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد أطفال مضافون بعد.</p>` : `
+                    <div class="glass table-wrap">
+                        <table>
+                            <thead><tr><th><i class="fas fa-user"></i> الاسم</th><th><i class="fas fa-layer-group"></i> الفصل</th><th><i class="fas fa-key"></i> الكود</th><th><i class="fas fa-clipboard-check"></i> اليوم</th><th><i class="fas fa-tools"></i> إجراءات</th></tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>`}
+                </section>`;
+        }
+
+        // ---- QUICK MARK ----
+        async function quickMark(childId, status) {
+            const today = todayDate();
+            const idx = db.attendance.findIndex(a => a.childId === childId && a.weekDate === today);
+            const record = { childId, weekDate: today, status, note: idx >= 0 ? db.attendance[idx].note : '' };
+            if (idx >= 0) db.attendance[idx] = record;
+            else db.attendance.push(record);
+            await saveDB();
+            const child = db.children.find(c => c.id === childId);
+            setFlash(`✅ تم تسجيل "${status}" لـ "${child ? child.name : ''}" بتاريخ ${today}.`);
+            go('dashboard');
+        }
+
+        // ---- ADD CHILD ----
+        async function submitAddChild(ev) {
+            ev.preventDefault();
+            const f = ev.target;
+            const name = f.childName.value.trim();
+            const classId = f.classId.value;
+            const msgBox = document.getElementById('formMsg');
+            if (!name || classId === '') {
+                msgBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> أدخل اسم الطفل واختر الفصل.</div>`;
+                return false;
+            }
+
+            const code = genCode();
+            db.children.push({
+                id: crypto.randomUUID(),
+                servantUsername: session.username,
+                name,
+                className: CLASSES[+classId],
+                code
+            });
+            await saveDB();
+            setFlash(`✅ تمت إضافة "${name}" بنجاح. كود الاستعلام: ${code}`);
+            go('dashboard');
+            return false;
+        }
+
+        // ---- COPY ----
+        function copyCode(code, btn) {
+            navigator.clipboard.writeText(code).then(() => {
+                const old = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> تم';
+                setTimeout(() => btn.innerHTML = old, 1400);
+            });
+        }
+
+        // ---- DELETE CHILD ----
+        async function deleteChild(childId) {
+            const child = db.children.find(c => c.id === childId && c.servantUsername === session?.username);
+            if (!child) return;
+            if (!confirm(`❗ هل أنت متأكد من حذف "${child.name}"؟ سيتم حذف كل سجلات حضوره أيضًا.`)) return;
+
+            db.children = db.children.filter(c => c.id !== childId);
+            db.attendance = db.attendance.filter(a => a.childId !== childId);
+            await saveDB();
+            setFlash(`🗑️ تم حذف "${child.name}" بنجاح.`);
+            go('dashboard');
+        }
+
+        // ---- ATTENDANCE ----
+        function viewAttendance() {
+            const children = myChildren();
+            const weekDate = routeParam || defaultWeekDate();
+
+            const rows = children.map(c => {
+                const rec = db.attendance.find(a => a.childId === c.id && a.weekDate === weekDate);
+                const status = rec ? rec.status : 'حاضر';
+                const note = rec ? (rec.note || '') : '';
+                return `
+                    <tr>
+                        <td><i class="fas fa-user-graduate" style="color:var(--sky-dark);margin-left:8px;"></i>${esc(c.name)}</td>
+                        <td>${esc(c.className)}</td>
+                        <td>
+                            <div class="status-group">
+                                <label><input type="radio" name="status_${c.id}" value="حاضر" ${status === 'حاضر' ? 'checked' : ''}> <i class="fas fa-check-circle" style="color:var(--ok);"></i> حاضر</label>
+                                <label><input type="radio" name="status_${c.id}" value="غائب" ${status === 'غائب' ? 'checked' : ''}> <i class="fas fa-times-circle" style="color:var(--bad);"></i> غائب</label>
+                            </div>
+                        </td>
+                        <td><input type="text" data-note-for="${c.id}" value="${esc(note)}" placeholder="ملاحظة اختيارية" /></td>
+                    </tr>`;
+            }).join('');
+
+            return `
+                <section>
+                    <h2><i class="fas fa-clipboard-list" style="color:var(--sky-dark);"></i> تسجيل تقرير الحضور الأسبوعي</h2>
+                    <div class="glass" style="max-width:300px;margin-bottom:20px;">
+                        <form class="form-row" onsubmit="event.preventDefault();">
+                            <label><i class="fas fa-calendar-alt"></i> الأسبوع
+                                <input type="date" value="${weekDate}" onchange="go('attendance', this.value)" />
+                            </label>
+                        </form>
+                    </div>
+                    ${alertHtml()}
+                    ${children.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد أطفال بعد. أضِف أطفالًا من لوحة التحكم أولًا.</p>` : `
+                    <div class="glass">
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr><th><i class="fas fa-user"></i> الاسم</th><th><i class="fas fa-layer-group"></i> الفصل</th><th><i class="fas fa-check-circle"></i> الحالة</th><th><i class="fas fa-pen"></i> ملاحظة</th></tr></thead>
+                                <tbody id="attRows">${rows}</tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top:18px;">
+                            <button class="btn btn-primary" onclick="saveAttendance('${weekDate}')"><i class="fas fa-save"></i> حفظ تقرير هذا الأسبوع</button>
+                        </div>
+                    </div>`}
+                </section>`;
+        }
+
+        async function saveAttendance(weekDate) {
+            const children = myChildren();
+            children.forEach(c => {
+                const radios = document.getElementsByName('status_' + c.id);
+                let status = 'حاضر';
+                radios.forEach(r => { if (r.checked) status = r.value; });
+                const noteInput = document.querySelector(`[data-note-for="${c.id}"]`);
+                const note = noteInput ? noteInput.value.trim() : '';
+
+                const idx = db.attendance.findIndex(a => a.childId === c.id && a.weekDate === weekDate);
+                const record = { childId: c.id, weekDate, status, note };
+                if (idx >= 0) db.attendance[idx] = record;
+                else db.attendance.push(record);
+            });
+            await saveDB();
+            setFlash(`✅ تم حفظ تقرير أسبوع ${weekDate} بنجاح.`);
+            go('attendance', weekDate);
+        }
+
+        // ---- CHILD REPORT ----
+        function viewChildReport(childId) {
+            const child = db.children.find(c => c.id === childId && c.servantUsername === session?.username);
+            if (!child) {
+                setFlash('هذا الطفل غير موجود ضمن أطفالك.', 'error');
+                go('dashboard');
+                return '';
+            }
+            const records = db.attendance.filter(a => a.childId === childId).sort((a, b) => b.weekDate.localeCompare(a
+            .weekDate));
+            const presentDates = records.filter(r => r.status === 'حاضر').map(r => r.weekDate);
+            const absentDates = records.filter(r => r.status === 'غائب').map(r => r.weekDate);
+
+            const rows = records.map(r => `
+                    <tr>
+                        <td>${esc(r.weekDate)}</td>
+                        <td><span class="badge badge-${r.status === 'حاضر' ? 'ok' : 'bad'}">${esc(r.status)}</span></td>
+                        <td>${esc(r.note || '—')}</td>
+                    </tr>`).join('');
+
+            return `
+                <section>
+                    <a class="btn btn-secondary btn-sm" style="margin-bottom:16px;display:inline-flex;" href="#" onclick="go('dashboard');return false;"><i class="fas fa-arrow-right"></i> رجوع</a>
+                    <div class="glass">
+                        <h2><i class="fas fa-user-graduate" style="color:var(--sky-dark);"></i> ${esc(child.name)}</h2>
+                        <p><i class="fas fa-layer-group" style="color:var(--sky-dark);"></i> الفصل: ${esc(child.className)}</p>
+                        <p><i class="fas fa-key" style="color:var(--sky-dark);"></i> كود الاستعلام: <code class="code-pill">${esc(child.code)}</code></p>
+                    </div>
+                    ${attendanceSummaryHtml(presentDates, absentDates)}
+                    <h3 style="margin-top:24px;"><i class="fas fa-history" style="color:var(--sky-dark);"></i> سجل الحضور والغياب بالتفصيل</h3>
+                    ${records.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد تقرير مسجل لهذا الطفل بعد.</p>` : `
+                    <div class="glass table-wrap">
+                        <table><thead><tr><th><i class="fas fa-calendar-alt"></i> التاريخ</th><th><i class="fas fa-check-circle"></i> الحالة</th><th><i class="fas fa-pen"></i> ملاحظة</th></tr></thead><tbody>${rows}</tbody></table>
+                    </div>`}
+                </section>`;
+        }
+
+        function attendanceSummaryHtml(presentDates, absentDates) {
+            const presentList = presentDates.length ?
+                presentDates.map(d => `<span class="badge badge-ok" style="margin:3px;"><i class="fas fa-check-circle"></i> ${esc(d)}</span>`)
+                .join(' ') :
+                '<span style="color:var(--text-muted);">لا يوجد</span>';
+            const absentList = absentDates.length ?
+                absentDates.map(d => `<span class="badge badge-bad" style="margin:3px;"><i class="fas fa-times-circle"></i> ${esc(d)}</span>`)
+                .join(' ') :
+                '<span style="color:var(--text-muted);">لا يوجد</span>';
+
+            return `
+                <div class="cards" style="grid-template-columns:1fr 1fr;margin-top:16px;">
+                    <div class="card">
+                        <h3 style="color:var(--ok);"><i class="fas fa-check-circle"></i> أيام الحضور (${presentDates.length})</h3>
+                        <div>${presentList}</div>
+                    </div>
+                    <div class="card">
+                        <h3 style="color:var(--bad);"><i class="fas fa-times-circle"></i> أيام الغياب (${absentDates.length})</h3>
+                        <div>${absentList}</div>
+                    </div>
+                </div>`;
+        }
+
+        // ---- STUDENT LOOKUP ----
+        function viewStudent() {
+            return `
+                <section class="panel glass">
+                    <h2><i class="fas fa-search" style="color:var(--sky-dark);"></i> استعلام عن تقرير الحضور</h2>
+                    <p style="color:var(--text-muted);">أدخل الكود الخاص بك الذي أعطاك إياه الخادم لعرض تقريرك فقط.</p>
+                    <form class="form-row" onsubmit="return submitStudentLookup(event)">
+                        <label><i class="fas fa-key"></i> الكود <input name="code" maxlength="10" style="text-transform:uppercase;" required placeholder="أدخل الكود المكون من 6 أحرف" /></label>
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> استعلام</button>
+                    </form>
+                    <div id="studentResult"></div>
+                </section>`;
+        }
+
+        function submitStudentLookup(ev) {
+            ev.preventDefault();
+            const code = ev.target.code.value.trim().toUpperCase();
+            const box = document.getElementById('studentResult');
+            const child = db.children.find(c => c.code === code);
+            if (!child) {
+                box.innerHTML =
+                    `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> الكود غير صحيح، تأكد منه مع الخادم.</div>`;
+                return false;
+            }
+            const records = db.attendance.filter(a => a.childId === child.id).sort((a, b) => b.weekDate.localeCompare(a
+            .weekDate));
+            const presentDates = records.filter(r => r.status === 'حاضر').map(r => r.weekDate);
+            const absentDates = records.filter(r => r.status === 'غائب').map(r => r.weekDate);
+            const rows = records.map(r => `
+                    <tr>
+                        <td>${esc(r.weekDate)}</td>
+                        <td><span class="badge badge-${r.status === 'حاضر' ? 'ok' : 'bad'}">${esc(r.status)}</span></td>
+                        <td>${esc(r.note || '—')}</td>
+                    </tr>`).join('');
+
+            box.innerHTML = `
+                    <div class="glass" style="margin-top:16px;">
+                        <h3><i class="fas fa-user-graduate" style="color:var(--sky-dark);"></i> ${esc(child.name)}</h3>
+                        <p><i class="fas fa-layer-group" style="color:var(--sky-dark);"></i> الفصل: ${esc(child.className)}</p>
+                    </div>
+                    ${attendanceSummaryHtml(presentDates, absentDates)}
+                    ${records.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد تقرير مسجل بعد.</p>` : `
+                    <div class="glass table-wrap" style="margin-top:14px;">
+                        <table><thead><tr><th><i class="fas fa-calendar-alt"></i> التاريخ</th><th><i class="fas fa-check-circle"></i> الحالة</th><th><i class="fas fa-pen"></i> ملاحظة</th></tr></thead><tbody>${rows}</tbody></table>
+                    </div>`}
+                `;
+            return false;
+        }
+
+        // ============ RENDER ENGINE ============
+        function render() {
+            renderNav();
+            const app = document.getElementById('app');
+
+            if ((route === 'dashboard' || route === 'attendance' || route === 'childReport') && !session) {
+                route = 'login';
+            }
+
+            switch (route) {
+                case 'home':
+                    app.innerHTML = viewHome();
+                    break;
+                case 'register':
+                    app.innerHTML = viewRegister();
+                    break;
+                case 'login':
+                    app.innerHTML = viewLogin();
+                    break;
+                case 'dashboard':
+                    app.innerHTML = viewDashboard();
+                    break;
+                case 'attendance':
+                    app.innerHTML = viewAttendance();
+                    break;
+                case 'childReport':
+                    app.innerHTML = viewChildReport(routeParam);
+                    break;
+                case 'student':
+                    app.innerHTML = viewStudent();
+                    break;
+                default:
+                    app.innerHTML = viewHome();
+            }
+
+            // Update theme indicators
+            const icon = document.querySelector('.theme-toggle i');
+            const label = document.getElementById('themeLabel');
+            if (icon) {
+                icon.className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+           
+        }
+
+        // ============ INIT ============
+        (async function init() {
+            await loadDB();
+            applyTheme(currentTheme);
+            render();
+            watchDB();
+        })();
+
+        // ============ EXPOSE FUNCTIONS ============
+        Object.assign(window, {
+            go,
+            logout,
+            copyCode,
+            deleteChild,
+            quickMark,
+            submitRegister,
+            submitLogin,
+            submitAddChild,
+            saveAttendance,
+            submitStudentLookup,
+            toggleTheme,
+        });
+    </script>
 </body>
 </html>
