@@ -55,9 +55,12 @@
         .btn-secondary:hover{background:#6a1b9a;color:#fff;border-color:#6a1b9a;transform:translateY(-3px)}
         .btn-gold{background:linear-gradient(135deg,#ffd54f,#f9a825);color:#0a1628;box-shadow:0 4px 20px rgba(249,168,37,0.3)}
         .btn-gold:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 32px rgba(249,168,37,0.5)}
+        .btn-ok{background:linear-gradient(135deg,#66bb6a,#2e7d32);color:#fff;box-shadow:0 4px 20px rgba(46,125,50,0.3)}
+        .btn-ok:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 32px rgba(46,125,50,0.5)}
         .btn-sm{padding:5px 12px;font-size:0.75rem}
-        .btn-ok{background:rgba(46,125,50,0.15);color:var(--ok);border:1px solid rgba(46,125,50,0.3)}
-        .btn-ok:hover{background:var(--ok);color:#fff}
+        .btn-lg{padding:14px 28px;font-size:1rem}
+        .btn-ghost-ok{background:rgba(46,125,50,0.15);color:var(--ok);border:1px solid rgba(46,125,50,0.3)}
+        .btn-ghost-ok:hover{background:var(--ok);color:#fff}
         .btn-bad{background:rgba(198,40,40,0.15);color:var(--bad);border:1px solid rgba(198,40,40,0.3)}
         .btn-bad:hover{background:var(--bad);color:#fff}
         .btn-add{background:rgba(33,150,243,0.15);color:var(--sky-dark);border:1px solid rgba(33,150,243,0.3)}
@@ -210,13 +213,53 @@
         body.exam-focus-mode .top-bar,
         body.exam-focus-mode footer.site,
         body.exam-focus-mode .chat-fab { opacity: 0.1; pointer-events: none; transition: var(--transition); }
-        body.exam-focus-mode #takeExamModal { background: rgba(0,0,0,0.9); }
+        body.exam-focus-mode #takeExamModal { background: rgba(0,0,0,0.92); }
         .qr-box{background:#fff;border-radius:12px;padding:12px;display:inline-block;text-align:center;}
         .perf-card{background:var(--admin-gradient);color:#fff;padding:20px;border-radius:var(--radius);text-align:center;margin-top:12px}
         .perf-card h3{color:#fff;font-size:1.05rem;margin-bottom:14px}
         .perf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
         .perf-grid .val{font-family:'Lalezar',cursive;font-size:1.9rem;color:#ffd54f}
         .perf-grid .lbl{font-size:0.75rem;opacity:0.95}
+        /* ===== Exam Navigator ===== */
+        .exam-header-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:14px}
+        .exam-timer-box{display:flex;align-items:center;gap:10px;background:var(--admin-gradient);color:#fff;padding:8px 16px;border-radius:40px;font-weight:700;box-shadow:0 4px 20px rgba(106,27,154,0.3);font-family:'Lalezar',cursive;font-size:1.2rem}
+        .exam-timer-box.warning{background:linear-gradient(135deg,#ffb74d,#f57c00);animation:timerPulse 1s ease-in-out infinite}
+        .exam-timer-box.danger{background:linear-gradient(135deg,#ef5350,#c62828);animation:timerPulse 0.6s ease-in-out infinite}
+        @keyframes timerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        .exam-progress{display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-secondary)}
+        .exam-progress .bar{flex:1;height:10px;background:var(--bg-glass-hover);border-radius:20px;overflow:hidden;border:1px solid var(--border-glass);min-width:120px}
+        .exam-progress .fill{height:100%;background:linear-gradient(90deg,#66bb6a,#2e7d32);border-radius:20px;transition:width 0.4s}
+        .q-nav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px;margin-bottom:16px;padding:12px;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-sm);max-height:140px;overflow-y:auto}
+        .q-nav-num{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;cursor:pointer;transition:var(--transition);border:2px solid transparent;background:var(--bg-glass-hover);color:var(--text-secondary);position:relative;font-family:'Lalezar',cursive}
+        .q-nav-num:hover{transform:scale(1.1);border-color:#6a1b9a}
+        .q-nav-num.answered{background:linear-gradient(135deg,#66bb6a,#2e7d32);color:#fff;border-color:#2e7d32}
+        .q-nav-num.current{border-color:#6a1b9a;box-shadow:0 0 0 4px rgba(106,27,154,0.3);background:#6a1b9a;color:#fff}
+        .q-nav-num.answered.current{background:linear-gradient(135deg,#66bb6a,#6a1b9a);color:#fff}
+        .q-nav-num.unanswered{background:rgba(255,193,7,0.15);color:#f57c00;border-color:rgba(255,193,7,0.3)}
+        .single-q-view{background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-sm);padding:20px;margin-bottom:14px;min-height:280px;animation:qFadeIn 0.3s ease}
+        @keyframes qFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .single-q-view .q-num-badge{display:inline-flex;align-items:center;justify-content:center;background:#6a1b9a;color:#fff;font-family:'Lalezar',cursive;border-radius:12px;padding:4px 14px;font-size:1.1rem;margin-bottom:10px;box-shadow:0 4px 12px rgba(106,27,154,0.3)}
+        .single-q-view .q-title{font-size:1.15rem;font-weight:700;line-height:1.7;margin-bottom:14px;color:var(--text-primary)}
+        .single-q-view .q-options{display:flex;flex-direction:column;gap:8px}
+        .single-q-view .q-opt{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg-glass-hover);border:2px solid var(--border-glass);border-radius:12px;cursor:pointer;transition:var(--transition);font-size:0.95rem}
+        .single-q-view .q-opt:hover{border-color:#6a1b9a;transform:translateX(-3px);background:rgba(106,27,154,0.08)}
+        .single-q-view .q-opt.selected{background:rgba(106,27,154,0.15);border-color:#6a1b9a;box-shadow:0 0 0 3px rgba(106,27,154,0.15)}
+        .single-q-view .q-opt input{accent-color:#6a1b9a;width:20px;height:20px;cursor:pointer;flex-shrink:0}
+        .single-q-view textarea{width:100%;min-height:120px;padding:12px 16px;font-size:0.95rem;line-height:1.7}
+        .exam-nav-buttons{display:flex;gap:10px;justify-content:space-between;margin-top:14px;flex-wrap:wrap}
+        .exam-nav-buttons .btn{min-width:120px;justify-content:center}
+        .exam-note{background:rgba(33,150,243,0.08);border:1px solid rgba(33,150,243,0.2);border-radius:12px;padding:10px 14px;font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px}
+        .exam-note i{color:var(--sky-dark);margin-left:6px}
+        .confirm-hero{text-align:center;padding:10px 0 20px}
+        .confirm-hero .emoji{font-size:4rem;margin-bottom:10px}
+        .confirm-hero h3{font-family:'Lalezar',cursive;font-size:1.6rem;background:var(--admin-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+        .confirm-hero p{color:var(--text-muted);font-size:0.95rem;line-height:1.6}
+        .confirm-stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+        .confirm-stat{background:var(--bg-glass-hover);border:1px solid var(--border-glass);border-radius:12px;padding:10px 18px;text-align:center;min-width:90px}
+        .confirm-stat .n{font-family:'Lalezar',cursive;font-size:1.6rem;line-height:1;color:#6a1b9a}
+        .confirm-stat .l{font-size:0.7rem;color:var(--text-muted);margin-top:4px}
+        .confirm-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+        .optional-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(245,124,0,0.1);border:1px solid rgba(245,124,0,0.2);color:var(--pending);padding:3px 10px;border-radius:20px;font-size:0.7rem;margin-right:6px}
         @media(max-width:900px){
             .sidebar{
                 position:fixed;
@@ -250,6 +293,9 @@
             .chart-bar-row{height:140px}
             .stat-card .num{font-size:1.6rem}
             .perf-grid .val{font-size:1.4rem}
+            .q-nav-num{width:40px;height:40px;font-size:0.9rem}
+            .exam-nav-buttons .btn{min-width:auto;flex:1}
+            .single-q-view{padding:14px;min-height:auto}
         }
     </style>
 </head>
@@ -267,7 +313,7 @@
             <div id="sideUser"></div>
             <nav class="side-nav" id="sideNav"></nav>
             <div style="padding:10px 4px;text-align:center;">
-                <button class="theme-toggle" onclick="window.toggleTheme()" title="تبديل الوضع" style="width:100%;">
+                <button class="theme-toggle" onclick="window.toggleTheme()" style="width:100%;">
                     <i class="fas fa-moon"></i> <span style="font-size:0.85rem;">تبديل الوضع</span>
                 </button>
             </div>
@@ -283,7 +329,7 @@
                 </div>
             </div>
             <main id="app">
-                <div class="loading"><i class="fas fa-spinner fa-spin"></i> جارِ تحميل لوحة الأدمن...</div>
+                <div class="loading"><i class="fas fa-spinner fa-spin"></i> جارِ التحميل...</div>
             </main>
             <footer class="site">
                 <i class="fas fa-cross" style="color:#6a1b9a;margin-left:6px;"></i>
@@ -303,7 +349,7 @@
     <div class="modal-overlay" id="pollModal">
         <div class="modal glass">
             <div class="modal-header">
-                <h3 style="font-size:1.1rem;"><i class="fas fa-poll" style="color:#6a1b9a;"></i> إنشاء استطلاع رأي</h3>
+                <h3 style="font-size:1.1rem;"><i class="fas fa-poll" style="color:#6a1b9a;"></i> إنشاء استطلاع</h3>
                 <button class="modal-close" onclick="window.closePollModal()"><i class="fas fa-times"></i></button>
             </div>
             <form onsubmit="return window.submitPoll(event)">
@@ -313,7 +359,7 @@
                     <div class="form-row" style="margin-bottom:6px;"><label style="flex:1;">الخيار 2 <input type="text" class="poll-option-input" required /></label></div>
                 </div>
                 <button type="button" class="btn btn-secondary btn-sm" onclick="window.addPollOption()" style="margin-bottom:10px;"><i class="fas fa-plus"></i> إضافة خيار</button>
-                <button class="btn btn-admin" type="submit"><i class="fas fa-paper-plane"></i> إرسال الاستطلاع</button>
+                <button class="btn btn-admin" type="submit"><i class="fas fa-paper-plane"></i> إرسال</button>
             </form>
         </div>
     </div>
@@ -327,9 +373,9 @@
             </div>
             <form onsubmit="return window.submitChangePassword(event)">
                 <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">كلمة المرور الحالية <input type="password" id="oldPassword" required /></label></div>
-                <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">كلمة المرور الجديدة <input type="password" id="newPassword" required /></label></div>
-                <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">تأكيد كلمة المرور <input type="password" id="confirmPassword" required /></label></div>
-                <button class="btn btn-admin" type="submit"><i class="fas fa-save"></i> تغيير كلمة المرور</button>
+                <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">الجديدة <input type="password" id="newPassword" required /></label></div>
+                <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">التأكيد <input type="password" id="confirmPassword" required /></label></div>
+                <button class="btn btn-admin" type="submit"><i class="fas fa-save"></i> تغيير</button>
             </form>
         </div>
     </div>
@@ -338,13 +384,13 @@
     <div class="modal-overlay" id="resetPasswordModal">
         <div class="modal glass">
             <div class="modal-header">
-                <h3 style="font-size:1.1rem;"><i class="fas fa-key" style="color:#6a1b9a;"></i> إعادة تعيين كلمة المرور</h3>
+                <h3 style="font-size:1.1rem;"><i class="fas fa-key" style="color:#6a1b9a;"></i> إعادة تعيين</h3>
                 <button class="modal-close" onclick="window.closeResetPasswordModal()"><i class="fas fa-times"></i></button>
             </div>
             <form onsubmit="return window.submitResetPassword(event)">
-                <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">اختر الخادم <select id="resetServantSelect" required><option value="">اختر خادم</option></select></label></div>
+                <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">اختر الخادم <select id="resetServantSelect" required><option value="">اختر</option></select></label></div>
                 <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">كلمة المرور الجديدة <input type="password" id="resetNewPassword" required /></label></div>
-                <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">تأكيد كلمة المرور <input type="password" id="resetConfirmPassword" required /></label></div>
+                <div class="form-row" style="margin-bottom:10px;"><label style="flex:1;">التأكيد <input type="password" id="resetConfirmPassword" required /></label></div>
                 <button class="btn btn-admin" type="submit"><i class="fas fa-save"></i> إعادة تعيين</button>
             </form>
         </div>
@@ -354,7 +400,7 @@
     <div class="modal-overlay" id="examModal">
         <div class="modal glass" style="max-width:800px;">
             <div class="modal-header">
-                <h3 style="font-size:1.1rem;"><i class="fas fa-pencil-alt" style="color:#6a1b9a;"></i> <span id="examModalTitle">إنشاء اختبار جديد</span></h3>
+                <h3 style="font-size:1.1rem;"><i class="fas fa-pencil-alt" style="color:#6a1b9a;"></i> <span id="examModalTitle">إنشاء اختبار</span></h3>
                 <button class="modal-close" onclick="window.closeExamModal()"><i class="fas fa-times"></i></button>
             </div>
             <form onsubmit="return window.submitExam(event)" id="examForm">
@@ -365,9 +411,17 @@
                     <label style="flex:1;">المدة (دقائق) <input type="number" id="examDuration" value="30" min="1" required /></label>
                     <label style="flex:1;">عدد المحاولات <input type="number" id="examAttempts" value="1" min="1" required /></label>
                 </div>
+                <div class="exam-note">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>اختياري:</strong> يمكنك تحديد وقت بداية ونهاية للاختبار. اتركهما فارغين ليكون متاحاً دائماً.
+                </div>
                 <div class="form-row" style="margin-bottom:10px;">
-                    <label style="flex:1;">اختر الصف <select id="examClass" required><option value="">اختر الصف</option></select></label>
-                    <label style="flex:1;">حالة الاختبار
+                    <label style="flex:1;">وقت البداية (اختياري) <input type="datetime-local" id="examStartTime" /></label>
+                    <label style="flex:1;">وقت النهاية (اختياري) <input type="datetime-local" id="examEndTime" /></label>
+                </div>
+                <div class="form-row" style="margin-bottom:10px;">
+                    <label style="flex:1;">اختر الصف <select id="examClass" required><option value="">اختر</option></select></label>
+                    <label style="flex:1;">الحالة
                         <select id="examStatus">
                             <option value="active">نشط</option>
                             <option value="draft">مسودة</option>
@@ -383,7 +437,7 @@
                     <div id="questionsContainer"></div>
                 </div>
                 <div style="display:flex;gap:8px;margin-top:12px;">
-                    <button class="btn btn-admin" type="submit"><i class="fas fa-save"></i> <span id="examSubmitText">إنشاء الاختبار</span></button>
+                    <button class="btn btn-admin" type="submit"><i class="fas fa-save"></i> <span id="examSubmitText">إنشاء</span></button>
                     <button type="button" class="btn btn-secondary" onclick="window.closeExamModal()"><i class="fas fa-times"></i> إلغاء</button>
                 </div>
             </form>
@@ -392,15 +446,33 @@
 
     <!-- TAKE EXAM MODAL -->
     <div class="modal-overlay" id="takeExamModal">
-        <div class="modal glass" style="max-width:800px;">
+        <div class="modal glass" style="max-width:820px;">
             <div class="modal-header">
                 <h3 style="font-size:1.1rem;" id="takeExamTitle"><i class="fas fa-pencil-alt" style="color:#6a1b9a;"></i> الاختبار</h3>
-                <div>
-                    <span id="takeExamTimer" style="color:var(--bad);font-weight:700;font-size:1.1rem;margin-left:12px;"></span>
-                    <button class="modal-close" onclick="window.closeTakeExamModal()"><i class="fas fa-times"></i></button>
-                </div>
+                <button class="modal-close" onclick="window.tryCloseTakeExam()"><i class="fas fa-times"></i></button>
             </div>
             <div id="takeExamContent"></div>
+        </div>
+    </div>
+
+    <!-- EXAM CONFIRM SUBMIT MODAL -->
+    <div class="modal-overlay" id="examConfirmModal">
+        <div class="modal glass" style="max-width:520px;">
+            <div class="confirm-hero">
+                <div class="emoji">🌟</div>
+                <h3>عارفين إنك شاطر… بس مفيش مانع إنك تراجع إجاباتك!</h3>
+                <p>خذ لحظة سريعة، راجع إجاباتك، وبعدين قرر تسلّم.</p>
+            </div>
+            <div class="confirm-stats">
+                <div class="confirm-stat"><div class="n" id="confirmAnswered">0</div><div class="l">مجابة</div></div>
+                <div class="confirm-stat"><div class="n" id="confirmUnanswered">0</div><div class="l">بدون إجابة</div></div>
+                <div class="confirm-stat"><div class="n" id="confirmTotal">0</div><div class="l">إجمالي</div></div>
+            </div>
+            <div id="confirmUnansweredNote"></div>
+            <div class="confirm-actions">
+                <button class="btn btn-secondary btn-lg" onclick="window.closeExamConfirmModal()"><i class="fas fa-eye"></i> مراجعة الإجابات</button>
+                <button class="btn btn-ok btn-lg" onclick="window.confirmSubmitNow()"><i class="fas fa-paper-plane"></i> تسليم علطول</button>
+            </div>
         </div>
     </div>
 
@@ -408,7 +480,7 @@
     <div class="modal-overlay" id="examResultModal">
         <div class="modal glass" style="max-width:800px;">
             <div class="modal-header">
-                <h3 style="font-size:1.1rem;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> نتيجة الاختبار</h3>
+                <h3 style="font-size:1.1rem;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> النتيجة</h3>
                 <button class="modal-close" onclick="window.closeExamResultModal()"><i class="fas fa-times"></i></button>
             </div>
             <div id="examResultContent"></div>
@@ -496,6 +568,7 @@
         let barcodeMode = 'lookup';
         let sidebarOpen = false;
         let lastPendingCount = 0;
+        let activeExamSession = null;
 
         let servantSearchQuery = '';
         let servantStatusFilter = '';
@@ -631,7 +704,6 @@
             }
             return result;
         }
-        // ==== FIXED: Comprehensive Arabic normalization ====
         function normalizeText(text) {
             if (text === null || text === undefined) return '';
             let t = text.toString();
@@ -655,7 +727,6 @@
             return false;
         }
 
-        // ==== REAL Code128 Barcode ====
         function generateBarcodeSVG(text, opts = {}) {
             const code = (text || '').toUpperCase().trim();
             const height = opts.height || 80;
@@ -683,9 +754,7 @@
                 return svg.outerHTML;
             } catch (e) {
                 console.error('Barcode failed:', e);
-                return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80" style="background:#fff;">
-                    <text x="150" y="45" text-anchor="middle" font-family="monospace" font-size="14" fill="#000">${esc(code)}</text>
-                </svg>`;
+                return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80" style="background:#fff;"><text x="150" y="45" text-anchor="middle" font-family="monospace" font-size="14" fill="#000">${esc(code)}</text></svg>`;
             }
         }
         window.downloadBarcode = function(code) {
@@ -714,7 +783,7 @@
                 <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;"><i class="fas fa-layer-group"></i> ${esc(getClassById(child.classId)?.name || 'غير محدد')}</div>
                 <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
                     <button class="btn btn-admin btn-sm" onclick="window.downloadBarcode('${esc(child.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
-                    <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ الكود</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ</button>
                     <button class="btn btn-secondary btn-sm" onclick="window.closeBarcodeViewModal()"><i class="fas fa-times"></i> إغلاق</button>
                 </div>
             `;
@@ -724,7 +793,7 @@
 
         function generateQRCodeSVG(text, size = 150) {
             const url = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}&bgcolor=FFFFFF&color=000000&margin=10`;
-            return `<div class="qr-box"><img src="${url}" alt="QR: ${esc(text)}" style="width:${size}px;height:${size}px;border-radius:8px;" onerror="this.parentElement.innerHTML='<div style=&quot;color:#999;font-size:0.8rem;&quot;>QR غير متاح</div>'" /></div>`;
+            return `<div class="qr-box"><img src="${url}" alt="QR" style="width:${size}px;height:${size}px;border-radius:8px;" /></div>`;
         }
 
         // ==== Barcode scanner - dual mode ====
@@ -810,9 +879,7 @@
             requestAnimationFrame(scanBarcodeLoop);
         }
 
-        // ============================================================
         // CHAT
-        // ============================================================
         function getChatRooms(user) {
             if (!user) return [];
             const rooms = [];
@@ -820,14 +887,14 @@
             getActiveServants().filter(s => !s.isAdmin).forEach(servant => {
                 const roomId = `chat_admin_${user.username}_${servant.username}`;
                 if (!db.chatRooms.some(r => r.id === roomId)) {
-                    const newRoom = { id: roomId, type: 'admin-servant', name: servant.name, participants: [user.username, servant.username], createdBy: user.username, createdAt: new Date().toISOString(), messages: [], lastMessage: 'لا توجد رسائل بعد', lastMessageTime: new Date().toISOString(), unreadCount: {} };
+                    const newRoom = { id: roomId, type: 'admin-servant', name: servant.name, participants: [user.username, servant.username], createdBy: user.username, createdAt: new Date().toISOString(), messages: [], lastMessage: '—', lastMessageTime: new Date().toISOString(), unreadCount: {} };
                     db.chatRooms.push(newRoom); saveDB(); rooms.push(newRoom);
                 } else { const e = db.chatRooms.find(r => r.id === roomId); if (e) rooms.push(e); }
             });
             getAdmins().filter(a => a.username !== user.username).forEach(admin => {
                 const roomId = `chat_admin_${user.username}_${admin.username}`;
                 if (!db.chatRooms.some(r => r.id === roomId)) {
-                    const newRoom = { id: roomId, type: 'admin-admin', name: admin.name, participants: [user.username, admin.username], createdBy: user.username, createdAt: new Date().toISOString(), messages: [], lastMessage: 'لا توجد رسائل بعد', lastMessageTime: new Date().toISOString(), unreadCount: {} };
+                    const newRoom = { id: roomId, type: 'admin-admin', name: admin.name, participants: [user.username, admin.username], createdBy: user.username, createdAt: new Date().toISOString(), messages: [], lastMessage: '—', lastMessageTime: new Date().toISOString(), unreadCount: {} };
                     db.chatRooms.push(newRoom); saveDB(); rooms.push(newRoom);
                 } else { const e = db.chatRooms.find(r => r.id === roomId); if (e) rooms.push(e); }
             });
@@ -838,7 +905,7 @@
             if (!room) return;
             const message = { id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6), from, text: text.trim(), type, data, timestamp: new Date().toISOString(), readBy: [from] };
             room.messages.push(message);
-            room.lastMessage = text.trim() || (type === 'poll' ? '📊 استطلاع رأي' : '');
+            room.lastMessage = text.trim() || (type === 'poll' ? '📊 استطلاع' : '');
             room.lastMessageTime = new Date().toISOString();
             room.participants.forEach(p => { if (p !== from) { if (!room.unreadCount) room.unreadCount = {}; room.unreadCount[p] = (room.unreadCount[p] || 0) + 1; } });
             saveDB(); render(); updateChatBadge();
@@ -862,16 +929,12 @@
                 else { badge.style.display = 'none'; fab.style.display = 'flex'; }
             } else { fab.style.display = 'none'; }
         }
-        window.openChat = function() { if (session) go('chat'); else { showToast('⚠️ يرجى تسجيل الدخول.', 'warning'); go('adminLogin'); } };
-
+        window.openChat = function() { if (session) go('chat'); else { showToast('⚠️ سجّل الدخول.', 'warning'); go('adminLogin'); } };
         window.openPollModal = function() { document.getElementById('pollModal').classList.add('active'); };
         window.closePollModal = function() {
             document.getElementById('pollModal').classList.remove('active');
             document.getElementById('pollQuestion').value = '';
-            document.getElementById('pollOptions').innerHTML = `
-                <div class="form-row" style="margin-bottom:6px;"><label style="flex:1;">الخيار 1 <input type="text" class="poll-option-input" required /></label></div>
-                <div class="form-row" style="margin-bottom:6px;"><label style="flex:1;">الخيار 2 <input type="text" class="poll-option-input" required /></label></div>
-            `;
+            document.getElementById('pollOptions').innerHTML = `<div class="form-row" style="margin-bottom:6px;"><label style="flex:1;">الخيار 1 <input type="text" class="poll-option-input" required /></label></div><div class="form-row" style="margin-bottom:6px;"><label style="flex:1;">الخيار 2 <input type="text" class="poll-option-input" required /></label></div>`;
         };
         window.addPollOption = function() {
             const c = document.getElementById('pollOptions');
@@ -882,7 +945,7 @@
         };
         window.submitPoll = function(ev) {
             ev.preventDefault();
-            if (!currentChat) { showToast('⚠️ يرجى اختيار محادثة.', 'warning'); return false; }
+            if (!currentChat) { showToast('⚠️ اختر محادثة.', 'warning'); return false; }
             const question = document.getElementById('pollQuestion').value.trim();
             const options = [];
             document.querySelectorAll('.poll-option-input').forEach(inp => { const v = inp.value.trim(); if (v) options.push(v); });
@@ -927,7 +990,7 @@
         window.openResetPasswordModal = function() {
             const select = document.getElementById('resetServantSelect');
             const servants = db.servants.filter(s => !s.isPending && !s.isAdmin);
-            select.innerHTML = `<option value="">اختر خادم</option>${servants.map(s => `<option value="${s.username}">${s.name}</option>`).join('')}`;
+            select.innerHTML = `<option value="">اختر</option>${servants.map(s => `<option value="${s.username}">${s.name}</option>`).join('')}`;
             document.getElementById('resetPasswordModal').classList.add('active');
         };
         window.closeResetPasswordModal = function() { document.getElementById('resetPasswordModal').classList.remove('active'); };
@@ -955,21 +1018,23 @@
         };
 
         // ============================================================
-        // EXAM FUNCTIONS (FIXED)
+        // EXAM CREATION
         // ============================================================
         window.openExamModal = function(examId) {
             editingExamId = examId || null;
             const classSelect = document.getElementById('examClass');
-            classSelect.innerHTML = `<option value="">اختر الصف</option>${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}`;
+            classSelect.innerHTML = `<option value="">اختر</option>${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}`;
             document.getElementById('editExamId').value = '';
             document.getElementById('examName').value = '';
             document.getElementById('examDescription').value = '';
             document.getElementById('examDuration').value = '30';
             document.getElementById('examAttempts').value = '1';
             document.getElementById('examStatus').value = 'active';
+            document.getElementById('examStartTime').value = '';
+            document.getElementById('examEndTime').value = '';
             document.getElementById('questionsContainer').innerHTML = '';
-            document.getElementById('examModalTitle').textContent = 'إنشاء اختبار جديد';
-            document.getElementById('examSubmitText').textContent = 'إنشاء الاختبار';
+            document.getElementById('examModalTitle').textContent = 'إنشاء اختبار';
+            document.getElementById('examSubmitText').textContent = 'إنشاء';
             if (examId) {
                 const exam = db.exams.find(e => e.id === examId);
                 if (exam) {
@@ -979,8 +1044,10 @@
                     document.getElementById('examDuration').value = exam.duration;
                     document.getElementById('examAttempts').value = exam.attempts;
                     document.getElementById('examStatus').value = exam.status;
+                    document.getElementById('examStartTime').value = exam.startTime || '';
+                    document.getElementById('examEndTime').value = exam.endTime || '';
                     document.getElementById('examModalTitle').textContent = 'تعديل الاختبار';
-                    document.getElementById('examSubmitText').textContent = 'حفظ التعديلات';
+                    document.getElementById('examSubmitText').textContent = 'حفظ';
                     classSelect.value = exam.classId;
                     exam.questions.forEach(q => addQuestionFromData(q));
                 }
@@ -998,9 +1065,7 @@
                     <strong style="font-size:0.85rem;">سؤال ${idx + 1}</strong>
                     <button type="button" class="btn btn-sm btn-bad" onclick="this.closest('.question-card').remove()"><i class="fas fa-trash"></i></button>
                 </div>
-                <div class="form-row" style="margin-bottom:6px;">
-                    <label style="flex:1;">نص السؤال <input type="text" class="q-text" required /></label>
-                </div>
+                <div class="form-row" style="margin-bottom:6px;"><label style="flex:1;">نص السؤال <input type="text" class="q-text" required /></label></div>
                 <div class="form-row" style="margin-bottom:6px;">
                     <label style="flex:1;">نوع السؤال
                         <select class="q-type" onchange="window.updateQuestionUI(this)">
@@ -1014,14 +1079,12 @@
                     <label style="flex:1;">الدرجة <input type="number" class="q-points" value="1" min="1" /></label>
                 </div>
                 <div class="q-options-container">
-                    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;">
-                        <i class="fas fa-info-circle"></i> اضغط على الدائرة لتحديد الإجابة الصحيحة
-                    </div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;"><i class="fas fa-info-circle"></i> اضغط على الدائرة لتحديد الإجابة الصحيحة</div>
                     <div class="q-options-list"></div>
                     <button type="button" class="btn btn-sm btn-add" onclick="window.addOption(this)" style="margin-top:6px;"><i class="fas fa-plus"></i> إضافة خيار</button>
                 </div>
                 <div style="margin-top:6px;font-size:0.8rem;color:var(--text-muted);" class="q-model-answer-container">
-                    <label>الإجابة النموذجية: <input type="text" class="q-model-answer" placeholder="الإجابة النموذجية" style="width:200px;" /></label>
+                    <label>الإجابة النموذجية (للمقالي والأكمل): <input type="text" class="q-model-answer" style="width:200px;" /></label>
                 </div>
             `;
             container.appendChild(div);
@@ -1038,9 +1101,7 @@
                     <strong style="font-size:0.85rem;">سؤال ${idx + 1}</strong>
                     <button type="button" class="btn btn-sm btn-bad" onclick="this.closest('.question-card').remove()"><i class="fas fa-trash"></i></button>
                 </div>
-                <div class="form-row" style="margin-bottom:6px;">
-                    <label style="flex:1;">نص السؤال <input type="text" class="q-text" required value="${esc(q.text)}" /></label>
-                </div>
+                <div class="form-row" style="margin-bottom:6px;"><label style="flex:1;">نص السؤال <input type="text" class="q-text" required value="${esc(q.text)}" /></label></div>
                 <div class="form-row" style="margin-bottom:6px;">
                     <label style="flex:1;">نوع السؤال
                         <select class="q-type" onchange="window.updateQuestionUI(this)">
@@ -1054,9 +1115,7 @@
                     <label style="flex:1;">الدرجة <input type="number" class="q-points" value="${q.points}" min="1" /></label>
                 </div>
                 <div class="q-options-container">
-                    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;">
-                        <i class="fas fa-info-circle"></i> اضغط على الدائرة لتحديد الإجابة الصحيحة
-                    </div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;"><i class="fas fa-info-circle"></i> اضغط على الدائرة لتحديد الإجابة الصحيحة</div>
                     <div class="q-options-list"></div>
                     <button type="button" class="btn btn-sm btn-add" onclick="window.addOption(this)" style="margin-top:6px;"><i class="fas fa-plus"></i> إضافة خيار</button>
                 </div>
@@ -1104,10 +1163,7 @@
                     const item = document.createElement('div');
                     item.className = 'option-item';
                     const checked = existingCorrect.includes(opt) ? 'checked' : '';
-                    item.innerHTML = `
-                        <input type="radio" class="q-option-radio" name="correct_${qidx}" value="${opt}" ${checked} style="width:18px;height:18px;accent-color:var(--ok);cursor:pointer;flex-shrink:0;" />
-                        <input type="text" class="q-option" value="${opt}" readonly style="background:rgba(0,0,0,0.05);" />
-                    `;
+                    item.innerHTML = `<input type="radio" class="q-option-radio" name="correct_${qidx}" value="${opt}" ${checked} style="width:18px;height:18px;accent-color:var(--ok);cursor:pointer;flex-shrink:0;" /><input type="text" class="q-option" value="${opt}" readonly style="background:rgba(0,0,0,0.05);" />`;
                     optionsList.appendChild(item);
                 });
             } else if (type === 'single' || type === 'multiple') {
@@ -1120,11 +1176,7 @@
                     item.className = 'option-item';
                     const radioType = type === 'single' ? 'radio' : 'checkbox';
                     const checked = existingCorrect.includes(opt) ? 'checked' : '';
-                    item.innerHTML = `
-                        <input type="${radioType}" class="q-option-radio" name="correct_${qidx}" value="${esc(opt)}" ${checked} style="width:18px;height:18px;accent-color:var(--ok);cursor:pointer;flex-shrink:0;" />
-                        <input type="text" class="q-option" value="${esc(opt)}" placeholder="الخيار ${i + 1}" />
-                        <button type="button" class="btn-remove-option" onclick="window.removeOption(this)"><i class="fas fa-times"></i></button>
-                    `;
+                    item.innerHTML = `<input type="${radioType}" class="q-option-radio" name="correct_${qidx}" value="${esc(opt)}" ${checked} style="width:18px;height:18px;accent-color:var(--ok);cursor:pointer;flex-shrink:0;" /><input type="text" class="q-option" value="${esc(opt)}" placeholder="الخيار ${i + 1}" /><button type="button" class="btn-remove-option" onclick="window.removeOption(this)"><i class="fas fa-times"></i></button>`;
                     optionsList.appendChild(item);
                 });
             } else if (type === 'essay' || type === 'complete') {
@@ -1147,17 +1199,13 @@
             const list = container.querySelector('.q-options-list');
             const card = btn.closest('.question-card');
             const type = card.querySelector('.q-type').value;
-            if (type !== 'single' && type !== 'multiple') { showToast('⚠️ متاح للاختيار فقط.', 'warning'); return; }
+            if (type !== 'single' && type !== 'multiple') { showToast('⚠️ للاختيار فقط.', 'warning'); return; }
             const letters = ['أ', 'ب', 'ج', 'د', 'ه', 'و', 'ز', 'ح', 'ط', 'ي', 'ك', 'ل'];
             const idx = list.querySelectorAll('.option-item').length;
             const div = document.createElement('div');
             div.className = 'option-item';
             const radioType = type === 'single' ? 'radio' : 'checkbox';
-            div.innerHTML = `
-                <input type="${radioType}" class="q-option-radio" name="correct_${card.dataset.qidx || Date.now()}" value="${letters[idx] || ''}" style="width:18px;height:18px;accent-color:var(--ok);cursor:pointer;flex-shrink:0;" />
-                <input type="text" class="q-option" placeholder="الخيار ${letters[idx] || idx + 1}" value="${letters[idx] || ''}" />
-                <button type="button" class="btn-remove-option" onclick="window.removeOption(this)"><i class="fas fa-times"></i></button>
-            `;
+            div.innerHTML = `<input type="${radioType}" class="q-option-radio" name="correct_${card.dataset.qidx || Date.now()}" value="${letters[idx] || ''}" style="width:18px;height:18px;accent-color:var(--ok);cursor:pointer;flex-shrink:0;" /><input type="text" class="q-option" placeholder="الخيار ${letters[idx] || idx + 1}" value="${letters[idx] || ''}" /><button type="button" class="btn-remove-option" onclick="window.removeOption(this)"><i class="fas fa-times"></i></button>`;
             list.appendChild(div);
             const newInput = div.querySelector('.q-option');
             const newRadio = div.querySelector('.q-option-radio');
@@ -1179,7 +1227,10 @@
             const attempts = parseInt(document.getElementById('examAttempts').value);
             const classId = document.getElementById('examClass').value;
             const status = document.getElementById('examStatus').value;
+            const startTime = document.getElementById('examStartTime').value || null;
+            const endTime = document.getElementById('examEndTime').value || null;
             if (!name || !classId) { showToast('⚠️ أكمل الحقول.', 'warning'); return false; }
+            if (startTime && endTime && new Date(startTime) >= new Date(endTime)) { showToast('⚠️ وقت البداية قبل وقت النهاية.', 'warning'); return false; }
             const questionCards = document.querySelectorAll('#questionsContainer .question-card');
             const questions = [];
             let valid = true;
@@ -1201,7 +1252,7 @@
                 }
                 if (!text) { showToast(`⚠️ السؤال ${idx + 1} بلا نص.`, 'warning'); valid = false; return; }
                 if ((type === 'multiple' || type === 'single') && options.length < 2) { showToast(`⚠️ السؤال ${idx + 1} خياران على الأقل.`, 'warning'); valid = false; return; }
-                if ((type === 'single' || type === 'truefalse') && !correct) { showToast(`⚠️ السؤال ${idx + 1} يحتاج إجابة صحيحة.`, 'warning'); valid = false; return; }
+                if ((type === 'single' || type === 'truefalse') && !correct) { showToast(`⚠️ السؤال ${idx + 1} يحتاج إجابة.`, 'warning'); valid = false; return; }
                 questions.push({ id: 'q_' + Date.now() + '_' + idx, text, type, points, options, correct, modelAnswer });
             });
             if (!valid || questions.length === 0) {
@@ -1215,6 +1266,7 @@
                     exam.name = name; exam.description = description; exam.duration = duration;
                     exam.attempts = attempts; exam.classId = classId; exam.status = status;
                     exam.questions = questions; exam.totalPoints = totalPoints;
+                    exam.startTime = startTime; exam.endTime = endTime;
                     exam.updatedAt = new Date().toISOString();
                 }
                 await saveDB();
@@ -1222,7 +1274,7 @@
                 showToast(`✅ تم التعديل!`, 'success');
             } else {
                 const examCode = genExamCode();
-                const exam = { id: 'exam_' + Date.now(), code: examCode, name, description, duration, attempts, classId, status, servantUsername: session.username, questions, createdAt: new Date().toISOString(), totalPoints, startTime: null, endTime: null };
+                const exam = { id: 'exam_' + Date.now(), code: examCode, name, description, duration, attempts, classId, status, servantUsername: session.username, questions, createdAt: new Date().toISOString(), totalPoints, startTime, endTime };
                 db.exams.push(exam);
                 await saveDB();
                 window.closeExamModal();
@@ -1242,86 +1294,310 @@
             showToast(`🗑️ تم الحذف`, 'success');
             render();
         };
+
+        // ============================================================
+        // START EXAM (single-question view + timer + navigator)
+        // ============================================================
+        function isExamCurrentlyOpen(exam) {
+            const now = new Date();
+            if (exam.startTime && new Date(exam.startTime) > now) return { open: false, reason: 'لم يبدأ بعد' };
+            if (exam.endTime && new Date(exam.endTime) < now) return { open: false, reason: 'انتهى' };
+            return { open: true };
+        }
         window.startExam = function(examId, childId) {
             const exam = db.exams.find(e => e.id === examId);
             if (!exam) { showToast('❌ غير موجود.', 'error'); return; }
             if (exam.status === 'closed') { showToast('⚠️ مغلق.', 'warning'); return; }
+            const openCheck = isExamCurrentlyOpen(exam);
+            if (!openCheck.open) { showToast(`⚠️ ${openCheck.reason}`, 'warning'); return; }
             const results = db.examResults.filter(r => r.examId === examId && r.childId === childId);
             const completedCount = results.filter(r => r.status === 'completed').length;
             if (completedCount >= exam.attempts) { showToast('⚠️ استهلكت جميع المحاولات.', 'warning'); return; }
             const pendingResult = results.find(r => r.status === 'in-progress');
-            if (pendingResult) { renderExamQuestions(exam, childId, pendingResult); return; }
-            const result = { id: 'result_' + Date.now(), examId, childId, startedAt: new Date().toISOString(), status: 'in-progress', answers: {}, score: 0, totalPoints: exam.totalPoints, attempts: completedCount + 1 };
+            if (pendingResult) { openExamSession(exam, childId, pendingResult); return; }
+            const result = {
+                id: 'result_' + Date.now(), examId, childId,
+                startedAt: new Date().toISOString(), status: 'in-progress',
+                answers: {}, score: 0, totalPoints: exam.totalPoints,
+                attempts: completedCount + 1
+            };
             db.examResults.push(result);
             saveDB();
-            renderExamQuestions(exam, childId, result);
+            openExamSession(exam, childId, result);
         };
-        function renderExamQuestions(exam, childId, result) {
+
+        function openExamSession(exam, childId, result) {
             document.body.classList.add('exam-focus-mode');
-            const modal = document.getElementById('takeExamModal');
-            document.getElementById('takeExamTitle').textContent = `📝 ${exam.name}`;
             const startTime = new Date(result.startedAt);
             const endTime = new Date(startTime.getTime() + exam.duration * 60000);
-            const now = new Date();
-            let timeLeft = Math.max(0, Math.floor((endTime - now) / 1000));
-            if (examTimerInterval) clearInterval(examTimerInterval);
-            const timerDisplay = document.getElementById('takeExamTimer');
-            examTimerInterval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) { clearInterval(examTimerInterval); timerDisplay.textContent = '⏰ انتهى!'; submitExamAnswers(exam.id, childId, true); return; }
-                const mins = Math.floor(timeLeft / 60); const secs = timeLeft % 60;
-                timerDisplay.textContent = `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-                timerDisplay.style.color = timeLeft < 60 ? 'var(--bad)' : 'var(--ok)';
-            }, 1000);
-            const container = document.getElementById('takeExamContent');
-            let html = `<div style="margin-bottom:12px;">
-                <p style="color:var(--text-muted);font-size:0.85rem;">${esc(exam.description || '')}</p>
-                <p style="color:var(--text-muted);font-size:0.8rem;">الدرجة: ${exam.totalPoints} | الأسئلة: ${exam.questions.length} | محاولة ${result.attempts} من ${exam.attempts}</p>
-            </div><form id="examForm" onsubmit="event.preventDefault();">`;
-            exam.questions.forEach((q, idx) => {
-                const savedAnswer = result.answers[q.id] || '';
-                const isEssay = q.type === 'essay' || q.type === 'complete';
-                html += `<div class="question-card"><div class="question-text">${idx + 1}. ${esc(q.text)} <span style="font-size:0.7rem;color:var(--text-muted);">(${q.points})</span></div><div class="question-options">`;
-                if (q.type === 'truefalse') {
-                    html += `<label><input type="radio" name="q_${q.id}" value="صح" ${savedAnswer === 'صح' ? 'checked' : ''} /> صح</label><label><input type="radio" name="q_${q.id}" value="خطأ" ${savedAnswer === 'خطأ' ? 'checked' : ''} /> خطأ</label>`;
-                } else if (q.type === 'single') {
-                    q.options.forEach(opt => { html += `<label><input type="radio" name="q_${q.id}" value="${esc(opt)}" ${savedAnswer === opt ? 'checked' : ''} /> ${esc(opt)}</label>`; });
-                } else if (q.type === 'multiple') {
-                    const savedAnswers = savedAnswer ? savedAnswer.split(',') : [];
-                    q.options.forEach(opt => { const checked = savedAnswers.includes(opt) ? 'checked' : ''; html += `<label><input type="checkbox" name="q_${q.id}" value="${esc(opt)}" ${checked} /> ${esc(opt)}</label>`; });
-                } else if (isEssay) {
-                    html += `<textarea name="q_${q.id}" style="width:100%;min-height:60px;">${esc(savedAnswer)}</textarea>`;
-                }
-                html += `</div></div>`;
-            });
-            html += `<div style="display:flex;gap:8px;margin-top:12px;"><button type="button" class="btn btn-admin" onclick="window.submitExamAnswers('${exam.id}','${childId}',false)"><i class="fas fa-check"></i> تسليم</button><button type="button" class="btn btn-secondary" onclick="window.closeTakeExamModal()"><i class="fas fa-times"></i> إلغاء</button></div></form>`;
-            container.innerHTML = html;
-            modal.classList.add('active');
+            activeExamSession = {
+                exam, childId, result,
+                currentIndex: 0,
+                answers: Object.assign({}, result.answers || {}),
+                timerEnd: endTime,
+                timerInterval: null,
+                autoSaveTimeout: null,
+                submitted: false
+            };
+            if (exam.endTime && new Date(exam.endTime) < endTime) {
+                activeExamSession.timerEnd = new Date(exam.endTime);
+            }
+            renderExamSession();
+            document.getElementById('takeExamModal').classList.add('active');
+            startExamTimer();
         }
-        // FIXED scoring
+
+        function startExamTimer() {
+            if (!activeExamSession) return;
+            if (activeExamSession.timerInterval) clearInterval(activeExamSession.timerInterval);
+            updateExamTimerDisplay();
+            activeExamSession.timerInterval = setInterval(() => {
+                if (!activeExamSession) return;
+                const now = new Date();
+                const left = Math.floor((activeExamSession.timerEnd - now) / 1000);
+                if (left <= 0) {
+                    clearInterval(activeExamSession.timerInterval);
+                    showToast('⏰ انتهى الوقت! يتم التسليم تلقائياً...', 'warning');
+                    window.submitExamAnswers(activeExamSession.exam.id, activeExamSession.childId, true);
+                    return;
+                }
+                updateExamTimerDisplay();
+            }, 1000);
+        }
+        function updateExamTimerDisplay() {
+            const el = document.getElementById('takeExamTimer');
+            if (!el || !activeExamSession) return;
+            const now = new Date();
+            const left = Math.max(0, Math.floor((activeExamSession.timerEnd - now) / 1000));
+            const m = Math.floor(left / 60);
+            const s = left % 60;
+            const h = Math.floor(m / 60);
+            const mm = m % 60;
+            let txt = h > 0 ? `${h}:${String(mm).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${String(mm).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            el.innerHTML = `<i class="fas fa-hourglass-half"></i> ${txt}`;
+            el.classList.remove('warning', 'danger');
+            if (left <= 60) el.classList.add('danger');
+            else if (left <= 300) el.classList.add('warning');
+        }
+
+        function renderExamSession() {
+            if (!activeExamSession) return;
+            const { exam, currentIndex, answers } = activeExamSession;
+            document.getElementById('takeExamTitle').innerHTML = `<i class="fas fa-pencil-alt" style="color:#6a1b9a;"></i> ${esc(exam.name)}`;
+            const total = exam.questions.length;
+            const answeredCount = Object.keys(answers).filter(k => {
+                const v = answers[k];
+                return v !== undefined && v !== null && String(v).trim() !== '';
+            }).length;
+            const progressPct = total > 0 ? Math.round((answeredCount / total) * 100) : 0;
+
+            let navHtml = '';
+            exam.questions.forEach((q, idx) => {
+                const userAnswer = answers[q.id];
+                const isAnswered = userAnswer !== undefined && userAnswer !== null && String(userAnswer).trim() !== '';
+                const isCurrent = idx === currentIndex;
+                let cls = 'q-nav-num';
+                if (isAnswered) cls += ' answered';
+                else cls += ' unanswered';
+                if (isCurrent) cls += ' current';
+                navHtml += `<div class="${cls}" onclick="window.jumpToQuestion(${idx})" title="سؤال ${idx + 1}">${idx + 1}</div>`;
+            });
+
+            const q = exam.questions[currentIndex];
+            const userAnswer = answers[q.id] || '';
+            let qHtml = '';
+            const isEssay = q.type === 'essay' || q.type === 'complete';
+            qHtml += `<div class="single-q-view">`;
+            qHtml += `<span class="q-num-badge">سؤال ${currentIndex + 1} من ${total}</span>`;
+            qHtml += `<span style="margin-right:10px;font-size:0.75rem;color:var(--text-muted);">(${q.points} درجة)</span>`;
+            qHtml += `<div class="q-title">${esc(q.text)}</div>`;
+            qHtml += `<div class="q-options">`;
+            if (q.type === 'truefalse') {
+                ['صح', 'خطأ'].forEach(opt => {
+                    const sel = userAnswer === opt ? 'selected' : '';
+                    qHtml += `<label class="q-opt ${sel}"><input type="radio" name="q_${q.id}" value="${opt}" ${userAnswer === opt ? 'checked' : ''} onchange="window.recordAnswer('${q.id}', '${opt}')" /> ${opt}</label>`;
+                });
+            } else if (q.type === 'single') {
+                q.options.forEach(opt => {
+                    const sel = userAnswer === opt ? 'selected' : '';
+                    qHtml += `<label class="q-opt ${sel}"><input type="radio" name="q_${q.id}" value="${esc(opt)}" ${userAnswer === opt ? 'checked' : ''} onchange="window.recordAnswer('${q.id}', this.value)" /> ${esc(opt)}</label>`;
+                });
+            } else if (q.type === 'multiple') {
+                const arr = userAnswer ? String(userAnswer).split(',').map(s => s.trim()).filter(Boolean) : [];
+                q.options.forEach(opt => {
+                    const checked = arr.includes(opt);
+                    const sel = checked ? 'selected' : '';
+                    qHtml += `<label class="q-opt ${sel}"><input type="checkbox" name="q_${q.id}" value="${esc(opt)}" ${checked ? 'checked' : ''} onchange="window.toggleMultiAnswer('${q.id}', this.value, this.checked)" /> ${esc(opt)}</label>`;
+                });
+            } else if (isEssay) {
+                qHtml += `<textarea id="essay_${q.id}" placeholder="اكتب إجابتك هنا..." oninput="window.recordAnswer('${q.id}', this.value)">${esc(userAnswer)}</textarea>`;
+            }
+            qHtml += `</div>`;
+            qHtml += `</div>`;
+
+            const isFirst = currentIndex === 0;
+            const isLast = currentIndex === total - 1;
+
+            const container = document.getElementById('takeExamContent');
+            container.innerHTML = `
+                <div class="exam-header-bar">
+                    <div class="exam-timer-box" id="takeExamTimer"><i class="fas fa-hourglass-half"></i> --:--</div>
+                    <div class="exam-progress">
+                        <span><i class="fas fa-check-circle" style="color:var(--ok);"></i> ${answeredCount}/${total}</span>
+                        <div class="bar"><div class="fill" style="width:${progressPct}%;"></div></div>
+                        <span>${progressPct}%</span>
+                    </div>
+                </div>
+                ${exam.questions.length > 1 ? `<div class="q-nav-grid">${navHtml}</div>` : ''}
+                ${qHtml}
+                <div class="exam-nav-buttons">
+                    <button class="btn btn-secondary" onclick="window.prevQuestion()" ${isFirst ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''}><i class="fas fa-arrow-right"></i> السابق</button>
+                    ${isLast
+                        ? `<button class="btn btn-ok" onclick="window.openExamConfirmModal()"><i class="fas fa-paper-plane"></i> تسليم الاختبار</button>`
+                        : `<button class="btn btn-admin" onclick="window.nextQuestion()">التالي <i class="fas fa-arrow-left"></i></button>`
+                    }
+                </div>
+                <div style="text-align:center;margin-top:10px;">
+                    <button class="btn btn-ghost-ok btn-sm" onclick="window.openExamConfirmModal()"><i class="fas fa-paper-plane"></i> تسليم الاختبار الآن</button>
+                </div>
+            `;
+            updateExamTimerDisplay();
+        }
+
+        window.jumpToQuestion = function(idx) {
+            if (!activeExamSession) return;
+            activeExamSession.currentIndex = idx;
+            renderExamSession();
+        };
+        window.prevQuestion = function() {
+            if (!activeExamSession) return;
+            if (activeExamSession.currentIndex > 0) {
+                activeExamSession.currentIndex--;
+                renderExamSession();
+            }
+        };
+        window.nextQuestion = function() {
+            if (!activeExamSession) return;
+            const total = activeExamSession.exam.questions.length;
+            if (activeExamSession.currentIndex < total - 1) {
+                activeExamSession.currentIndex++;
+                renderExamSession();
+            }
+        };
+
+        window.recordAnswer = function(qid, value) {
+            if (!activeExamSession) return;
+            activeExamSession.answers[qid] = value;
+            updateNavStates();
+            scheduleAutoSave();
+        };
+        window.toggleMultiAnswer = function(qid, value, checked) {
+            if (!activeExamSession) return;
+            let arr = activeExamSession.answers[qid] ? String(activeExamSession.answers[qid]).split(',').map(s => s.trim()).filter(Boolean) : [];
+            if (checked) { if (!arr.includes(value)) arr.push(value); }
+            else { arr = arr.filter(v => v !== value); }
+            activeExamSession.answers[qid] = arr.join(',');
+            updateNavStates();
+            scheduleAutoSave();
+        };
+
+        function updateNavStates() {
+            const grid = document.querySelector('.q-nav-grid');
+            if (!grid || !activeExamSession) return;
+            const { exam, answers, currentIndex } = activeExamSession;
+            grid.querySelectorAll('.q-nav-num').forEach((el, idx) => {
+                const q = exam.questions[idx];
+                const a = answers[q.id];
+                const isAnswered = a !== undefined && a !== null && String(a).trim() !== '';
+                el.classList.remove('answered', 'unanswered', 'current');
+                el.classList.add(isAnswered ? 'answered' : 'unanswered');
+                if (idx === currentIndex) el.classList.add('current');
+            });
+            const total = exam.questions.length;
+            const answeredCount = Object.keys(answers).filter(k => {
+                const v = answers[k];
+                return v !== undefined && v !== null && String(v).trim() !== '';
+            }).length;
+            const pct = total > 0 ? Math.round((answeredCount / total) * 100) : 0;
+            const progressFill = document.querySelector('.exam-progress .fill');
+            const progressText = document.querySelector('.exam-progress span:first-child');
+            const progressPct = document.querySelector('.exam-progress span:last-child');
+            if (progressFill) progressFill.style.width = pct + '%';
+            if (progressText) progressText.innerHTML = `<i class="fas fa-check-circle" style="color:var(--ok);"></i> ${answeredCount}/${total}`;
+            if (progressPct) progressPct.textContent = pct + '%';
+            const q = exam.questions[currentIndex];
+            document.querySelectorAll('.single-q-view .q-opt').forEach(lbl => {
+                const inp = lbl.querySelector('input');
+                if (!inp) return;
+                const v = inp.value;
+                const ua = answers[q.id] || '';
+                if (q.type === 'multiple') {
+                    const arr = String(ua).split(',').map(s => s.trim()).filter(Boolean);
+                    lbl.classList.toggle('selected', arr.includes(v));
+                } else {
+                    lbl.classList.toggle('selected', ua === v);
+                }
+            });
+        }
+
+        function scheduleAutoSave() {
+            if (!activeExamSession) return;
+            if (activeExamSession.autoSaveTimeout) clearTimeout(activeExamSession.autoSaveTimeout);
+            activeExamSession.autoSaveTimeout = setTimeout(async () => {
+                if (!activeExamSession) return;
+                const result = db.examResults.find(r => r.id === activeExamSession.result.id);
+                if (!result) return;
+                result.answers = Object.assign({}, activeExamSession.answers);
+                try { await saveDB(); } catch (e) {}
+            }, 600);
+        }
+
+        window.openExamConfirmModal = function() {
+            if (!activeExamSession) return;
+            const { exam, answers } = activeExamSession;
+            const total = exam.questions.length;
+            const answered = exam.questions.filter(q => {
+                const a = answers[q.id];
+                return a !== undefined && a !== null && String(a).trim() !== '';
+            }).length;
+            const unanswered = total - answered;
+            document.getElementById('confirmAnswered').textContent = answered;
+            document.getElementById('confirmUnanswered').textContent = unanswered;
+            document.getElementById('confirmTotal').textContent = total;
+            const noteBox = document.getElementById('confirmUnansweredNote');
+            if (unanswered > 0) {
+                noteBox.innerHTML = `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> عندك ${unanswered} سؤال لسه مش مُجاب. راجعهم أحسن!</div>`;
+            } else {
+                noteBox.innerHTML = `<div class="alert alert-success"><i class="fas fa-check-circle"></i> إجاباتك كلها مكتملة! 👏</div>`;
+            }
+            document.getElementById('examConfirmModal').classList.add('active');
+        };
+        window.closeExamConfirmModal = function() {
+            document.getElementById('examConfirmModal').classList.remove('active');
+        };
+        window.confirmSubmitNow = function() {
+            document.getElementById('examConfirmModal').classList.remove('active');
+            if (!activeExamSession) return;
+            window.submitExamAnswers(activeExamSession.exam.id, activeExamSession.childId, false);
+        };
+
         window.submitExamAnswers = async function(examId, childId, autoSubmit = false) {
-            if (examTimerInterval) clearInterval(examTimerInterval);
+            if (!activeExamSession) { showToast('❌ لا توجد جلسة نشطة.', 'error'); return; }
+            if (activeExamSession.submitted) return;
+            activeExamSession.submitted = true;
+            if (activeExamSession.timerInterval) clearInterval(activeExamSession.timerInterval);
+            if (activeExamSession.autoSaveTimeout) clearTimeout(activeExamSession.autoSaveTimeout);
+
             const exam = db.exams.find(e => e.id === examId);
             if (!exam) { showToast('❌ غير موجود.', 'error'); return; }
-            const result = db.examResults.find(r => r.examId === examId && r.childId === childId && r.status === 'in-progress');
+            const result = db.examResults.find(r => r.id === activeExamSession.result.id);
             if (!result) { showToast('❌ لا توجد محاولة نشطة.', 'error'); return; }
-            const answers = {};
+
+            const answers = Object.assign({}, activeExamSession.answers);
+
             let totalScore = 0;
-            if (!autoSubmit) {
-                const form = document.getElementById('examForm');
-                if (!form) autoSubmit = true;
-                if (form) {
-                    form.querySelectorAll('input, textarea').forEach(input => {
-                        const key = input.name.replace('q_', '');
-                        if (input.type === 'radio') { if (input.checked) answers[key] = input.value; }
-                        else if (input.type === 'checkbox') { if (input.checked) { if (!answers[key]) answers[key] = []; answers[key].push(input.value); } }
-                        else if (input.type === 'text' || input.type === 'textarea') { const v = input.value.trim(); if (v) answers[key] = v; }
-                    });
-                    Object.keys(answers).forEach(k => { if (Array.isArray(answers[k])) answers[k] = answers[k].join(','); });
-                }
-            } else { Object.assign(answers, result.answers || {}); }
             exam.questions.forEach(q => {
-                const userAnswer = (answers[q.id] || '').toString();
+                const userAnswer = (answers[q.id] !== undefined && answers[q.id] !== null) ? String(answers[q.id]) : '';
                 let isCorrect = false;
                 if (q.type === 'truefalse') {
                     isCorrect = userAnswer.trim() === (q.correct || '').trim();
@@ -1341,28 +1617,43 @@
             result.answers = answers;
             result.score = totalScore;
             result.isCorrect = totalScore >= exam.totalPoints * 0.5;
-            await saveDB();
-            window.closeTakeExamModal();
-            showExamResult(examId, childId);
-        };
-        window.closeTakeExamModal = function() {
-            if (examTimerInterval) clearInterval(examTimerInterval);
-            document.getElementById('takeExamModal').classList.remove('active');
+
             document.body.classList.remove('exam-focus-mode');
+            const sid = activeExamSession.childId;
+            activeExamSession = null;
+
+            await saveDB();
+            document.getElementById('takeExamModal').classList.remove('active');
+            showToast('✅ تم تسليم الاختبار!', 'success');
+            showExamResult(examId, sid);
         };
+
+        window.tryCloseTakeExam = function() {
+            if (!activeExamSession) {
+                document.getElementById('takeExamModal').classList.remove('active');
+                return;
+            }
+            if (confirm('⚠️ هل أنت متأكد من إغلاق الاختبار؟\nإجاباتك محفوظة تلقائياً، لكن لن يتم التسليم الآن.')) {
+                document.getElementById('takeExamModal').classList.remove('active');
+                document.body.classList.remove('exam-focus-mode');
+                showToast('💾 تم حفظ إجاباتك. يمكنك الاستكمال لاحقاً.', 'info');
+            }
+        };
+
         window.closeExamResultModal = function() { document.getElementById('examResultModal').classList.remove('active'); render(); };
 
-        // FIXED showExamResult + smart retake button
         function showExamResult(examId, childId) {
             const exam = db.exams.find(e => e.id === examId);
-            const result = db.examResults.find(r => r.examId === examId && r.childId === childId && r.status === 'completed');
+            const allResults = db.examResults.filter(r => r.examId === examId && r.childId === childId);
+            const completedResults = allResults.filter(r => r.status === 'completed');
+            const result = completedResults.sort((a,b) => new Date(b.endedAt) - new Date(a.endedAt))[0];
             if (!exam || !result) return;
             const child = db.children.find(c => c.id === childId);
             const container = document.getElementById('examResultContent');
             let html = `
                 <div style="margin-bottom:16px;">
                     <h4 style="font-size:1.1rem;">${esc(exam.name)}</h4>
-                    <p style="color:var(--text-muted);font-size:0.85rem;">الطالب: ${child ? esc(child.name) : 'غير معروف'}</p>
+                    <p style="color:var(--text-muted);font-size:0.85rem;">الطالب: ${child ? esc(child.name) : '—'}</p>
                     <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">
                         <span class="badge ${result.score >= exam.totalPoints * 0.5 ? 'badge-ok' : 'badge-bad'}">${result.score >= exam.totalPoints * 0.5 ? '✅ ناجح' : '❌ غير ناجح'}</span>
                         <span class="badge badge-info">الدرجة: ${result.score} / ${exam.totalPoints}</span>
@@ -1378,7 +1669,7 @@
                 if (q.type === 'truefalse') isCorrect = userAnswer.trim() === (q.correct || '').trim();
                 else if (q.type === 'single') isCorrect = normalizeText(userAnswer) === normalizeText(q.correct);
                 else if (q.type === 'multiple') {
-                    const uA = userAnswer.split(',').map(a => a.trim()).filter(Boolean).map(normalizeText).sort();
+                    const uA = String(userAnswer).split(',').map(a => a.trim()).filter(Boolean).map(normalizeText).sort();
                     const cA = (q.correct || '').split(',').map(a => a.trim()).filter(Boolean).map(normalizeText).sort();
                     isCorrect = uA.length === cA.length && uA.length > 0 && uA.every((a, i) => a === cA[i]);
                 } else if (q.type === 'essay' || q.type === 'complete') isCorrect = isAnswerCorrect(userAnswer, q.modelAnswer);
@@ -1391,9 +1682,7 @@
                         </div>
                     </div>`;
             });
-            const allResults = db.examResults.filter(r => r.examId === examId && r.childId === childId);
-            const completedAttempts = allResults.filter(r => r.status === 'completed').length;
-            const attemptsLeft = exam.attempts - completedAttempts;
+            const attemptsLeft = exam.attempts - completedResults.length;
             const hasPendingRequest = allResults.some(r => r.retakeRequested);
             let retakeBtn = '';
             if (attemptsLeft > 0) {
@@ -1408,13 +1697,13 @@
                 <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
                     <button class="btn btn-secondary btn-sm" onclick="window.closeExamResultModal()"><i class="fas fa-times"></i> إغلاق</button>
                     ${retakeBtn}
-                    <button class="btn btn-admin btn-sm" onclick="window.approveExamRetake('${examId}','${childId}')"><i class="fas fa-check-circle"></i> موافقة (إعادة تعيين)</button>
+                    ${session && !session.isAdmin ? `<button class="btn btn-gold btn-sm" onclick="window.requestExamRetake('${examId}','${childId}')"><i class="fas fa-undo"></i> طلب إعادة</button>` : ''}
+                    <button class="btn btn-admin btn-sm" onclick="window.approveExamRetake('${examId}','${childId}')"><i class="fas fa-check-circle"></i> موافقة الأدمن</button>
                 </div>`;
             container.innerHTML = html;
             document.getElementById('examResultModal').classList.add('active');
-            document.getElementById('examResultModal').querySelector('.modal-header h3').textContent = '📊 نتيجة الاختبار';
+            document.getElementById('examResultModal').querySelector('.modal-header h3').textContent = '📊 النتيجة';
         }
-
         window.handleRetakeAttempt = function(examId, childId) {
             const exam = db.exams.find(e => e.id === examId);
             if (!exam) return;
@@ -1447,12 +1736,20 @@
         };
         window.approveExamRetake = function(examId, childId) {
             if (!session || !session.isAdmin) { showToast('⛔ غير مصرح.', 'error'); return; }
-            const result = db.examResults.find(r => r.examId === examId && r.childId === childId);
-            if (!result) return;
             db.examResults = db.examResults.filter(r => !(r.examId === examId && r.childId === childId));
             saveDB();
             showToast('✅ تمت الموافقة.', 'success');
             window.closeExamResultModal();
+            render();
+        };
+        window.requestExamRetake = function(examId, childId) {
+            const result = db.examResults.find(r => r.examId === examId && r.childId === childId && r.status === 'completed');
+            if (!result) return;
+            if (result.retakeRequested) { showToast('⚠️ طلبت بالفعل.', 'warning'); return; }
+            result.retakeRequested = true;
+            result.retakeRequestedAt = new Date().toISOString();
+            saveDB();
+            showToast('✅ تم إرسال الطلب.', 'success');
             render();
         };
 
@@ -1473,27 +1770,37 @@
                 const er = results.filter(r => r.examId === exam.id);
                 const completedCount = er.filter(r => r.status === 'completed').length;
                 const attemptsLeft = exam.attempts - completedCount;
-                const lastCompleted = er.find(r => r.status === 'completed');
+                const lastCompleted = er.filter(r => r.status === 'completed').sort((a,b) => new Date(b.endedAt) - new Date(a.endedAt))[0];
                 const isInProgress = er.some(r => r.status === 'in-progress');
                 const hasPending = er.some(r => r.retakeRequested);
+                const openCheck = isExamCurrentlyOpen(exam);
+                let timeBadge = '';
+                if (exam.startTime || exam.endTime) {
+                    const parts = [];
+                    if (exam.startTime) parts.push(`من ${new Date(exam.startTime).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' })}`);
+                    if (exam.endTime) parts.push(`إلى ${new Date(exam.endTime).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' })}`);
+                    timeBadge = `<span class="optional-chip"><i class="fas fa-clock"></i> ${parts.join(' - ')}</span>`;
+                }
                 html += `
                     <div class="glass" style="padding:14px;">
                         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
                             <div>
                                 <h4 style="font-size:1rem;">${esc(exam.name)}</h4>
                                 <p style="font-size:0.8rem;color:var(--text-muted);">${esc(exam.description || '')}</p>
-                                <div style="font-size:0.75rem;color:var(--text-muted);">
+                                <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">
                                     <span>⏱️ ${exam.duration} دقيقة</span>
                                     <span style="margin-right:8px;">📝 ${exam.questions.length}</span>
                                     <span style="margin-right:8px;">🏆 ${exam.totalPoints}</span>
                                     <span style="margin-right:8px;">🔄 ${completedCount}/${exam.attempts}</span>
+                                    ${timeBadge}
                                 </div>
                             </div>
                             <div style="display:flex;gap:6px;flex-wrap:wrap;">
                                 ${lastCompleted ? `<button class="btn btn-sm btn-secondary" onclick="window.showExamResult('${exam.id}','${childId}')"><i class="fas fa-eye"></i> النتيجة</button>` : ''}
                                 ${isInProgress ? `<button class="btn btn-sm btn-gold" onclick="window.startExam('${exam.id}','${childId}')"><i class="fas fa-play"></i> استكمال</button>` : ''}
-                                ${exam.status === 'active' && attemptsLeft > 0 && !isInProgress ? `<button class="btn btn-sm btn-admin" onclick="window.startExam('${exam.id}','${childId}')"><i class="fas fa-play"></i> ${completedCount > 0 ? 'محاولة جديدة' : 'بدء'}</button>` : ''}
-                                ${exam.status === 'active' && attemptsLeft <= 0 && !hasPending && !isInProgress ? `<button class="btn btn-sm btn-gold" onclick="window.handleRetakeAttempt('${exam.id}','${childId}')"><i class="fas fa-paper-plane"></i> طلب إعادة</button>` : ''}
+                                ${exam.status === 'active' && openCheck.open && attemptsLeft > 0 && !isInProgress ? `<button class="btn btn-sm btn-admin" onclick="window.startExam('${exam.id}','${childId}')"><i class="fas fa-play"></i> ${completedCount > 0 ? 'محاولة جديدة' : 'بدء'}</button>` : ''}
+                                ${!openCheck.open ? `<span class="badge badge-pending">⏳ ${openCheck.reason}</span>` : ''}
+                                ${exam.status === 'active' && openCheck.open && attemptsLeft <= 0 && !hasPending && !isInProgress ? `<button class="btn btn-sm btn-gold" onclick="window.handleRetakeAttempt('${exam.id}','${childId}')"><i class="fas fa-paper-plane"></i> طلب إعادة</button>` : ''}
                             </div>
                         </div>
                         ${hasPending ? `<div style="font-size:0.7rem;color:var(--pending);margin-top:4px;">⏳ قيد مراجعة إعادة الاختبار</div>` : ''}
@@ -1510,39 +1817,35 @@
             if (!exam) { showToast('❌ غير موجود.', 'error'); return; }
             const results = db.examResults.filter(r => r.examId === examId);
             const container = document.getElementById('examResultContent');
+            let timeRangeHtml = '';
+            if (exam.startTime || exam.endTime) {
+                timeRangeHtml = `<div class="alert alert-info" style="font-size:0.85rem;"><i class="fas fa-clock"></i> ${exam.startTime ? `من ${new Date(exam.startTime).toLocaleString('ar-EG')}` : ''} ${exam.endTime ? `إلى ${new Date(exam.endTime).toLocaleString('ar-EG')}` : ''}</div>`;
+            } else {
+                timeRangeHtml = `<div class="alert alert-info" style="font-size:0.85rem;"><i class="fas fa-infinity"></i> متاح دائماً (بدون وقت بداية/نهاية)</div>`;
+            }
             let html = `
                 <div style="margin-bottom:16px;">
                     <h4 style="font-size:1.1rem;">${esc(exam.name)}</h4>
                     <p style="color:var(--text-muted);font-size:0.85rem;">${esc(exam.description || '')}</p>
                     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
                         <span class="badge badge-info">⏱️ ${exam.duration} دقيقة</span>
-                        <span class="badge badge-info">📝 ${exam.questions.length} سؤال</span>
+                        <span class="badge badge-info">📝 ${exam.questions.length}</span>
                         <span class="badge badge-info">🏆 ${exam.totalPoints}</span>
                         <span class="badge badge-info">🔄 ${exam.attempts}</span>
-                        <span class="badge badge-info">📋 ${results.length} مشاركة</span>
+                        <span class="badge badge-info">📋 ${results.length}</span>
                     </div>
-                    <div style="margin-top:8px;">
-                        <span class="badge badge-info">كود: <code class="code-pill">${esc(exam.code)}</code></span>
-                    </div>
+                    <div style="margin-top:8px;"><span class="badge badge-info">كود: <code class="code-pill">${esc(exam.code)}</code></span></div>
                 </div>
+                ${timeRangeHtml}
                 <div style="text-align:center;margin-top:12px;">
-                    <h5 style="font-size:0.9rem;margin-bottom:8px;"><i class="fas fa-qrcode"></i> QR للاختبار</h5>
+                    <h5 style="font-size:0.9rem;margin-bottom:8px;"><i class="fas fa-qrcode"></i> QR</h5>
                     ${generateQRCodeSVG(exam.code, 160)}
                 </div>
                 <div style="max-height:300px;overflow-y:auto;margin-top:12px;">
-                    <h5 style="font-size:0.95rem;margin-bottom:8px;">الأسئلة (${exam.questions.length})</h5>
+                    <h5 style="font-size:0.95rem;margin-bottom:8px;">الأسئلة</h5>
                     ${exam.questions.map((q, idx) => `<div style="font-size:0.85rem;padding:6px 10px;border-bottom:1px solid var(--border-glass);"><strong>${idx + 1}.</strong> ${esc(q.text)} <span style="font-size:0.7rem;color:var(--text-muted);">[${q.type}] (${q.points})</span>${q.correct ? `<span style="font-size:0.7rem;color:var(--ok);margin-right:6px;">✓ ${esc(q.correct)}</span>` : ''}</div>`).join('')}
                 </div>
-                ${results.length > 0 ? `
-                    <h5 style="font-size:0.95rem;margin-top:12px;margin-bottom:8px;">النتائج (${results.length})</h5>
-                    <div style="max-height:200px;overflow-y:auto;">
-                        ${results.map(r => {
-                            const child = db.children.find(c => c.id === r.childId);
-                            const isPass = r.score >= exam.totalPoints * 0.5;
-                            return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid var(--border-glass);font-size:0.85rem;"><span>${child ? esc(child.name) : 'غير معروف'}</span><span class="badge ${isPass ? 'badge-ok' : 'badge-bad'}">${r.score}/${exam.totalPoints} ${isPass ? '✅' : '❌'}</span><button class="btn btn-sm btn-secondary" onclick="window.showExamResult('${examId}','${r.childId}')"><i class="fas fa-eye"></i></button></div>`;
-                        }).join('')}
-                    </div>
-                ` : ''}
+                ${results.length > 0 ? `<h5 style="font-size:0.95rem;margin-top:12px;margin-bottom:8px;">النتائج</h5><div style="max-height:200px;overflow-y:auto;">${results.map(r => { const child = db.children.find(c => c.id === r.childId); const isPass = r.score >= exam.totalPoints * 0.5; return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid var(--border-glass);font-size:0.85rem;"><span>${child ? esc(child.name) : '—'}</span><span class="badge ${isPass ? 'badge-ok' : 'badge-bad'}">${r.score}/${exam.totalPoints}</span><button class="btn btn-sm btn-secondary" onclick="window.showExamResult('${examId}','${r.childId}')"><i class="fas fa-eye"></i></button></div>`; }).join('')}</div>` : ''}
             `;
             container.innerHTML = html;
             document.getElementById('examResultModal').classList.add('active');
@@ -1558,10 +1861,7 @@
             if (session && session.isAdmin) {
                 const pendingCount = getPendingCount();
                 const unread = getUnreadCount(session.username);
-                sideUser.innerHTML = `
-                    <div class="name"><i class="fas fa-user-circle"></i> ${esc(session.name)}</div>
-                    <div class="role"><span class="badge badge-admin">⭐ أدمن</span>${pendingCount > 0 ? `<span class="badge badge-pending">${pendingCount} طلب</span>` : ''}</div>
-                `;
+                sideUser.innerHTML = `<div class="name"><i class="fas fa-user-circle"></i> ${esc(session.name)}</div><div class="role"><span class="badge badge-admin">⭐ أدمن</span>${pendingCount > 0 ? `<span class="badge badge-pending">${pendingCount} طلب</span>` : ''}</div>`;
                 sideNav.innerHTML = `
                     <div class="group-label">الرئيسية</div>
                     <a href="#" class="${route === 'admin' && activeTab === 'classes' ? 'active' : ''}" onclick="window.go('admin');window.switchTab('classes');return false;"><i class="fas fa-shield-alt"></i> لوحة الأدمن</a>
@@ -1634,8 +1934,8 @@
             return `
                 <section>
                     <div class="glass" style="border-color:#6a1b9a;margin-bottom:16px;">
-                        <h2 style="font-size:1.3rem;margin:0;"><i class="fas fa-chart-line" style="color:#6a1b9a;"></i> التحليلات الشاملة</h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">نظرة شاملة على بيانات المنصة</p>
+                        <h2 style="font-size:1.3rem;margin:0;"><i class="fas fa-chart-line" style="color:#6a1b9a;"></i> التحليلات</h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">نظرة شاملة</p>
                     </div>
                     <div class="stats-grid">
                         <div class="stat-card"><div class="icon"><i class="fas fa-child"></i></div><div class="num">${totalChildren}</div><div class="label">الأطفال</div></div>
@@ -1648,52 +1948,24 @@
                         <div class="stat-card"><div class="icon"><i class="fas fa-percentage"></i></div><div class="num">${presentPercent}%</div><div class="label">نسبة الحضور</div></div>
                     </div>
                     <div class="glass" style="margin-bottom:16px;">
-                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> الحضور الأسبوعي (آخر 8 أسابيع)</h3>
-                        ${sortedWeeks.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : `
-                            <div class="chart-bar-row">
-                                ${sortedWeeks.map(w => {
-                                    const p = weeksMap[w].present; const a = weeksMap[w].absent; const total = p + a;
-                                    const h = total > 0 ? (total / maxWeekVal) * 100 : 0;
-                                    return `<div class="chart-bar" style="height:${Math.max(h, 4)}%;" title="${w}: ${p} حاضر، ${a} غائب"><span class="val">${total}</span><span class="lbl">${w.slice(5)}</span></div>`;
-                                }).join('')}
-                            </div>
-                        `}
+                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> الحضور الأسبوعي</h3>
+                        ${sortedWeeks.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : `<div class="chart-bar-row">${sortedWeeks.map(w => { const p = weeksMap[w].present; const a = weeksMap[w].absent; const total = p + a; const h = total > 0 ? (total / maxWeekVal) * 100 : 0; return `<div class="chart-bar" style="height:${Math.max(h, 4)}%;" title="${w}: ${p}، ${a}"><span class="val">${total}</span><span class="lbl">${w.slice(5)}</span></div>`; }).join('')}</div>`}
                     </div>
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:16px;">
                         <div class="glass">
-                            <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-layer-group" style="color:#6a1b9a;"></i> توزيع الأطفال على الصفوف</h3>
-                            ${classDistribution.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : classDistribution.map(item => {
-                                const pct = totalChildren > 0 ? Math.round((item.count / totalChildren) * 100) : 0;
-                                return `<div class="dist-row"><div class="name">${esc(item.name)}</div><div class="bar"><div class="fill" style="width:${pct}%;">${pct}%</div></div><div class="count">${item.count} طفل</div></div>`;
-                            }).join('')}
+                            <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-layer-group" style="color:#6a1b9a;"></i> توزيع الأطفال</h3>
+                            ${classDistribution.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : classDistribution.map(item => { const pct = totalChildren > 0 ? Math.round((item.count / totalChildren) * 100) : 0; return `<div class="dist-row"><div class="name">${esc(item.name)}</div><div class="bar"><div class="fill" style="width:${pct}%;">${pct}%</div></div><div class="count">${item.count}</div></div>`; }).join('')}
                         </div>
                         <div class="glass">
                             <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-chalkboard-teacher" style="color:#6a1b9a;"></i> أفضل 5 خدام</h3>
-                            ${servantStats.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : servantStats.map((item, i) => {
-                                const max = servantStats[0].childCount || 1;
-                                const pct = Math.round((item.childCount / max) * 100);
-                                return `<div class="dist-row"><div class="name"><span style="display:inline-block;width:22px;height:22px;background:${i === 0 ? 'var(--gold)' : i === 1 ? '#b0bec5' : i === 2 ? '#a1887f' : 'var(--bg-glass)'};color:${i < 3 ? '#fff' : 'var(--text-muted)'};border-radius:50%;text-align:center;line-height:22px;font-size:0.7rem;font-weight:700;margin-left:6px;">${i + 1}</span>${esc(item.servant.name)}</div><div class="bar"><div class="fill" style="width:${pct}%;">${item.childCount}</div></div><div class="count">${item.childCount} طفل</div></div>`;
-                            }).join('')}
+                            ${servantStats.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : servantStats.map((item, i) => { const max = servantStats[0].childCount || 1; const pct = Math.round((item.childCount / max) * 100); return `<div class="dist-row"><div class="name"><span style="display:inline-block;width:22px;height:22px;background:${i === 0 ? 'var(--gold)' : i === 1 ? '#b0bec5' : i === 2 ? '#a1887f' : 'var(--bg-glass)'};color:${i < 3 ? '#fff' : 'var(--text-muted)'};border-radius:50%;text-align:center;line-height:22px;font-size:0.7rem;font-weight:700;margin-left:6px;">${i + 1}</span>${esc(item.servant.name)}</div><div class="bar"><div class="fill" style="width:${pct}%;">${item.childCount}</div></div><div class="count">${item.childCount}</div></div>`; }).join('')}
                         </div>
                     </div>
                     <div class="glass">
                         <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-calendar-alt" style="color:#6a1b9a;"></i> آخر 5 سجلات حضور</h3>
-                        ${db.attendance.length === 0 ? `<p class="empty">لا توجد سجلات</p>` : `
-                        <div class="table-wrap">
-                            <table>
-                                <thead><tr><th>الطفل</th><th>الصف</th><th>التاريخ</th><th>الحالة</th></tr></thead>
-                                <tbody>
-                                    ${db.attendance.slice().sort((a,b) => b.weekDate.localeCompare(a.weekDate)).slice(0,5).map(a => {
-                                        const child = db.children.find(c => c.id === a.childId);
-                                        const cls = child ? db.classes.find(c => c.id === child.classId) : null;
-                                        return `<tr><td>${child ? esc(child.name) : '❓'}</td><td>${cls ? esc(cls.name) : '—'}</td><td>${esc(a.weekDate)}</td><td><span class="badge ${a.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}">${esc(a.status)}</span></td></tr>`;
-                                    }).join('')}
-                                </tbody>
-                            </table>
-                        </div>`}
+                        ${db.attendance.length === 0 ? `<p class="empty">لا توجد سجلات</p>` : `<div class="table-wrap"><table><thead><tr><th>الطفل</th><th>الصف</th><th>التاريخ</th><th>الحالة</th></tr></thead><tbody>${db.attendance.slice().sort((a,b) => b.weekDate.localeCompare(a.weekDate)).slice(0,5).map(a => { const child = db.children.find(c => c.id === a.childId); const cls = child ? db.classes.find(c => c.id === child.classId) : null; return `<tr><td>${child ? esc(child.name) : '❓'}</td><td>${cls ? esc(cls.name) : '—'}</td><td>${esc(a.weekDate)}</td><td><span class="badge ${a.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}">${esc(a.status)}</span></td></tr>`; }).join('')}</tbody></table></div>`}
                     </div>
-                </section>
-            `;
+                </section>`;
         }
 
         // ============================================================
@@ -1706,45 +1978,35 @@
                 <section style="text-align:center;padding:30px 0;">
                     <div style="font-size:4rem;color:#6a1b9a;animation:float 6s ease-in-out infinite;display:inline-block;"><i class="fas fa-shield-alt"></i></div>
                     <h1 style="font-size:2.4rem;background:var(--admin-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">لوحة تحكم الأدمن</h1>
-                    <p style="color:var(--text-muted);max-width:500px;margin:8px auto 20px;font-size:1rem;">إدارة الصفوف، الخدام، الطلبات، الاختبارات، والحضور</p>
+                    <p style="color:var(--text-muted);max-width:500px;margin:8px auto 20px;font-size:1rem;">إدارة كاملة مع اختبارات تفاعلية وتحليلات</p>
                     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                        ${adminExists ? `<button class="btn btn-admin" onclick="window.go('adminLogin')"><i class="fas fa-sign-in-alt"></i> دخول الأدمن</button>` :
-                            `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> ⚠️ لا يوجد أدمن</div>`}
+                        ${adminExists ? `<button class="btn btn-admin" onclick="window.go('adminLogin')"><i class="fas fa-sign-in-alt"></i> دخول الأدمن</button>` : `<div class="alert alert-warning">⚠️ لا يوجد أدمن</div>`}
                     </div>
                 </section>
                 <section style="margin-top:30px;">
-                    <h2 style="font-size:1.2rem;"><i class="fas fa-layer-group" style="color:#6a1b9a;"></i> الصفوف الدراسية</h2>
+                    <h2 style="font-size:1.2rem;"><i class="fas fa-layer-group" style="color:#6a1b9a;"></i> الصفوف</h2>
                     ${renderClassesGrid()}
                 </section>`;
         }
         function renderClassesGrid() {
             const classes = db.classes.sort((a, b) => a.order - b.order);
-            if (classes.length === 0) return `<p class="empty"><i class="fas fa-inbox"></i> لا توجد صفوف</p>`;
-            return `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:10px;">
-                ${classes.map(cls => {
-                    const children = getClassChildren(cls.id);
-                    const servants = getClassServants(cls.id);
-                    const attCount = db.attendance.filter(a => { const child = db.children.find(c => c.id === a.childId); return child && child.classId === cls.id; }).length;
-                    return `<div style="background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-glass);border-radius:var(--radius-sm);padding:14px;text-align:center;transition:var(--transition);cursor:pointer;" onclick="window.go('classDetail','${cls.id}')" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'"><div style="font-family:'Lalezar',cursive;font-size:1.1rem;">${esc(cls.name)}</div><div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;"><i class="fas fa-child"></i> ${children.length} <i class="fas fa-chalkboard-teacher"></i> ${servants.length} <i class="fas fa-clipboard-check"></i> ${attCount}</div></div>`;
-                }).join('')}
-            </div>`;
+            if (classes.length === 0) return `<p class="empty">لا توجد صفوف</p>`;
+            return `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:10px;">${classes.map(cls => { const children = getClassChildren(cls.id); const servants = getClassServants(cls.id); const attCount = db.attendance.filter(a => { const child = db.children.find(c => c.id === a.childId); return child && child.classId === cls.id; }).length; return `<div style="background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-glass);border-radius:var(--radius-sm);padding:14px;text-align:center;cursor:pointer;" onclick="window.go('classDetail','${cls.id}')"><div style="font-family:'Lalezar',cursive;font-size:1.1rem;">${esc(cls.name)}</div><div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;"><i class="fas fa-child"></i> ${children.length} <i class="fas fa-chalkboard-teacher"></i> ${servants.length} <i class="fas fa-clipboard-check"></i> ${attCount}</div></div>`; }).join('')}</div>`;
         }
         function viewAdminLogin() {
             return `
                 <section class="panel glass">
                     <div class="admin-login-icon"><i class="fas fa-shield-alt"></i></div>
                     <h2 style="color:#6a1b9a;text-align:center;font-size:1.8rem;">دخول الأدمن</h2>
-                    <p style="color:var(--text-muted);text-align:center;margin-bottom:16px;font-size:0.9rem;">هذه الصفحة خاصة بمدير النظام</p>
+                    <p style="color:var(--text-muted);text-align:center;margin-bottom:16px;font-size:0.9rem;">خاص بمدير النظام</p>
                     ${alertHtml()}
                     <div id="formMsg"></div>
                     <form class="form" onsubmit="return window.submitAdminLogin(event)">
-                        <label><i class="fas fa-user"></i> اسم المستخدم <input name="username" required autofocus /></label>
-                        <label><i class="fas fa-lock"></i> كلمة المرور <input type="password" name="password" required /></label>
-                        <button class="btn btn-admin" type="submit"><i class="fas fa-shield-alt"></i> دخول الأدمن</button>
+                        <label>اسم المستخدم <input name="username" required autofocus /></label>
+                        <label>كلمة المرور <input type="password" name="password" required /></label>
+                        <button class="btn btn-admin" type="submit"><i class="fas fa-shield-alt"></i> دخول</button>
                     </form>
-                    <p style="margin-top:12px;color:var(--text-muted);text-align:center;font-size:0.85rem;">
-                        <i class="fas fa-arrow-left"></i> <a href="#" onclick="window.go('home');return false;">العودة للرئيسية</a>
-                    </p>
+                    <p style="margin-top:12px;color:var(--text-muted);text-align:center;font-size:0.85rem;"><i class="fas fa-arrow-left"></i> <a href="#" onclick="window.go('home');return false;">الرئيسية</a></p>
                 </section>`;
         }
         async function submitAdminLogin(ev) {
@@ -1755,7 +2017,7 @@
             const msgBox = document.getElementById('formMsg');
             const servant = db.servants.find(s => s.username === username);
             const hash = await sha256(password);
-            if (!servant || servant.passwordHash !== hash) { msgBox.innerHTML = `<div class="alert alert-error">اسم المستخدم أو كلمة المرور خطأ.</div>`; return false; }
+            if (!servant || servant.passwordHash !== hash) { msgBox.innerHTML = `<div class="alert alert-error">البيانات خطأ.</div>`; return false; }
             if (!servant.isAdmin) { msgBox.innerHTML = `<div class="alert alert-error">ليس لديه صلاحية أدمن.</div>`; return false; }
             if (servant.isActive === false) { msgBox.innerHTML = `<div class="alert alert-warning">⚠️ موقوف.</div>`; return false; }
             session = { username: servant.username, name: servant.name, isAdmin: true };
@@ -1783,7 +2045,7 @@
                 <section>
                     ${alertHtml()}
                     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
-                        <h2 style="font-size:1.4rem;margin:0;"><i class="fas fa-shield-alt" style="color:#6a1b9a;"></i> لوحة تحكم الأدمن</h2>
+                        <h2 style="font-size:1.4rem;margin:0;"><i class="fas fa-shield-alt" style="color:#6a1b9a;"></i> لوحة الأدمن</h2>
                         <div style="display:flex;gap:6px;flex-wrap:wrap;">
                             <button class="btn btn-admin btn-sm" onclick="window.exportData()"><i class="fas fa-download"></i> تصدير</button>
                             <button class="btn btn-secondary btn-sm" onclick="window.go('analytics')"><i class="fas fa-chart-line"></i> تحليلات</button>
@@ -1792,8 +2054,8 @@
                         </div>
                     </div>
                     <div class="stats-grid">
-                        <div class="stat-card" style="border-color:var(--pending);"><div class="icon" style="color:var(--pending);"><i class="fas fa-user-clock"></i></div><div class="num" style="color:var(--pending);">${pendingCount}</div><div class="label">بانتظار الموافقة</div></div>
-                        <div class="stat-card" style="border-color:var(--ok);"><div class="icon" style="color:var(--ok);"><i class="fas fa-check-circle"></i></div><div class="num" style="color:var(--ok);">${activeServants}</div><div class="label">خدام نشطين</div></div>
+                        <div class="stat-card" style="border-color:var(--pending);"><div class="icon" style="color:var(--pending);"><i class="fas fa-user-clock"></i></div><div class="num" style="color:var(--pending);">${pendingCount}</div><div class="label">بانتظار</div></div>
+                        <div class="stat-card" style="border-color:var(--ok);"><div class="icon" style="color:var(--ok);"><i class="fas fa-check-circle"></i></div><div class="num" style="color:var(--ok);">${activeServants}</div><div class="label">نشطين</div></div>
                         <div class="stat-card"><div class="icon"><i class="fas fa-layer-group"></i></div><div class="num">${totalClasses}</div><div class="label">الصفوف</div></div>
                         <div class="stat-card"><div class="icon"><i class="fas fa-child"></i></div><div class="num">${totalChildren}</div><div class="label">الأطفال</div></div>
                         <div class="stat-card"><div class="icon"><i class="fas fa-pencil-alt"></i></div><div class="num">${totalExams}</div><div class="label">الاختبارات</div></div>
@@ -1811,40 +2073,14 @@
                         ${active === 'add-child' ? renderAddChildTab() : ''}
                         ${active === 'reports' ? renderReportsTab() : ''}
                     </div>
-                </section>
-            `;
+                </section>`;
         }
         function renderAdminClassesTab() {
-            let html = `
-                <div class="glass" style="margin-bottom:16px;">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-plus-circle" style="color:#6a1b9a;"></i> إضافة صف جديد</h3>
-                    <div id="addClassMsg"></div>
-                    <form class="form-row" onsubmit="return window.submitAddClass(event)">
-                        <label>اسم الصف <input name="className" required /></label>
-                        <label>الترتيب <input type="number" name="order" value="${db.classes.length + 1}" min="1" /></label>
-                        <button class="btn btn-admin" type="submit"><i class="fas fa-plus"></i> إضافة</button>
-                    </form>
-                </div>`;
+            let html = `<div class="glass" style="margin-bottom:16px;"><h3 style="font-size:1.1rem;"><i class="fas fa-plus-circle" style="color:#6a1b9a;"></i> إضافة صف</h3><div id="addClassMsg"></div><form class="form-row" onsubmit="return window.submitAddClass(event)"><label>اسم الصف <input name="className" required /></label><label>الترتيب <input type="number" name="order" value="${db.classes.length + 1}" min="1" /></label><button class="btn btn-admin" type="submit"><i class="fas fa-plus"></i> إضافة</button></form></div>`;
             const classes = db.classes.sort((a, b) => a.order - b.order);
             if (classes.length === 0) { html += `<p class="empty">لا توجد صفوف</p>`; }
             else {
-                html += `
-                    <div class="glass">
-                        <h3 style="font-size:1.1rem;"><i class="fas fa-layer-group"></i> قائمة الصفوف (${classes.length})</h3>
-                        <div class="table-wrap">
-                            <table>
-                                <thead><tr><th>اسم الصف</th><th>الترتيب</th><th>الأطفال</th><th>الخدام</th><th>سجلات</th><th>إجراءات</th></tr></thead>
-                                <tbody>
-                                    ${classes.map(cls => {
-                                        const children = getClassChildren(cls.id);
-                                        const servants = getClassServants(cls.id);
-                                        const attCount = db.attendance.filter(a => { const child = db.children.find(c => c.id === a.childId); return child && child.classId === cls.id; }).length;
-                                        return `<tr><td><strong>${esc(cls.name)}</strong></td><td>${cls.order}</td><td>${children.length}</td><td>${servants.length}</td><td>${attCount}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="btn btn-sm btn-secondary" onclick="window.openEditClassModal('${cls.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-secondary" onclick="window.go('classDetail','${cls.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-bad" onclick="window.deleteClass('${cls.id}')"><i class="fas fa-trash"></i></button></div></td></tr>`;
-                                    }).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>`;
+                html += `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-layer-group"></i> الصفوف (${classes.length})</h3><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الترتيب</th><th>الأطفال</th><th>الخدام</th><th>سجلات</th><th>إجراءات</th></tr></thead><tbody>${classes.map(cls => { const children = getClassChildren(cls.id); const servants = getClassServants(cls.id); const attCount = db.attendance.filter(a => { const child = db.children.find(c => c.id === a.childId); return child && child.classId === cls.id; }).length; return `<tr><td><strong>${esc(cls.name)}</strong></td><td>${cls.order}</td><td>${children.length}</td><td>${servants.length}</td><td>${attCount}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="btn btn-sm btn-secondary" onclick="window.openEditClassModal('${cls.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-secondary" onclick="window.go('classDetail','${cls.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-bad" onclick="window.deleteClass('${cls.id}')"><i class="fas fa-trash"></i></button></div></td></tr>`; }).join('')}</tbody></table></div></div>`;
             }
             return html;
         }
@@ -1857,7 +2093,14 @@
                 const completed = results.filter(r => r.status === 'completed');
                 const statusColors = { active: 'badge-ok', draft: 'badge-pending', closed: 'badge-bad' };
                 const statusLabels = { active: '✅ نشط', draft: '⏳ مسودة', closed: '❌ مغلق' };
-                return `<tr><td><strong>${esc(exam.name)}</strong></td><td>${cls ? esc(cls.name) : '—'}</td><td><code class="code-pill">${esc(exam.code)}</code></td><td>${exam.questions.length}</td><td>${exam.totalPoints}</td><td>${completed.length} / ${results.length}</td><td><span class="badge ${statusColors[exam.status] || 'badge-pending'}">${statusLabels[exam.status] || exam.status}</span></td><td><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="btn btn-sm btn-secondary" onclick="window.viewExamDetails('${exam.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-gold" onclick="window.openExamModal('${exam.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-bad" onclick="window.deleteExam('${exam.id}')"><i class="fas fa-trash"></i></button></div></td></tr>`;
+                let timeBadge = '';
+                if (exam.startTime || exam.endTime) {
+                    const parts = [];
+                    if (exam.startTime) parts.push(`من ${new Date(exam.startTime).toLocaleString('ar-EG', { dateStyle: 'short' })}`);
+                    if (exam.endTime) parts.push(`إلى ${new Date(exam.endTime).toLocaleString('ar-EG', { dateStyle: 'short' })}`);
+                    timeBadge = `<div style="font-size:0.65rem;color:var(--text-muted);margin-top:2px;">🕐 ${parts.join(' - ')}</div>`;
+                }
+                return `<tr><td><strong>${esc(exam.name)}</strong>${timeBadge}</td><td>${cls ? esc(cls.name) : '—'}</td><td><code class="code-pill">${esc(exam.code)}</code></td><td>${exam.questions.length}</td><td>${exam.totalPoints}</td><td>${completed.length} / ${results.length}</td><td><span class="badge ${statusColors[exam.status] || 'badge-pending'}">${statusLabels[exam.status] || exam.status}</span></td><td><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="btn btn-sm btn-secondary" onclick="window.viewExamDetails('${exam.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-gold" onclick="window.openExamModal('${exam.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-bad" onclick="window.deleteExam('${exam.id}')"><i class="fas fa-trash"></i></button></div></td></tr>`;
             }).join('');
             return `
                 <div class="glass">
@@ -1867,7 +2110,7 @@
                     </div>
                     <div class="search-bar">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" placeholder="ابحث بالاسم أو الكود..." value="${esc(examSearchQuery)}" oninput="window.setExamSearch(this.value)" />
+                        <input type="text" placeholder="ابحث..." value="${esc(examSearchQuery)}" oninput="window.setExamSearch(this.value)" />
                         <select onchange="window.setExamStatusFilter(this.value)">
                             <option value="">كل الحالات</option>
                             <option value="active" ${examStatusFilter === 'active' ? 'selected' : ''}>✅ نشط</option>
@@ -1875,37 +2118,18 @@
                             <option value="closed" ${examStatusFilter === 'closed' ? 'selected' : ''}>❌ مغلق</option>
                         </select>
                     </div>
-                    ${exams.length === 0 ? `<p class="empty">لا توجد اختبارات</p>` : `
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>الاسم</th><th>الصف</th><th>الكود</th><th>الأسئلة</th><th>الدرجة</th><th>المختبرين</th><th>الحالة</th><th>إجراءات</th></tr></thead>
-                            <tbody>${rows}</tbody>
-                        </table>
-                    </div>`}
+                    ${exams.length === 0 ? `<p class="empty">لا توجد اختبارات</p>` : `<div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الصف</th><th>الكود</th><th>الأسئلة</th><th>الدرجة</th><th>المختبرين</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody>${rows}</tbody></table></div>`}
                 </div>`;
         }
         function renderAdminPendingTab() {
             let pendingServants = db.servants.filter(s => s.isPending === true);
             if (pendingSearchQuery) { const q = pendingSearchQuery.toLowerCase().trim(); pendingServants = pendingServants.filter(s => s.name.toLowerCase().includes(q) || s.username.toLowerCase().includes(q)); }
-            if (pendingServants.length === 0) return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-check-circle" style="color:var(--ok);"></i> لا توجد طلبات معلقة</h3></div>`;
+            if (pendingServants.length === 0) return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-check-circle" style="color:var(--ok);"></i> لا توجد طلبات</h3></div>`;
             const rows = pendingServants.map(s => {
                 const daysWaiting = s.pendingSince ? Math.floor((new Date() - new Date(s.pendingSince)) / (1000 * 60 * 60 * 24)) : 0;
                 return `<tr><td><i class="fas fa-user-circle" style="color:var(--pending);"></i> ${esc(s.name)}</td><td><code>${esc(s.username)}</code></td><td><span class="badge badge-pending">⏳</span></td><td>${daysWaiting} يوم</td><td><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;"><select id="classSelect_${s.username}" style="padding:4px 10px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass);color:var(--text-primary);font-size:0.8rem;"><option value="">اختر الصف</option>${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}</select><button class="btn btn-sm btn-ok" onclick="window.approveServant('${s.username}')"><i class="fas fa-check"></i></button><button class="btn btn-sm btn-bad" onclick="window.rejectServant('${s.username}')"><i class="fas fa-times"></i></button></div></td></tr>`;
             }).join('');
-            return `
-                <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-user-clock" style="color:var(--pending);"></i> طلبات التسجيل (${pendingServants.length})</h3>
-                    <div class="search-bar">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" placeholder="ابحث بالاسم..." value="${esc(pendingSearchQuery)}" oninput="window.setPendingSearch(this.value)" />
-                    </div>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الحالة</th><th>انتظار</th><th>إجراءات</th></tr></thead>
-                            <tbody>${rows}</tbody>
-                        </table>
-                    </div>
-                </div>`;
+            return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-user-clock" style="color:var(--pending);"></i> الطلبات (${pendingServants.length})</h3><div class="search-bar"><i class="fas fa-search search-icon"></i><input type="text" placeholder="ابحث..." value="${esc(pendingSearchQuery)}" oninput="window.setPendingSearch(this.value)" /></div><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الحالة</th><th>انتظار</th><th>إجراءات</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
         function renderAdminServantsTab() {
             let servants = db.servants.filter(s => !s.isPending);
@@ -1917,28 +2141,7 @@
                 const assignedClass = s.assignedClass ? db.classes.find(c => c.id === s.assignedClass) : null;
                 return `<tr><td><i class="fas fa-user-circle" style="color:#6a1b9a;"></i> ${esc(s.name)}</td><td><code>${esc(s.username)}</code></td><td><span class="badge ${isActive ? 'badge-ok' : 'badge-bad'}">${isActive ? '🟢' : '🔴'}</span>${isAdminUser ? '<span class="badge badge-admin">⭐</span>' : '<span class="badge badge-servant">👨‍🏫</span>'}</td><td>${assignedClass ? esc(assignedClass.name) : '—'}</td><td>${childCount}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;"><button class="btn btn-sm ${isActive ? 'btn-bad' : 'btn-ok'}" onclick="window.toggleServantStatus('${s.username}')">${isActive ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'}</button><select id="classEdit_${s.username}" style="padding:4px 8px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass);color:var(--text-primary);font-size:0.75rem;"><option value="">تغيير الصف</option>${db.classes.map(c => `<option value="${c.id}" ${c.id === s.assignedClass ? 'selected' : ''}>${c.name}</option>`).join('')}</select><button class="btn btn-sm btn-secondary" onclick="window.updateServantClass('${s.username}')"><i class="fas fa-save"></i></button>${!isAdminUser && s.username !== 'admin' ? `<button class="btn btn-sm btn-bad" onclick="window.deleteServant('${s.username}')"><i class="fas fa-trash"></i></button>` : ''}${!isAdminUser ? `<button class="btn btn-sm btn-gold" onclick="window.makeAdmin('${s.username}')"><i class="fas fa-star"></i></button>` : ''}${!isAdminUser ? `<button class="btn btn-sm btn-secondary" onclick="window.openResetPasswordFor('${s.username}')"><i class="fas fa-key"></i></button>` : ''}</div></td></tr>`;
             }).join('');
-            return `
-                <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-users"></i> الخدام (${db.servants.filter(s => !s.isPending).length})</h3>
-                    <div class="search-bar">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" placeholder="ابحث..." value="${esc(servantSearchQuery)}" oninput="window.setServantSearch(this.value)" />
-                        <select onchange="window.setServantStatusFilter(this.value)">
-                            <option value="">الكل</option>
-                            <option value="active" ${servantStatusFilter === 'active' ? 'selected' : ''}>🟢 نشط</option>
-                            <option value="inactive" ${servantStatusFilter === 'inactive' ? 'selected' : ''}>🔴 موقوف</option>
-                            <option value="admin" ${servantStatusFilter === 'admin' ? 'selected' : ''}>⭐ أدمن</option>
-                            <option value="servant" ${servantStatusFilter === 'servant' ? 'selected' : ''}>👨‍🏫 خادم</option>
-                        </select>
-                    </div>
-                    ${servants.length === 0 ? `<p class="empty">لا يوجد خدام</p>` : `
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الحالة</th><th>الصف</th><th>الأطفال</th><th>إجراءات</th></tr></thead>
-                            <tbody>${rows}</tbody>
-                        </table>
-                    </div>`}
-                </div>`;
+            return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-users"></i> الخدام (${db.servants.filter(s => !s.isPending).length})</h3><div class="search-bar"><i class="fas fa-search search-icon"></i><input type="text" placeholder="ابحث..." value="${esc(servantSearchQuery)}" oninput="window.setServantSearch(this.value)" /><select onchange="window.setServantStatusFilter(this.value)"><option value="">الكل</option><option value="active" ${servantStatusFilter === 'active' ? 'selected' : ''}>🟢</option><option value="inactive" ${servantStatusFilter === 'inactive' ? 'selected' : ''}>🔴</option><option value="admin" ${servantStatusFilter === 'admin' ? 'selected' : ''}>⭐</option><option value="servant" ${servantStatusFilter === 'servant' ? 'selected' : ''}>👨‍🏫</option></select></div>${servants.length === 0 ? `<p class="empty">لا يوجد خدام</p>` : `<div class="table-wrap"><table><thead><tr><th>الاسم</th><th>المستخدم</th><th>الحالة</th><th>الصف</th><th>الأطفال</th><th>إجراءات</th></tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
         }
         function renderAdminChildrenTab() {
             let children = db.children;
@@ -1950,28 +2153,10 @@
                 const barcodeSVG = generateBarcodeSVG(c.code, { width: 90, height: 40 });
                 const today = todayDate();
                 const todayRec = db.attendance.find(a => a.childId === c.id && a.weekDate === today);
-                const todayStatus = todayRec ? (todayRec.status === 'حاضر' ? '<span class="badge badge-ok">حاضر اليوم</span>' : '<span class="badge badge-bad">غائب اليوم</span>') : '<span style="color:var(--text-muted);font-size:0.7rem;">لم يُسجَّل</span>';
-                return `<tr><td><i class="fas fa-user-graduate" style="color:#6a1b9a;"></i> ${esc(c.name)}</td><td>${cls ? esc(cls.name) : '—'}</td><td><div class="student-code-cell"><code class="code-pill">${esc(c.code)}</code><button class="copy-btn" onclick="window.copyCode('${esc(c.code)}',this)"><i class="fas fa-copy"></i></button><div class="barcode-mini" onclick="window.showBarcodeView('${c.id}')" style="cursor:pointer;">${barcodeSVG}</div><button class="copy-btn" onclick="window.showBarcodeView('${c.id}')"><i class="fas fa-barcode"></i></button></div></td><td>${servant ? esc(servant.name) : '—'}</td><td>${attendanceCount}</td><td>${todayStatus}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="btn btn-sm btn-ok" onclick="window.adminQuickMark('${c.id}','حاضر')" title="حضور"><i class="fas fa-check"></i></button><button class="btn btn-sm btn-bad" onclick="window.adminQuickMark('${c.id}','غائب')" title="غياب"><i class="fas fa-times"></i></button><button class="btn btn-sm btn-secondary" onclick="window.viewStudentExams('${c.id}')"><i class="fas fa-pencil-alt"></i></button><button class="btn btn-sm btn-secondary" onclick="window.go('childReport','${c.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-bad" onclick="window.adminDeleteChild('${c.id}')"><i class="fas fa-trash"></i></button></div></td></tr>`;
+                const todayStatus = todayRec ? (todayRec.status === 'حاضر' ? '<span class="badge badge-ok">حاضر</span>' : '<span class="badge badge-bad">غائب</span>') : '<span style="color:var(--text-muted);font-size:0.7rem;">—</span>';
+                return `<tr><td><i class="fas fa-user-graduate" style="color:#6a1b9a;"></i> ${esc(c.name)}</td><td>${cls ? esc(cls.name) : '—'}</td><td><div class="student-code-cell"><code class="code-pill">${esc(c.code)}</code><button class="copy-btn" onclick="window.copyCode('${esc(c.code)}',this)"><i class="fas fa-copy"></i></button><div class="barcode-mini" onclick="window.showBarcodeView('${c.id}')" style="cursor:pointer;">${barcodeSVG}</div><button class="copy-btn" onclick="window.showBarcodeView('${c.id}')"><i class="fas fa-barcode"></i></button></div></td><td>${servant ? esc(servant.name) : '—'}</td><td>${attendanceCount}</td><td>${todayStatus}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="btn btn-sm btn-ok" onclick="window.adminQuickMark('${c.id}','حاضر')"><i class="fas fa-check"></i></button><button class="btn btn-sm btn-bad" onclick="window.adminQuickMark('${c.id}','غائب')"><i class="fas fa-times"></i></button><button class="btn btn-sm btn-secondary" onclick="window.viewStudentExams('${c.id}')"><i class="fas fa-pencil-alt"></i></button><button class="btn btn-sm btn-secondary" onclick="window.go('childReport','${c.id}')"><i class="fas fa-eye"></i></button><button class="btn btn-sm btn-bad" onclick="window.adminDeleteChild('${c.id}')"><i class="fas fa-trash"></i></button></div></td></tr>`;
             }).join('');
-            return `
-                <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-child"></i> الأطفال (${db.children.length})</h3>
-                    <div class="search-bar">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" placeholder="ابحث بالاسم أو الكود..." value="${esc(childSearchQuery)}" oninput="window.setChildSearch(this.value)" />
-                        <select onchange="window.setChildClassFilter(this.value)">
-                            <option value="">كل الصفوف</option>
-                            ${db.classes.map(c => `<option value="${c.id}" ${childClassFilter === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}
-                        </select>
-                    </div>
-                    ${children.length === 0 ? `<p class="empty">لا يوجد أطفال</p>` : `
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>الاسم</th><th>الصف</th><th>الكود والباركود</th><th>الخادم</th><th>سجلات</th><th>اليوم</th><th>إجراءات</th></tr></thead>
-                            <tbody>${rows}</tbody>
-                        </table>
-                    </div>`}
-                </div>`;
+            return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-child"></i> الأطفال (${db.children.length})</h3><div class="search-bar"><i class="fas fa-search search-icon"></i><input type="text" placeholder="ابحث..." value="${esc(childSearchQuery)}" oninput="window.setChildSearch(this.value)" /><select onchange="window.setChildClassFilter(this.value)"><option value="">كل الصفوف</option>${db.classes.map(c => `<option value="${c.id}" ${childClassFilter === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}</select></div>${children.length === 0 ? `<p class="empty">لا يوجد أطفال</p>` : `<div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الصف</th><th>الكود والباركود</th><th>الخادم</th><th>سجلات</th><th>اليوم</th><th>إجراءات</th></tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
         }
         function renderAdminAttendanceTab() {
             let records = db.attendance.slice().sort((a, b) => b.weekDate.localeCompare(a.weekDate));
@@ -1983,48 +2168,10 @@
                 const servant = child ? db.servants.find(s => s.username === child.servantUsername) : null;
                 return `<tr><td>${child ? esc(child.name) : '❓'}</td><td>${cls ? esc(cls.name) : '—'}</td><td>${servant ? esc(servant.name) : '—'}</td><td>${esc(a.weekDate)}</td><td><span class="badge ${a.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}">${esc(a.status)}</span></td></tr>`;
             }).join('');
-            return `
-                <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-clipboard-list"></i> سجلات الحضور (${records.length})</h3>
-                    <div class="search-bar">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" placeholder="ابحث..." value="${esc(attendanceSearchQuery)}" oninput="window.setAttendanceSearch(this.value)" />
-                        <select onchange="window.setAttendanceClassFilter(this.value)">
-                            <option value="">كل الصفوف</option>
-                            ${db.classes.map(c => `<option value="${c.id}" ${attendanceClassFilter === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}
-                        </select>
-                    </div>
-                    ${limited.length === 0 ? `<p class="empty">لا يوجد سجلات</p>` : `
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>الطفل</th><th>الصف</th><th>الخادم</th><th>التاريخ</th><th>الحالة</th></tr></thead>
-                            <tbody>${rows}</tbody>
-                        </table>
-                    </div>`}
-                </div>`;
+            return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-clipboard-list"></i> السجلات (${records.length})</h3><div class="search-bar"><i class="fas fa-search search-icon"></i><input type="text" placeholder="ابحث..." value="${esc(attendanceSearchQuery)}" oninput="window.setAttendanceSearch(this.value)" /><select onchange="window.setAttendanceClassFilter(this.value)"><option value="">كل الصفوف</option>${db.classes.map(c => `<option value="${c.id}" ${attendanceClassFilter === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}</select></div>${limited.length === 0 ? `<p class="empty">لا يوجد سجلات</p>` : `<div class="table-wrap"><table><thead><tr><th>الطفل</th><th>الصف</th><th>الخادم</th><th>التاريخ</th><th>الحالة</th></tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
         }
         function renderAddServantTab() {
-            return `
-                <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-user-plus" style="color:#6a1b9a;"></i> إضافة خادم</h3>
-                    <div id="addServantMsg"></div>
-                    <form class="form" onsubmit="return window.submitAddServant(event)">
-                        <div class="form-row">
-                            <label>الاسم <input name="name" required /></label>
-                            <label>اسم المستخدم <input name="username" required /></label>
-                        </div>
-                        <div class="form-row">
-                            <label>كلمة المرور <input type="password" name="password" required /></label>
-                            <label>تأكيد <input type="password" name="confirm" required /></label>
-                        </div>
-                        <div class="form-row">
-                            <label>الصف <select name="classId"><option value="">بدون</option>${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}</select></label>
-                            <label style="flex-direction:row;align-items:center;gap:8px;flex:0 1 auto;"><input type="checkbox" name="isActive" checked style="width:18px;height:18px;accent-color:var(--ok);" /><span>🟢 مفعل</span></label>
-                            <label style="flex-direction:row;align-items:center;gap:8px;flex:0 1 auto;"><input type="checkbox" name="isAdmin" style="width:18px;height:18px;accent-color:#6a1b9a;" /><span>⭐ أدمن</span></label>
-                        </div>
-                        <button class="btn btn-admin" type="submit"><i class="fas fa-user-plus"></i> إضافة</button>
-                    </form>
-                </div>`;
+            return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-user-plus" style="color:#6a1b9a;"></i> إضافة خادم</h3><div id="addServantMsg"></div><form class="form" onsubmit="return window.submitAddServant(event)"><div class="form-row"><label>الاسم <input name="name" required /></label><label>اسم المستخدم <input name="username" required /></label></div><div class="form-row"><label>كلمة المرور <input type="password" name="password" required /></label><label>تأكيد <input type="password" name="confirm" required /></label></div><div class="form-row"><label>الصف <select name="classId"><option value="">بدون</option>${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}</select></label><label style="flex-direction:row;align-items:center;gap:8px;flex:0 1 auto;"><input type="checkbox" name="isActive" checked style="width:18px;height:18px;accent-color:var(--ok);" /><span>🟢 مفعل</span></label><label style="flex-direction:row;align-items:center;gap:8px;flex:0 1 auto;"><input type="checkbox" name="isAdmin" style="width:18px;height:18px;accent-color:#6a1b9a;" /><span>⭐ أدمن</span></label></div><button class="btn btn-admin" type="submit"><i class="fas fa-user-plus"></i> إضافة</button></form></div>`;
         }
         window.submitAddServant = async function(ev) {
             ev.preventDefault();
@@ -2052,21 +2199,7 @@
             return false;
         };
         function renderAddChildTab() {
-            return `
-                <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-child" style="color:#6a1b9a;"></i> إضافة طفل</h3>
-                    <div id="addChildMsg"></div>
-                    <form class="form" onsubmit="return window.submitAdminAddChild(event)">
-                        <div class="form-row">
-                            <label>اسم الطفل <input name="childName" required /></label>
-                            <label>الصف <select name="classId" required><option value="">اختر</option>${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}</select></label>
-                        </div>
-                        <div class="form-row">
-                            <label>الخادم <select name="servantUsername" required><option value="">اختر</option>${db.servants.filter(s => s.isActive && !s.isPending).map(s => `<option value="${s.username}">${s.name}</option>`).join('')}</select></label>
-                        </div>
-                        <button class="btn btn-admin" type="submit"><i class="fas fa-child"></i> إضافة</button>
-                    </form>
-                </div>`;
+            return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-child" style="color:#6a1b9a;"></i> إضافة طفل</h3><div id="addChildMsg"></div><form class="form" onsubmit="return window.submitAdminAddChild(event)"><div class="form-row"><label>اسم الطفل <input name="childName" required /></label><label>الصف <select name="classId" required><option value="">اختر</option>${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}</select></label></div><div class="form-row"><label>الخادم <select name="servantUsername" required><option value="">اختر</option>${db.servants.filter(s => s.isActive && !s.isPending).map(s => `<option value="${s.username}">${s.name}</option>`).join('')}</select></label></div><button class="btn btn-admin" type="submit"><i class="fas fa-child"></i> إضافة</button></form></div>`;
         }
         window.submitAdminAddChild = async function(ev) {
             ev.preventDefault();
@@ -2097,28 +2230,9 @@
             const presentCount = db.attendance.filter(a => a.status === 'حاضر').length;
             const absentCount = db.attendance.filter(a => a.status === 'غائب').length;
             const classDistribution = db.classes.map(cls => ({ name: cls.name, count: db.children.filter(c => c.classId === cls.id).length })).sort((a, b) => b.count - a.count);
-            return `
-                <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> التقارير</h3>
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px;">
-                        <div class="stat-card"><div class="num">${totalServants}</div><div class="label">خدام</div></div>
-                        <div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${activeServants}</div><div class="label">نشطين</div></div>
-                        <div class="stat-card" style="border-color:var(--pending);"><div class="num" style="color:var(--pending);">${pendingCount}</div><div class="label">بانتظار</div></div>
-                        <div class="stat-card"><div class="num">${totalChildren}</div><div class="label">أطفال</div></div>
-                        <div class="stat-card"><div class="num">${totalAttendance}</div><div class="label">سجلات</div></div>
-                        <div class="stat-card"><div class="num">${totalExams}</div><div class="label">اختبارات</div></div>
-                        <div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${presentCount}</div><div class="label">حضور</div></div>
-                        <div class="stat-card" style="border-color:var(--bad);"><div class="num" style="color:var(--bad);">${absentCount}</div><div class="label">غياب</div></div>
-                    </div>
-                    <h4 style="font-size:1rem;margin-top:16px;"><i class="fas fa-users"></i> توزيع الأطفال</h4>
-                    ${classDistribution.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : `
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
-                        ${classDistribution.map(item => `<div style="background:var(--bg-glass);border-radius:12px;padding:10px 16px;border:1px solid var(--border-glass);flex:1;min-width:100px;text-align:center;"><div style="font-size:1.2rem;font-family:'Lalezar',cursive;color:#6a1b9a;">${item.count}</div><div style="font-size:0.7rem;color:var(--text-muted);">${esc(item.name)}</div></div>`).join('')}
-                    </div>`}
-                </div>`;
+            return `<div class="glass"><h3 style="font-size:1.1rem;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> التقارير</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px;"><div class="stat-card"><div class="num">${totalServants}</div><div class="label">خدام</div></div><div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${activeServants}</div><div class="label">نشطين</div></div><div class="stat-card" style="border-color:var(--pending);"><div class="num" style="color:var(--pending);">${pendingCount}</div><div class="label">بانتظار</div></div><div class="stat-card"><div class="num">${totalChildren}</div><div class="label">أطفال</div></div><div class="stat-card"><div class="num">${totalAttendance}</div><div class="label">سجلات</div></div><div class="stat-card"><div class="num">${totalExams}</div><div class="label">اختبارات</div></div><div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${presentCount}</div><div class="label">حضور</div></div><div class="stat-card" style="border-color:var(--bad);"><div class="num" style="color:var(--bad);">${absentCount}</div><div class="label">غياب</div></div></div>${classDistribution.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;">${classDistribution.map(item => `<div style="background:var(--bg-glass);border-radius:12px;padding:10px 16px;border:1px solid var(--border-glass);flex:1;min-width:100px;text-align:center;"><div style="font-size:1.2rem;font-family:'Lalezar',cursive;color:#6a1b9a;">${item.count}</div><div style="font-size:0.7rem;color:var(--text-muted);">${esc(item.name)}</div></div>`).join('')}</div>`}</div>`;
         }
 
-        // SEARCH SETTERS
         window.setServantSearch = function(val) { servantSearchQuery = val; render(); };
         window.setServantStatusFilter = function(val) { servantStatusFilter = val; render(); };
         window.setChildSearch = function(val) { childSearchQuery = val; render(); };
@@ -2130,7 +2244,6 @@
         window.setPendingSearch = function(val) { pendingSearchQuery = val; render(); };
         window.switchTab = function(tab) { activeTab = tab; render(); };
 
-        // ADMIN ACTIONS
         window.submitAddClass = async function(ev) {
             ev.preventDefault();
             if (!session || !session.isAdmin) return false;
@@ -2176,7 +2289,6 @@
             try {
                 servant.isPending = false; servant.isActive = true; servant.assignedClass = assignedClassId;
                 await saveDB();
-                const cls = db.classes.find(c => c.id === assignedClassId);
                 showToast(`✅ تمت الموافقة على "${servant.name}"`, 'success');
                 activeTab = 'pending'; render();
             } catch (e) { showToast('❌ خطأ.', 'error'); render(); }
@@ -2304,10 +2416,9 @@
             });
         };
 
-        // CLASS DETAIL / CHILD REPORT
         function viewClassDetail(classId) {
             const cls = db.classes.find(c => c.id === classId);
-            if (!cls) { showToast('❌ الصف غير موجود.', 'error'); go('home'); return ''; }
+            if (!cls) { showToast('❌ غير موجود.', 'error'); go('home'); return ''; }
             const children = getClassChildren(cls.id);
             const servants = getClassServants(cls.id);
             const childrenRows = children.map(c => {
@@ -2321,27 +2432,7 @@
                 return `<tr><td><i class="fas fa-user-circle" style="color:#6a1b9a;"></i> ${esc(s.name)}</td><td><code>${esc(s.username)}</code></td><td>${childCount}</td><td><span class="badge ${s.isActive ? 'badge-ok' : 'badge-bad'}">${s.isActive ? '🟢' : '🔴'}</span></td></tr>`;
             }).join('');
             const attCount = db.attendance.filter(a => { const child = db.children.find(c => c.id === a.childId); return child && child.classId === cls.id; }).length;
-            return `
-                <section>
-                    <button class="btn btn-secondary btn-sm" style="margin-bottom:12px;" onclick="window.go('admin');window.switchTab('classes')"><i class="fas fa-arrow-right"></i> رجوع</button>
-                    <div class="glass" style="border-color:#6a1b9a;">
-                        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-                            <div>
-                                <h2 style="font-size:1.3rem;margin:0;"><i class="fas fa-layer-group" style="color:#6a1b9a;"></i> ${esc(cls.name)}</h2>
-                                <p style="color:var(--text-muted);font-size:0.8rem;">الترتيب: ${cls.order}</p>
-                            </div>
-                            <div>
-                                <span class="badge badge-info"><i class="fas fa-child"></i> ${children.length}</span>
-                                <span class="badge badge-info"><i class="fas fa-chalkboard-teacher"></i> ${servants.length}</span>
-                                <span class="badge badge-info"><i class="fas fa-clipboard-check"></i> ${attCount}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-child"></i> الأطفال</h3>
-                    ${children.length === 0 ? `<p class="empty">لا يوجد أطفال</p>` : `<div class="glass table-wrap"><table><thead><tr><th>الاسم</th><th>الكود والباركود</th><th>سجلات</th><th>آخر حضور</th><th></th></tr></thead><tbody>${childrenRows}</tbody></table></div>`}
-                    <h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-chalkboard-teacher"></i> الخدام</h3>
-                    ${servants.length === 0 ? `<p class="empty">لا يوجد خدام</p>` : `<div class="glass table-wrap"><table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الأطفال</th><th>الحالة</th></tr></thead><tbody>${servantsRows}</tbody></table></div>`}
-                </section>`;
+            return `<section><button class="btn btn-secondary btn-sm" style="margin-bottom:12px;" onclick="window.go('admin');window.switchTab('classes')"><i class="fas fa-arrow-right"></i> رجوع</button><div class="glass" style="border-color:#6a1b9a;"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;"><div><h2 style="font-size:1.3rem;margin:0;"><i class="fas fa-layer-group" style="color:#6a1b9a;"></i> ${esc(cls.name)}</h2><p style="color:var(--text-muted);font-size:0.8rem;">الترتيب: ${cls.order}</p></div><div><span class="badge badge-info"><i class="fas fa-child"></i> ${children.length}</span><span class="badge badge-info"><i class="fas fa-chalkboard-teacher"></i> ${servants.length}</span><span class="badge badge-info"><i class="fas fa-clipboard-check"></i> ${attCount}</span></div></div></div><h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-child"></i> الأطفال</h3>${children.length === 0 ? `<p class="empty">لا يوجد أطفال</p>` : `<div class="glass table-wrap"><table><thead><tr><th>الاسم</th><th>الكود والباركود</th><th>سجلات</th><th>آخر حضور</th><th></th></tr></thead><tbody>${childrenRows}</tbody></table></div>`}<h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-chalkboard-teacher"></i> الخدام</h3>${servants.length === 0 ? `<p class="empty">لا يوجد خدام</p>` : `<div class="glass table-wrap"><table><thead><tr><th>الاسم</th><th>المستخدم</th><th>الأطفال</th><th>الحالة</th></tr></thead><tbody>${servantsRows}</tbody></table></div>`}</section>`;
         }
         function viewChildReport(childId) {
             const child = db.children.find(c => c.id === childId);
@@ -2360,50 +2451,9 @@
                 const ex = db.exams.find(e => e.id === r.examId);
                 return sum + (ex ? (r.score / ex.totalPoints) * 100 : 0);
             }, 0) / childExamResults.length) : 0;
-            return `
-                <section>
-                    <button class="btn btn-secondary btn-sm" style="margin-bottom:12px;" onclick="window.go('admin')"><i class="fas fa-arrow-right"></i> رجوع</button>
-                    <div class="glass">
-                        <h2 style="font-size:1.3rem;"><i class="fas fa-user-graduate" style="color:#6a1b9a;"></i> ${esc(child.name)}</h2>
-                        <p style="font-size:0.85rem;"><i class="fas fa-layer-group"></i> الصف: ${cls ? esc(cls.name) : '—'}</p>
-                        <p style="font-size:0.85rem;"><i class="fas fa-user-circle"></i> الخادم: ${servant ? esc(servant.name) : '—'}</p>
-                        <p style="font-size:0.85rem;"><i class="fas fa-key"></i> الكود: <code class="code-pill">${esc(child.code)}</code></p>
-                    </div>
-                    <div class="perf-card">
-                        <h3><i class="fas fa-star"></i> ملخص أداء ${esc(child.name)}</h3>
-                        <div class="perf-grid">
-                            <div><div class="val">${attendanceRate}%</div><div class="lbl">الحضور</div></div>
-                            <div><div class="val">${avgScore}%</div><div class="lbl">الاختبارات</div></div>
-                            <div><div class="val">${childExamResults.length}</div><div class="lbl">مكتملة</div></div>
-                        </div>
-                    </div>
-                    <div class="glass" style="margin-top:12px;text-align:center;">
-                        <h3 style="font-size:1rem;margin-bottom:8px;"><i class="fas fa-barcode" style="color:#6a1b9a;"></i> الباركود</h3>
-                        <div style="background:#fff;border-radius:12px;padding:12px;display:inline-block;max-width:100%;">${barcodeSVG}</div>
-                        <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
-                            <button class="btn btn-admin btn-sm" onclick="window.downloadBarcode('${esc(child.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
-                            <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ الكود</button>
-                        </div>
-                    </div>
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
-                        <button class="btn btn-sm btn-secondary" onclick="window.viewStudentExams('${child.id}')"><i class="fas fa-pencil-alt"></i> الاختبارات</button>
-                    </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
-                        <div class="glass" style="text-align:center;padding:12px;">
-                            <h4 style="color:var(--ok);font-size:0.9rem;"><i class="fas fa-check-circle"></i> الحضور (${presentDates.length})</h4>
-                            <div style="font-size:0.8rem;">${presentDates.length ? presentDates.map(d => `<span class="badge badge-ok" style="margin:2px;">${esc(d)}</span>`).join(' ') : '—'}</div>
-                        </div>
-                        <div class="glass" style="text-align:center;padding:12px;">
-                            <h4 style="color:var(--bad);font-size:0.9rem;"><i class="fas fa-times-circle"></i> الغياب (${absentDates.length})</h4>
-                            <div style="font-size:0.8rem;">${absentDates.length ? absentDates.map(d => `<span class="badge badge-bad" style="margin:2px;">${esc(d)}</span>`).join(' ') : '—'}</div>
-                        </div>
-                    </div>
-                    <h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-history"></i> السجل</h3>
-                    ${records.length === 0 ? `<p class="empty">لا يوجد سجلات</p>` : `<div class="glass table-wrap"><table><thead><tr><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead><tbody>${rows}</tbody></table></div>`}
-                </section>`;
+            return `<section><button class="btn btn-secondary btn-sm" style="margin-bottom:12px;" onclick="window.go('admin')"><i class="fas fa-arrow-right"></i> رجوع</button><div class="glass"><h2 style="font-size:1.3rem;"><i class="fas fa-user-graduate" style="color:#6a1b9a;"></i> ${esc(child.name)}</h2><p style="font-size:0.85rem;"><i class="fas fa-layer-group"></i> ${cls ? esc(cls.name) : '—'}</p><p style="font-size:0.85rem;"><i class="fas fa-user-circle"></i> ${servant ? esc(servant.name) : '—'}</p><p style="font-size:0.85rem;"><i class="fas fa-key"></i> الكود: <code class="code-pill">${esc(child.code)}</code></p></div><div class="perf-card"><h3><i class="fas fa-star"></i> ملخص أداء ${esc(child.name)}</h3><div class="perf-grid"><div><div class="val">${attendanceRate}%</div><div class="lbl">الحضور</div></div><div><div class="val">${avgScore}%</div><div class="lbl">الاختبارات</div></div><div><div class="val">${childExamResults.length}</div><div class="lbl">مكتملة</div></div></div></div><div class="glass" style="margin-top:12px;text-align:center;"><h3 style="font-size:1rem;margin-bottom:8px;"><i class="fas fa-barcode" style="color:#6a1b9a;"></i> الباركود</h3><div style="background:#fff;border-radius:12px;padding:12px;display:inline-block;max-width:100%;">${barcodeSVG}</div><div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;"><button class="btn btn-admin btn-sm" onclick="window.downloadBarcode('${esc(child.code)}')"><i class="fas fa-download"></i> تحميل PNG</button><button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ</button></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"><button class="btn btn-sm btn-secondary" onclick="window.viewStudentExams('${child.id}')"><i class="fas fa-pencil-alt"></i> الاختبارات</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;"><div class="glass" style="text-align:center;padding:12px;"><h4 style="color:var(--ok);font-size:0.9rem;"><i class="fas fa-check-circle"></i> الحضور (${presentDates.length})</h4><div style="font-size:0.8rem;">${presentDates.length ? presentDates.map(d => `<span class="badge badge-ok" style="margin:2px;">${esc(d)}</span>`).join(' ') : '—'}</div></div><div class="glass" style="text-align:center;padding:12px;"><h4 style="color:var(--bad);font-size:0.9rem;"><i class="fas fa-times-circle"></i> الغياب (${absentDates.length})</h4><div style="font-size:0.8rem;">${absentDates.length ? absentDates.map(d => `<span class="badge badge-bad" style="margin:2px;">${esc(d)}</span>`).join(' ') : '—'}</div></div></div><h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-history"></i> السجل</h3>${records.length === 0 ? `<p class="empty">لا يوجد سجلات</p>` : `<div class="glass table-wrap"><table><thead><tr><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead><tbody>${rows}</tbody></table></div>`}</section>`;
         }
 
-        // CHAT VIEW
         function viewChat() {
             if (!session || !session.isAdmin) { go('adminLogin'); return ''; }
             const user = getServantByUsername(session.username);
@@ -2418,46 +2468,18 @@
                     const isActiveRoom = room.id === currentRoomId;
                     let displayName = room.name || 'محادثة';
                     let displayIcon = 'fas fa-user';
-                    let avatarClass = '';
-                    if (room.type === 'admin-servant') {
-                        const other = room.participants.find(p => p !== session.username);
-                        const otherUser = getServantByUsername(other);
-                        displayName = otherUser ? otherUser.name : 'خادم';
-                        displayIcon = 'fas fa-chalkboard-teacher';
-                    } else if (room.type === 'admin-admin') {
-                        const other = room.participants.find(p => p !== session.username);
-                        const otherUser = getServantByUsername(other);
-                        displayName = otherUser ? otherUser.name : 'أدمن';
-                        displayIcon = 'fas fa-shield-alt';
-                        avatarClass = 'admin-avatar';
-                    }
+                    if (room.type === 'admin-servant') { const other = room.participants.find(p => p !== session.username); const otherUser = getServantByUsername(other); displayName = otherUser ? otherUser.name : 'خادم'; displayIcon = 'fas fa-chalkboard-teacher'; }
+                    else if (room.type === 'admin-admin') { const other = room.participants.find(p => p !== session.username); const otherUser = getServantByUsername(other); displayName = otherUser ? otherUser.name : 'أدمن'; displayIcon = 'fas fa-shield-alt'; }
                     const unread = room.unreadCount ? (room.unreadCount[session.username] || 0) : 0;
-                    const roomType = room.type === 'admin-admin' ? 'أدمن-أدمن' : 'أدمن-خادم';
-                    chatListHtml += `<div class="chat-item ${isActiveRoom ? 'active' : ''}" onclick="window.go('chat','${room.id}')"><div class="avatar ${avatarClass}"><i class="${displayIcon}"></i></div><div class="chat-info"><div class="chat-name">${esc(displayName)}</div><div class="chat-last-msg">${esc(room.lastMessage || '—')}</div></div>${unread > 0 ? `<span class="chat-badge">${unread}</span>` : ''}<div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;"><div class="chat-time">${new Date(room.lastMessageTime).toLocaleDateString('ar')}</div><span class="chat-type">${roomType}</span></div></div>`;
+                    chatListHtml += `<div class="chat-item ${isActiveRoom ? 'active' : ''}" onclick="window.go('chat','${room.id}')"><div class="avatar"><i class="${displayIcon}"></i></div><div class="chat-info"><div class="chat-name">${esc(displayName)}</div><div class="chat-last-msg">${esc(room.lastMessage || '—')}</div></div>${unread > 0 ? `<span class="chat-badge">${unread}</span>` : ''}</div>`;
                 });
             }
             let chatAreaHtml = '';
-            if (!currentRoomId) {
-                chatAreaHtml = `<div class="chat-empty"><i class="fas fa-comments"></i><h3>اختر محادثة</h3></div>`;
-            } else {
+            if (!currentRoomId) { chatAreaHtml = `<div class="chat-empty"><i class="fas fa-comments"></i><h3>اختر محادثة</h3></div>`; }
+            else {
                 const room = db.chatRooms.find(r => r.id === currentRoomId);
                 let displayName = 'المحادثة';
-                let displayIcon = 'fas fa-user';
-                let avatarClass = '';
-                if (room) {
-                    if (room.type === 'admin-admin') {
-                        const other = room.participants.find(p => p !== session.username);
-                        const otherUser = getServantByUsername(other);
-                        displayName = otherUser ? otherUser.name : 'أدمن';
-                        displayIcon = 'fas fa-shield-alt';
-                        avatarClass = 'admin-avatar';
-                    } else {
-                        const other = room.participants.find(p => p !== session.username);
-                        const otherUser = getServantByUsername(other);
-                        displayName = otherUser ? otherUser.name : 'خادم';
-                        displayIcon = 'fas fa-chalkboard-teacher';
-                    }
-                }
+                if (room) { const other = room.participants.find(p => p !== session.username); const otherUser = getServantByUsername(other); displayName = otherUser ? otherUser.name : 'خادم'; }
                 const messages = room ? getMessages(currentRoomId) : [];
                 const messagesHtml = messages.map(msg => {
                     const isOwn = msg.from === session.username;
@@ -2473,11 +2495,9 @@
                 }).join('');
                 chatAreaHtml = `
                     <div class="chat-header">
-                        <div class="avatar ${avatarClass}"><i class="${displayIcon}"></i></div>
+                        <div class="avatar"><i class="fas fa-chalkboard-teacher"></i></div>
                         <div class="chat-with">${esc(displayName)}</div>
-                        <div style="margin-right:auto;display:flex;gap:4px;">
-                            <button class="btn btn-sm btn-secondary" onclick="window.openPollModal()"><i class="fas fa-poll"></i></button>
-                        </div>
+                        <div style="margin-right:auto;display:flex;gap:4px;"><button class="btn btn-sm btn-secondary" onclick="window.openPollModal()"><i class="fas fa-poll"></i></button></div>
                     </div>
                     <div class="chat-messages" id="chatMessages">${messagesHtml}</div>
                     <div class="chat-input" style="position:relative;">
@@ -2490,18 +2510,7 @@
                         </div>
                     </div>`;
             }
-            return `
-                <section>
-                    <h2 style="font-size:1.3rem;"><i class="fas fa-comment-dots" style="color:#6a1b9a;"></i> المحادثات</h2>
-                    ${alertHtml()}
-                    <div style="display:flex;gap:16px;height:65vh;min-height:420px;flex-wrap:wrap;">
-                        <div style="width:260px;min-width:200px;flex:0 0 auto;overflow-y:auto;padding:4px;" class="glass">
-                            <h4 style="padding:6px 10px;margin:0;font-size:0.8rem;color:var(--text-muted);"><i class="fas fa-users"></i> (${rooms.length})</h4>
-                            ${chatListHtml}
-                        </div>
-                        <div style="flex:1;min-width:0;display:flex;flex-direction:column;" class="glass">${chatAreaHtml}</div>
-                    </div>
-                </section>`;
+            return `<section><h2 style="font-size:1.3rem;"><i class="fas fa-comment-dots" style="color:#6a1b9a;"></i> المحادثات</h2>${alertHtml()}<div style="display:flex;gap:16px;height:65vh;min-height:420px;flex-wrap:wrap;"><div style="width:260px;min-width:200px;flex:0 0 auto;overflow-y:auto;padding:4px;" class="glass"><h4 style="padding:6px 10px;margin:0;font-size:0.8rem;color:var(--text-muted);">(${rooms.length})</h4>${chatListHtml}</div><div style="flex:1;min-width:0;display:flex;flex-direction:column;" class="glass">${chatAreaHtml}</div></div></section>`;
         }
         window.sendChatMessage = function() {
             const input = document.getElementById('chatInput');
@@ -2516,6 +2525,7 @@
             const ep = document.getElementById('emojiPicker'); if (ep) ep.classList.remove('open');
             setTimeout(() => { const c = document.getElementById('chatMessages'); if (c) c.scrollTop = c.scrollHeight; }, 100);
         };
+
         window.openEditClassModal = function(classId) {
             const cls = db.classes.find(c => c.id === classId);
             if (!cls) return;
@@ -2567,7 +2577,6 @@
             lastPendingCount = current;
         }
 
-        // RENDER
         function render() {
             renderSidebar();
             renderTopBar();
@@ -2594,7 +2603,14 @@
             setTimeout(checkNewRequests, 400);
         }
 
-        // INIT
+        window.addEventListener('beforeunload', (e) => {
+            if (activeExamSession) {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        });
+
         (async function init() {
             await loadDB();
             applyTheme(currentTheme);
@@ -2613,7 +2629,6 @@
             watchDB();
         })();
 
-        // EXPOSE
         Object.assign(window, {
             go, toggleTheme, toggleSidebar, logout,
             submitAdminLogin, submitAddClass, submitAddServant, submitAdminAddChild,
@@ -2621,9 +2636,9 @@
             approveServant, rejectServant, updateServantClass, toggleServantStatus, deleteServant, makeAdmin,
             adminDeleteChild, adminQuickMark, deleteClass, switchTab, exportData,
             sendChatMessage, viewClassDetail, viewChildReport, viewStudentExams, showExamResult, viewExamDetails,
-            deleteExam, startExam, submitExamAnswers, closeTakeExamModal, closeExamResultModal,
+            deleteExam, startExam, submitExamAnswers, closeTakeExamModal, tryCloseTakeExam, closeExamResultModal,
             openExamModal, closeExamModal, addQuestion, updateQuestionUI, addOption, removeOption, submitExam,
-            approveExamRetake, handleRetakeAttempt,
+            approveExamRetake, handleRetakeAttempt, requestExamRetake,
             genCode, genExamCode,
             openResetPasswordModal, closeResetPasswordModal, submitResetPassword, openResetPasswordFor,
             openPasswordModal, closePasswordModal, submitChangePassword,
@@ -2634,8 +2649,11 @@
             generateQRCodeSVG,
             openBarcodeModal, closeBarcodeModal, scanAttendanceBarcode,
             setServantSearch, setServantStatusFilter, setChildSearch, setChildClassFilter,
-            setExamSearch, setExamStatusFilter, setAttendanceSearch, setAttendanceClassFilter, setPendingSearch
+            setExamSearch, setExamStatusFilter, setAttendanceSearch, setAttendanceClassFilter, setPendingSearch,
+            // Exam session helpers
+            jumpToQuestion, prevQuestion, nextQuestion, recordAnswer, toggleMultiAnswer,
+            openExamConfirmModal, closeExamConfirmModal, confirmSubmitNow
         });
     </script>
 </body>
-                                                                                       </html>
+    </html>
