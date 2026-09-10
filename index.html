@@ -67,6 +67,7 @@
         .badge-pending{background:rgba(245,124,0,0.15);color:var(--pending);border:1px solid rgba(245,124,0,0.2)}
         .badge-correct{background:rgba(76,175,80,0.15);color:var(--correct);border:1px solid rgba(76,175,80,0.2)}
         .badge-wrong{background:rgba(244,67,54,0.15);color:var(--wrong);border:1px solid rgba(244,67,54,0.2)}
+        .badge-info{background:rgba(33,150,243,0.15);color:var(--sky-dark);border:1px solid rgba(33,150,243,0.2)}
         .code-pill{background:rgba(33,150,243,0.1);color:var(--sky-dark);padding:2px 14px;border-radius:40px;font-weight:700;letter-spacing:1px;border:1px solid rgba(33,150,243,0.15);font-size:0.75rem;font-family:monospace}
         .copy-btn{background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:30px;padding:2px 12px;color:var(--text-muted);cursor:pointer;transition:var(--transition);font-size:0.7rem}
         .copy-btn:hover{background:var(--sky-dark);color:#fff;border-color:var(--sky-dark)}
@@ -171,6 +172,25 @@
         .option-item input[type=text]{flex:1;padding:6px 12px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass);font-size:0.85rem;color:var(--text-primary)}
         .option-item .btn-remove-option{background:rgba(198,40,40,0.1);color:var(--bad);border:1px solid rgba(198,40,40,0.2);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);font-size:0.7rem}
         .option-item .btn-remove-option:hover{background:var(--bad);color:#fff}
+        .search-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-sm);padding:8px 12px;backdrop-filter:blur(8px)}
+        .search-bar input,.search-bar select{flex:1 1 140px;padding:8px 14px;border-radius:30px;border:1px solid var(--border-glass);background:var(--bg-secondary);font-size:0.85rem;color:var(--text-primary);font-family:inherit}
+        .search-bar input:focus,.search-bar select:focus{outline:none;border-color:var(--sky-dark);box-shadow:0 0 0 4px rgba(33,150,243,0.12)}
+        .search-bar .search-icon{color:var(--text-muted);font-size:1rem;padding:0 6px}
+        .barcode-btn{background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:30px;padding:6px 14px;color:var(--sky-dark);cursor:pointer;transition:var(--transition);font-size:0.8rem;display:flex;align-items:center;gap:6px}
+        .barcode-btn:hover{background:var(--sky-dark);color:#fff;border-color:var(--sky-dark)}
+        .barcode-scanner{width:100%;max-width:400px;margin:0 auto;border-radius:var(--radius-sm);overflow:hidden;border:2px solid var(--sky-dark)}
+        .barcode-scanner video{width:100%;display:block}
+        .filter-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+        .filter-chip{padding:4px 14px;border-radius:30px;border:1px solid var(--border-glass);background:var(--bg-glass);font-size:0.75rem;cursor:pointer;transition:var(--transition);color:var(--text-secondary)}
+        .filter-chip:hover{background:var(--sky-dark);color:#fff;border-color:var(--sky-dark)}
+        .filter-chip.active{background:var(--sky-dark);color:#fff;border-color:var(--sky-dark)}
+        .exam-card{background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px;transition:var(--transition)}
+        .exam-card:hover{border-color:var(--sky-dark);box-shadow:var(--shadow-hover)}
+        .exam-card .exam-title{font-weight:700;font-size:1rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .exam-card .exam-meta{font-size:0.75rem;color:var(--text-muted);display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+        .exam-card .exam-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+        .score-filter{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+        .score-filter select{padding:6px 12px;border-radius:30px;border:1px solid var(--border-glass);background:var(--bg-glass);font-size:0.8rem;color:var(--text-primary);font-family:inherit}
         @media(max-width:768px){.chat-container{flex-direction:column;height:auto;min-height:auto}.chat-list{width:100%;min-width:unset;max-height:160px}.chat-area{height:50vh;min-height:300px}.brand{font-size:1.4rem}.glass{padding:16px}.message{max-width:85%}.chat-fab{width:48px;height:48px;font-size:1.2rem;bottom:16px;right:16px}.emoji-picker{left:10px;right:10px;width:auto}.modal{padding:16px}.form-row{flex-direction:column}.form-row label{flex:1 1 100%}}
         @media(max-width:480px){.chat-area{height:40vh;min-height:250px}.chat-item{padding:6px 8px}.chat-item .avatar{width:28px;height:28px;font-size:0.7rem}.chat-input .poll-btn{font-size:0.65rem;padding:4px 8px}}
     </style>
@@ -251,21 +271,18 @@
 
     <!-- EXAM MODAL -->
     <div class="modal-overlay" id="examModal">
-        <div class="modal glass" style="max-width:700px;">
+        <div class="modal glass" style="max-width:750px;">
             <div class="modal-header">
-                <h3 style="font-size:1.1rem;"><i class="fas fa-pencil-alt" style="color:var(--sky-dark);"></i> إنشاء اختبار جديد</h3>
+                <h3 style="font-size:1.1rem;"><i class="fas fa-pencil-alt" style="color:var(--sky-dark);"></i> <span id="examModalTitle">إنشاء اختبار جديد</span></h3>
                 <button class="modal-close" onclick="window.closeExamModal()"><i class="fas fa-times"></i></button>
             </div>
-            <form onsubmit="return window.submitExam(event)">
+            <form onsubmit="return window.submitExam(event)" id="examForm">
+                <input type="hidden" id="editExamId" value="" />
                 <div class="form-row" style="margin-bottom:10px;">
                     <label style="flex:1;">اسم الاختبار <input type="text" id="examName" required placeholder="أدخل اسم الاختبار" /></label>
                 </div>
                 <div class="form-row" style="margin-bottom:10px;">
                     <label style="flex:1;">الوصف <textarea id="examDescription" placeholder="وصف الاختبار" style="min-height:50px;"></textarea></label>
-                </div>
-                <div class="form-row" style="margin-bottom:10px;">
-                    <label style="flex:1;">تاريخ البدء <input type="datetime-local" id="examStartTime" required /></label>
-                    <label style="flex:1;">تاريخ الانتهاء <input type="datetime-local" id="examEndTime" required /></label>
                 </div>
                 <div class="form-row" style="margin-bottom:10px;">
                     <label style="flex:1;">المدة (دقائق) <input type="number" id="examDuration" value="30" min="1" required /></label>
@@ -275,7 +292,6 @@
                     <label style="flex:1;">اختر الصف
                         <select id="examClass" required>
                             <option value="">اختر الصف</option>
-                            ${db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
                         </select>
                     </label>
                     <label style="flex:1;">حالة الاختبار
@@ -293,7 +309,10 @@
                     </div>
                     <div id="questionsContainer"></div>
                 </div>
-                <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> إنشاء الاختبار</button>
+                <div style="display:flex;gap:8px;margin-top:12px;">
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> <span id="examSubmitText">إنشاء الاختبار</span></button>
+                    <button type="button" class="btn btn-secondary" onclick="window.closeExamModal()"><i class="fas fa-times"></i> إلغاء</button>
+                </div>
             </form>
         </div>
     </div>
@@ -320,6 +339,23 @@
                 <button class="modal-close" onclick="window.closeExamResultModal()"><i class="fas fa-times"></i></button>
             </div>
             <div id="examResultContent"></div>
+        </div>
+    </div>
+
+    <!-- BARCODE SCANNER MODAL -->
+    <div class="modal-overlay" id="barcodeModal">
+        <div class="modal glass" style="max-width:500px;">
+            <div class="modal-header">
+                <h3 style="font-size:1.1rem;"><i class="fas fa-barcode" style="color:var(--sky-dark);"></i> مسح الباركود</h3>
+                <button class="modal-close" onclick="window.closeBarcodeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="barcode-scanner" id="barcodeScanner">
+                <video id="barcodeVideo" autoplay playsinline></video>
+            </div>
+            <p style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-top:10px;">
+                <i class="fas fa-info-circle"></i> وجّه الكاميرا نحو الباركود
+            </p>
+            <div id="barcodeResult" style="text-align:center;margin-top:8px;"></div>
         </div>
     </div>
 
@@ -359,6 +395,18 @@
         let currentTheme = localStorage.getItem('theme') || 'light';
         let currentChat = null;
         let examTimerInterval = null;
+        let editingExamId = null;
+        let barcodeStream = null;
+        let barcodeDetector = null;
+        let barcodeScanning = false;
+
+        // ========== SEARCH & FILTER STATE ==========
+        let childSearchQuery = '';
+        let childClassFilter = '';
+        let examSearchQuery = '';
+        let examStatusFilter = '';
+        let studentSearchQuery = '';
+        let examResultsScoreFilter = '';
 
         function saveSession(username, name, isAdmin) {
             localStorage.setItem('session', JSON.stringify({ username, name, isAdmin }));
@@ -516,6 +564,9 @@
             }
             route = r;
             routeParam = param;
+            // Reset search filters when navigating
+            if (r !== 'exams') { examSearchQuery = ''; examStatusFilter = ''; }
+            if (r !== 'student') { studentSearchQuery = ''; }
             render();
         }
 
@@ -563,7 +614,40 @@
 
         function getServantExams() {
             if (!session) return [];
+            // الخادم يرى فقط اختباراته، الأدمن يرى الكل
+            if (session.isAdmin) return db.exams;
             return db.exams.filter(e => e.servantUsername === session.username);
+        }
+
+        // ========== SEARCH FUNCTIONS ==========
+        function filterChildren(list, query, classFilter) {
+            let result = list;
+            if (query) {
+                const q = query.toLowerCase().trim();
+                result = result.filter(c =>
+                    c.name.toLowerCase().includes(q) ||
+                    c.code.toLowerCase().includes(q)
+                );
+            }
+            if (classFilter) {
+                result = result.filter(c => c.classId === classFilter);
+            }
+            return result;
+        }
+
+        function filterExams(list, query, statusFilter) {
+            let result = list;
+            if (query) {
+                const q = query.toLowerCase().trim();
+                result = result.filter(e =>
+                    e.name.toLowerCase().includes(q) ||
+                    e.code.toLowerCase().includes(q)
+                );
+            }
+            if (statusFilter) {
+                result = result.filter(e => e.status === statusFilter);
+            }
+            return result;
         }
 
         // ============================================================
@@ -571,12 +655,6 @@
         // ============================================================
         function normalizeText(text) {
             if (!text) return '';
-            const map = {
-                'ا': 'ا', 'أ': 'ا', 'آ': 'ا', 'إ': 'ا',
-                'ى': 'ي', 'ئ': 'ي',
-                'ؤ': 'و', 'ة': 'ه',
-                'ك': 'ك', 'گ': 'ك'
-            };
             return text.toString().trim()
                 .replace(/[اآإ]/g, 'ا')
                 .replace(/[ىئ]/g, 'ي')
@@ -585,6 +663,88 @@
                 .replace(/[گ]/g, 'ك')
                 .replace(/\s+/g, ' ')
                 .toLowerCase();
+        }
+
+        function isAnswerCorrect(userAnswer, modelAnswer) {
+            if (!modelAnswer) return false;
+            return normalizeText(userAnswer) === normalizeText(modelAnswer);
+        }
+
+        // ============================================================
+        // BARCODE SCANNER
+        // ============================================================
+        window.openBarcodeModal = async function() {
+            document.getElementById('barcodeModal').classList.add('active');
+            document.getElementById('barcodeResult').innerHTML = '';
+
+            try {
+                barcodeStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                document.getElementById('barcodeVideo').srcObject = barcodeStream;
+                barcodeScanning = true;
+
+                if ('BarcodeDetector' in window) {
+                    barcodeDetector = new BarcodeDetector({ formats: ['code_128', 'code_39', 'ean_13', 'ean_8', 'qr_code', 'codabar', 'itf', 'upc_a', 'upc_e'] });
+                    scanBarcode();
+                } else {
+                    document.getElementById('barcodeResult').innerHTML = `
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i> المتصفح لا يدعم مسح الباركود. أدخل الكود يدوياً.
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                document.getElementById('barcodeResult').innerHTML = `
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i> لا يمكن الوصول إلى الكاميرا. تأكد من الأذونات.
+                    </div>
+                `;
+            }
+        };
+
+        window.closeBarcodeModal = function() {
+            barcodeScanning = false;
+            if (barcodeStream) {
+                barcodeStream.getTracks().forEach(t => t.stop());
+                barcodeStream = null;
+            }
+            barcodeDetector = null;
+            document.getElementById('barcodeModal').classList.remove('active');
+        };
+
+        async function scanBarcode() {
+            const video = document.getElementById('barcodeVideo');
+            if (!barcodeScanning || !barcodeDetector) return;
+
+            try {
+                const barcodes = await barcodeDetector.detect(video);
+                if (barcodes.length > 0) {
+                    const code = barcodes[0].rawValue.trim().toUpperCase();
+                    barcodeScanning = false;
+                    if (barcodeStream) {
+                        barcodeStream.getTracks().forEach(t => t.stop());
+                        barcodeStream = null;
+                    }
+                    document.getElementById('barcodeResult').innerHTML = `
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i> تم مسح الكود: <strong>${esc(code)}</strong>
+                        </div>
+                    `;
+                    setTimeout(() => {
+                        window.closeBarcodeModal();
+                        go('student');
+                        // Auto-fill and lookup
+                        setTimeout(() => {
+                            const input = document.querySelector('input[name="code"]');
+                            if (input) {
+                                input.value = code;
+                                window.submitStudentLookup({ preventDefault: () => {}, target: { code: { value: code } } });
+                            }
+                        }, 300);
+                    }, 800);
+                    return;
+                }
+            } catch (e) {}
+            requestAnimationFrame(scanBarcode);
         }
 
         // ============================================================
@@ -962,37 +1122,60 @@
         // ============================================================
         // EXAM FUNCTIONS
         // ============================================================
-        window.openExamModal = function() {
-            // جلب الصف المكلف للخادم
+        window.openExamModal = function(examId) {
+            editingExamId = examId || null;
             const servant = db.servants.find(s => s.username === session.username);
             const assignedClassId = servant?.assignedClass || null;
 
             const classSelect = document.getElementById('examClass');
             let options = '<option value="">اختر الصف</option>';
-            if (assignedClassId) {
+            if (assignedClassId && !session.isAdmin) {
                 const cls = db.classes.find(c => c.id === assignedClassId);
                 if (cls) {
                     options += `<option value="${cls.id}" selected>${cls.name}</option>`;
                 }
             } else {
-                // إذا لم يكن للخادم صف مكلف، يعرض كل الصفوف
                 options += db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
             }
             classSelect.innerHTML = options;
 
+            // Reset form
+            document.getElementById('editExamId').value = '';
             document.getElementById('examName').value = '';
             document.getElementById('examDescription').value = '';
-            document.getElementById('examStartTime').value = '';
-            document.getElementById('examEndTime').value = '';
             document.getElementById('examDuration').value = '30';
             document.getElementById('examAttempts').value = '1';
             document.getElementById('examStatus').value = 'active';
             document.getElementById('questionsContainer').innerHTML = '';
+            document.getElementById('examModalTitle').textContent = 'إنشاء اختبار جديد';
+            document.getElementById('examSubmitText').textContent = 'إنشاء الاختبار';
+
+            if (examId) {
+                const exam = db.exams.find(e => e.id === examId);
+                if (exam) {
+                    document.getElementById('editExamId').value = exam.id;
+                    document.getElementById('examName').value = exam.name;
+                    document.getElementById('examDescription').value = exam.description || '';
+                    document.getElementById('examDuration').value = exam.duration;
+                    document.getElementById('examAttempts').value = exam.attempts;
+                    document.getElementById('examStatus').value = exam.status;
+                    document.getElementById('examModalTitle').textContent = 'تعديل الاختبار';
+                    document.getElementById('examSubmitText').textContent = 'حفظ التعديلات';
+                    classSelect.value = exam.classId;
+
+                    // Load questions
+                    exam.questions.forEach(q => {
+                        addQuestionFromData(q);
+                    });
+                }
+            }
+
             document.getElementById('examModal').classList.add('active');
         };
 
         window.closeExamModal = function() {
             document.getElementById('examModal').classList.remove('active');
+            editingExamId = null;
         };
 
         window.addQuestion = function() {
@@ -1021,7 +1204,7 @@
                     <label style="flex:1;">الدرجة <input type="number" class="q-points" value="1" min="1" /></label>
                 </div>
                 <div class="q-options-container">
-                    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;">الخيارات (للاختيار من متعدد واختيار واحد):</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;">الخيارات:</div>
                     <div class="q-options-list">
                         <div class="option-item">
                             <input type="text" class="q-option" placeholder="الخيار أ" value="أ" />
@@ -1041,14 +1224,17 @@
                         </div>
                     </div>
                     <button type="button" class="btn btn-sm btn-add" onclick="window.addOption(this)" style="margin-top:4px;"><i class="fas fa-plus"></i> إضافة خيار</button>
-                    <div style="margin-top:6px;">
-                        <label style="font-size:0.8rem;">الإجابة الصحيحة (للاختيار الواحد والصح/خطأ):
-                            <input type="text" class="q-correct" placeholder="مثال: أ أو صح" style="width:150px;" />
+                    <div style="margin-top:6px;" class="q-correct-container">
+                        <label style="font-size:0.8rem;flex-direction:row;align-items:center;gap:6px;">
+                            <input type="radio" name="correct_${idx}" class="q-correct-radio" value="" />
+                            <span>تحديد الإجابة الصحيحة: انقر على الخيار الصحيح</span>
                         </label>
-                        <span style="font-size:0.7rem;color:var(--text-muted);margin-right:8px;">(للصح/خطأ: صح/خطأ، للاختيار: أ، ب، ج، د)</span>
+                        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">
+                            <span class="q-correct-hint">اختر الإجابة الصحيحة من الخيارات أعلاه</span>
+                        </div>
                     </div>
                 </div>
-                <div style="margin-top:6px;font-size:0.8rem;color:var(--text-muted);">
+                <div style="margin-top:6px;font-size:0.8rem;color:var(--text-muted);" class="q-model-answer-container">
                     <label>الإجابة النموذجية (للمقالي والأكمل): <input type="text" class="q-model-answer" placeholder="الإجابة النموذجية" style="width:200px;" /></label>
                 </div>
             `;
@@ -1056,74 +1242,187 @@
             window.updateQuestionUI(div.querySelector('.q-type'));
         };
 
+        function addQuestionFromData(q) {
+            const container = document.getElementById('questionsContainer');
+            const idx = container.children.length;
+            const div = document.createElement('div');
+            div.className = 'question-card';
+            div.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <strong style="font-size:0.85rem;">سؤال ${idx + 1}</strong>
+                    <button type="button" class="btn btn-sm btn-bad" onclick="this.closest('.question-card').remove()"><i class="fas fa-trash"></i></button>
+                </div>
+                <div class="form-row" style="margin-bottom:6px;">
+                    <label style="flex:1;">نص السؤال <input type="text" class="q-text" required value="${esc(q.text)}" /></label>
+                </div>
+                <div class="form-row" style="margin-bottom:6px;">
+                    <label style="flex:1;">نوع السؤال
+                        <select class="q-type" onchange="window.updateQuestionUI(this)">
+                            <option value="truefalse" ${q.type === 'truefalse' ? 'selected' : ''}>صح/خطأ</option>
+                            <option value="multiple" ${q.type === 'multiple' ? 'selected' : ''}>اختيار من متعدد</option>
+                            <option value="single" ${q.type === 'single' ? 'selected' : ''}>اختيار واحد</option>
+                            <option value="essay" ${q.type === 'essay' ? 'selected' : ''}>مقالي</option>
+                            <option value="complete" ${q.type === 'complete' ? 'selected' : ''}>أكمل</option>
+                        </select>
+                    </label>
+                    <label style="flex:1;">الدرجة <input type="number" class="q-points" value="${q.points}" min="1" /></label>
+                </div>
+                <div class="q-options-container">
+                    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px;">الخيارات:</div>
+                    <div class="q-options-list">
+                        ${q.options.map((opt, i) => `
+                            <div class="option-item">
+                                <input type="text" class="q-option" value="${esc(opt)}" />
+                                <button type="button" class="btn-remove-option" onclick="window.removeOption(this)" title="حذف الخيار"><i class="fas fa-times"></i></button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button type="button" class="btn btn-sm btn-add" onclick="window.addOption(this)" style="margin-top:4px;"><i class="fas fa-plus"></i> إضافة خيار</button>
+                    <div style="margin-top:6px;" class="q-correct-container">
+                        <label style="font-size:0.8rem;flex-direction:row;align-items:center;gap:6px;">
+                            <input type="radio" name="correct_${idx}" class="q-correct-radio" value="${esc(q.correct || '')}" ${q.correct ? 'checked' : ''} />
+                            <span>تحديد الإجابة الصحيحة: ${esc(q.correct || 'لم يتم التحديد')}</span>
+                        </label>
+                        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">
+                            <span class="q-correct-hint">${q.correct ? 'الإجابة الصحيحة: ' + esc(q.correct) : 'اختر الإجابة الصحيحة من الخيارات أعلاه'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:6px;font-size:0.8rem;color:var(--text-muted);" class="q-model-answer-container">
+                    <label>الإجابة النموذجية: <input type="text" class="q-model-answer" value="${esc(q.modelAnswer || '')}" placeholder="الإجابة النموذجية" style="width:200px;" /></label>
+                </div>
+            `;
+            container.appendChild(div);
+            window.updateQuestionUI(div.querySelector('.q-type'));
+        }
+
         window.updateQuestionUI = function(select) {
             const card = select.closest('.question-card');
             const optionsContainer = card.querySelector('.q-options-container');
             const type = select.value;
+            const correctContainer = card.querySelector('.q-correct-container');
+            const modelAnswerContainer = card.querySelector('.q-model-answer-container');
+            const optionsList = card.querySelector('.q-options-list');
+            const addBtn = optionsContainer.querySelector('.btn-add');
+
+            // إزالة جميع أحداث النقر السابقة من الخيارات
+            optionsList.querySelectorAll('.q-option').forEach(inp => {
+                inp.onclick = null;
+                inp.style.borderColor = '';
+                inp.style.background = '';
+            });
 
             if (type === 'truefalse') {
-                // إظهار خيارين فقط: صح وخطأ
-                const list = optionsContainer.querySelector('.q-options-list');
-                list.innerHTML = `
+                optionsList.innerHTML = `
                     <div class="option-item">
-                        <input type="text" class="q-option" placeholder="صح" value="صح" readonly style="background:rgba(0,0,0,0.05);" />
-                        <button type="button" class="btn-remove-option" onclick="window.removeOption(this)" disabled style="opacity:0.3;cursor:not-allowed;"><i class="fas fa-times"></i></button>
+                        <input type="text" class="q-option" value="صح" readonly style="background:rgba(0,0,0,0.05);cursor:pointer;" />
+                        <button type="button" class="btn-remove-option" disabled style="opacity:0.3;cursor:not-allowed;"><i class="fas fa-times"></i></button>
                     </div>
                     <div class="option-item">
-                        <input type="text" class="q-option" placeholder="خطأ" value="خطأ" readonly style="background:rgba(0,0,0,0.05);" />
-                        <button type="button" class="btn-remove-option" onclick="window.removeOption(this)" disabled style="opacity:0.3;cursor:not-allowed;"><i class="fas fa-times"></i></button>
+                        <input type="text" class="q-option" value="خطأ" readonly style="background:rgba(0,0,0,0.05);cursor:pointer;" />
+                        <button type="button" class="btn-remove-option" disabled style="opacity:0.3;cursor:not-allowed;"><i class="fas fa-times"></i></button>
                     </div>
                 `;
-                optionsContainer.querySelector('.q-correct').placeholder = 'صح أو خطأ';
-                optionsContainer.querySelector('.q-correct').style.display = 'inline-block';
-                const addBtn = optionsContainer.querySelector('.btn-add');
                 if (addBtn) addBtn.style.display = 'none';
-                optionsContainer.style.display = 'block';
-            } else if (type === 'single' || type === 'multiple') {
-                // عرض الخيارات مع إمكانية الإضافة والحذف
-                const list = optionsContainer.querySelector('.q-options-list');
-                // إذا كان هناك أقل من 2 خيارات، أضف خيارين افتراضيين
-                if (list.querySelectorAll('.option-item').length < 2) {
-                    list.innerHTML = `
-                        <div class="option-item">
-                            <input type="text" class="q-option" placeholder="الخيار أ" value="أ" />
-                            <button type="button" class="btn-remove-option" onclick="window.removeOption(this)" title="حذف الخيار"><i class="fas fa-times"></i></button>
-                        </div>
-                        <div class="option-item">
-                            <input type="text" class="q-option" placeholder="الخيار ب" value="ب" />
-                            <button type="button" class="btn-remove-option" onclick="window.removeOption(this)" title="حذف الخيار"><i class="fas fa-times"></i></button>
-                        </div>
-                    `;
+                correctContainer.style.display = 'block';
+                // إضافة أحداث النقر للاختيار
+                optionsList.querySelectorAll('.q-option').forEach(inp => {
+                    inp.onclick = function() {
+                        optionsList.querySelectorAll('.q-option').forEach(o => {
+                            o.style.borderColor = '';
+                            o.style.background = 'rgba(0,0,0,0.05)';
+                        });
+                        this.style.borderColor = 'var(--ok)';
+                        this.style.background = 'rgba(46,125,50,0.1)';
+                        const radio = correctContainer.querySelector('.q-correct-radio');
+                        if (radio) radio.value = this.value;
+                        correctContainer.querySelector('.q-correct-hint').textContent = 'الإجابة الصحيحة: ' + this.value;
+                    };
+                });
+                // تعيين الإجابة الصحيحة إذا كانت موجودة
+                const currentCorrect = correctContainer.querySelector('.q-correct-radio')?.value;
+                if (currentCorrect) {
+                    optionsList.querySelectorAll('.q-option').forEach(inp => {
+                        if (inp.value === currentCorrect) {
+                            inp.style.borderColor = 'var(--ok)';
+                            inp.style.background = 'rgba(46,125,50,0.1)';
+                        }
+                    });
                 }
-                optionsContainer.querySelector('.q-correct').placeholder = 'أ، ب، ج، د';
-                optionsContainer.querySelector('.q-correct').style.display = 'inline-block';
-                const addBtn = optionsContainer.querySelector('.btn-add');
+            } else if (type === 'single' || type === 'multiple') {
+                correctContainer.style.display = 'block';
                 if (addBtn) addBtn.style.display = 'inline-flex';
-                optionsContainer.style.display = 'block';
+                // إضافة أحداث النقر للاختيار
+                optionsList.querySelectorAll('.q-option').forEach(inp => {
+                    inp.onclick = function() {
+                        if (type === 'single') {
+                            optionsList.querySelectorAll('.q-option').forEach(o => {
+                                o.style.borderColor = '';
+                                o.style.background = '';
+                            });
+                        }
+                        // Toggle
+                        if (this.style.borderColor === 'var(--ok)') {
+                            this.style.borderColor = '';
+                            this.style.background = '';
+                            if (type === 'single') {
+                                const radio = correctContainer.querySelector('.q-correct-radio');
+                                if (radio) radio.value = '';
+                            }
+                        } else {
+                            this.style.borderColor = 'var(--ok)';
+                            this.style.background = 'rgba(46,125,50,0.1)';
+                            if (type === 'single') {
+                                const radio = correctContainer.querySelector('.q-correct-radio');
+                                if (radio) radio.value = this.value;
+                            }
+                        }
+                        // Update hint
+                        const selected = [];
+                        optionsList.querySelectorAll('.q-option').forEach(o => {
+                            if (o.style.borderColor === 'var(--ok)') selected.push(o.value);
+                        });
+                        const hint = correctContainer.querySelector('.q-correct-hint');
+                        if (hint) hint.textContent = selected.length > 0 ? 'الإجابات الصحيحة: ' + selected.join('، ') : 'اختر الإجابة الصحيحة من الخيارات أعلاه';
+                    };
+                });
+                // تعيين الإجابات الصحيحة إذا كانت موجودة
+                const currentCorrect = correctContainer.querySelector('.q-correct-radio')?.value;
+                if (currentCorrect) {
+                    const correctValues = currentCorrect.split(',').map(s => s.trim());
+                    optionsList.querySelectorAll('.q-option').forEach(inp => {
+                        if (correctValues.includes(inp.value)) {
+                            inp.style.borderColor = 'var(--ok)';
+                            inp.style.background = 'rgba(46,125,50,0.1)';
+                        }
+                    });
+                }
+                correctContainer.querySelector('.q-correct-hint').textContent = 'انقر على الخيارات الصحيحة';
             } else if (type === 'essay' || type === 'complete') {
-                // إخفاء خيارات الاختيار
                 optionsContainer.style.display = 'none';
-                // إظهار حقل الإجابة النموذجية
-                const modelAnswer = card.querySelector('.q-model-answer');
-                if (modelAnswer) modelAnswer.closest('div').style.display = 'block';
+                modelAnswerContainer.style.display = 'block';
+                modelAnswerContainer.querySelector('.q-model-answer').placeholder = 'الإجابة النموذجية (سيتم تجاهل الأحرف المتشابهة)';
             }
 
-            // إظهار/إخفاء الإجابة النموذجية
-            const modelAnswer = card.querySelector('.q-model-answer');
-            if (type === 'essay' || type === 'complete') {
-                modelAnswer.closest('div').style.display = 'block';
-                modelAnswer.placeholder = 'الإجابة النموذجية (سيتم تجاهل الأحرف المتشابهة)';
-            } else {
-                modelAnswer.closest('div').style.display = 'none';
+            if (type !== 'essay' && type !== 'complete') {
+                optionsContainer.style.display = 'block';
+                modelAnswerContainer.style.display = 'none';
+            }
+
+            // تحديث النص الإرشادي
+            if (type === 'truefalse' || type === 'single' || type === 'multiple') {
+                const hint = correctContainer.querySelector('.q-correct-hint');
+                if (hint && !hint.textContent.includes('الإجابة')) {
+                    hint.textContent = type === 'truefalse' ? 'انقر على الإجابة الصحيحة (صح أو خطأ)' : 'انقر على الخيارات الصحيحة';
+                }
             }
         };
 
-        // إضافة خيار جديد
         window.addOption = function(btn) {
             const container = btn.closest('.q-options-container');
             const list = container.querySelector('.q-options-list');
             const items = list.querySelectorAll('.option-item');
-            const letters = ['أ', 'ب', 'ج', 'د', 'ه', 'و', 'ز', 'ح', 'ط', 'ي'];
+            const letters = ['أ', 'ب', 'ج', 'د', 'ه', 'و', 'ز', 'ح', 'ط', 'ي', 'ك', 'ل'];
             const idx = items.length;
             const div = document.createElement('div');
             div.className = 'option-item';
@@ -1132,13 +1431,43 @@
                 <button type="button" class="btn-remove-option" onclick="window.removeOption(this)" title="حذف الخيار"><i class="fas fa-times"></i></button>
             `;
             list.appendChild(div);
+
+            // إضافة حدث النقر للخيار الجديد
+            const card = btn.closest('.question-card');
+            const type = card.querySelector('.q-type').value;
+            const correctContainer = card.querySelector('.q-correct-container');
+            const optionsList = card.querySelector('.q-options-list');
+            const newInput = div.querySelector('.q-option');
+            if (type === 'single' || type === 'multiple') {
+                newInput.onclick = function() {
+                    if (type === 'single') {
+                        optionsList.querySelectorAll('.q-option').forEach(o => {
+                            o.style.borderColor = '';
+                            o.style.background = '';
+                        });
+                    }
+                    if (this.style.borderColor === 'var(--ok)') {
+                        this.style.borderColor = '';
+                        this.style.background = '';
+                    } else {
+                        this.style.borderColor = 'var(--ok)';
+                        this.style.background = 'rgba(46,125,50,0.1)';
+                    }
+                    const selected = [];
+                    optionsList.querySelectorAll('.q-option').forEach(o => {
+                        if (o.style.borderColor === 'var(--ok)') selected.push(o.value);
+                    });
+                    const radio = correctContainer.querySelector('.q-correct-radio');
+                    if (radio) radio.value = selected.join(',');
+                    const hint = correctContainer.querySelector('.q-correct-hint');
+                    if (hint) hint.textContent = selected.length > 0 ? 'الإجابات الصحيحة: ' + selected.join('، ') : 'اختر الإجابة الصحيحة من الخيارات أعلاه';
+                };
+            }
         };
 
-        // حذف خيار
         window.removeOption = function(btn) {
             const item = btn.closest('.option-item');
             const list = item.closest('.q-options-list');
-            // منع حذف الخيار الأخير
             if (list.querySelectorAll('.option-item').length <= 2) {
                 showToast('⚠️ يجب أن يكون هناك خياران على الأقل.', 'warning');
                 return;
@@ -1150,22 +1479,16 @@
             ev.preventDefault();
             if (!session) return false;
 
+            const editId = document.getElementById('editExamId').value;
             const name = document.getElementById('examName').value.trim();
             const description = document.getElementById('examDescription').value.trim();
-            const startTime = document.getElementById('examStartTime').value;
-            const endTime = document.getElementById('examEndTime').value;
             const duration = parseInt(document.getElementById('examDuration').value);
             const attempts = parseInt(document.getElementById('examAttempts').value);
             const classId = document.getElementById('examClass').value;
             const status = document.getElementById('examStatus').value;
 
-            if (!name || !startTime || !endTime || !classId) {
+            if (!name || !classId) {
                 showToast('⚠️ أكمل جميع الحقول المطلوبة.', 'warning');
-                return false;
-            }
-
-            if (new Date(startTime) >= new Date(endTime)) {
-                showToast('⚠️ تاريخ البدء يجب أن يكون قبل تاريخ الانتهاء.', 'warning');
                 return false;
             }
 
@@ -1181,20 +1504,26 @@
                 let correct = '';
                 let modelAnswer = '';
 
-                if (type === 'multiple' || type === 'single') {
+                if (type === 'multiple' || type === 'single' || type === 'truefalse') {
                     const optionInputs = card.querySelectorAll('.q-option');
                     optionInputs.forEach(inp => {
                         const val = inp.value.trim();
                         if (val) options.push(val);
                     });
-                    correct = card.querySelector('.q-correct').value.trim().toUpperCase();
-                } else if (type === 'truefalse') {
-                    const optionInputs = card.querySelectorAll('.q-option');
-                    optionInputs.forEach(inp => {
-                        const val = inp.value.trim();
-                        if (val) options.push(val);
-                    });
-                    correct = card.querySelector('.q-correct').value.trim();
+                    // قراءة الإجابة الصحيحة من الراديو أو من الخيارات المحددة
+                    const radio = card.querySelector('.q-correct-radio');
+                    if (radio && radio.value) {
+                        correct = radio.value.trim();
+                    } else {
+                        // محاولة قراءة من الخيارات المحددة يدوياً
+                        const selected = [];
+                        optionInputs.forEach(inp => {
+                            if (inp.style.borderColor === 'var(--ok)' || inp.style.borderColor === 'rgb(46, 125, 50)') {
+                                selected.push(inp.value.trim());
+                            }
+                        });
+                        if (selected.length > 0) correct = selected.join(',');
+                    }
                 } else if (type === 'essay' || type === 'complete') {
                     modelAnswer = card.querySelector('.q-model-answer').value.trim();
                 }
@@ -1233,41 +1562,63 @@
                 return false;
             }
 
-            const examCode = genExamCode();
-            const exam = {
-                id: 'exam_' + Date.now(),
-                code: examCode,
-                name,
-                description,
-                startTime,
-                endTime,
-                duration,
-                attempts,
-                classId,
-                status,
-                servantUsername: session.username,
-                questions,
-                createdAt: new Date().toISOString(),
-                totalPoints: questions.reduce((sum, q) => sum + q.points, 0)
-            };
+            const totalPoints = questions.reduce((sum, q) => sum + q.points, 0);
 
-            db.exams.push(exam);
-            await saveDB();
-            window.closeExamModal();
-            showToast(`✅ تم إنشاء الاختبار "${name}" بنجاح! كود الاختبار: ${examCode}`, 'success');
+            if (editId) {
+                // تعديل اختبار موجود
+                const exam = db.exams.find(e => e.id === editId);
+                if (exam) {
+                    exam.name = name;
+                    exam.description = description;
+                    exam.duration = duration;
+                    exam.attempts = attempts;
+                    exam.classId = classId;
+                    exam.status = status;
+                    exam.questions = questions;
+                    exam.totalPoints = totalPoints;
+                    exam.updatedAt = new Date().toISOString();
+                }
+                await saveDB();
+                window.closeExamModal();
+                showToast(`✅ تم تعديل الاختبار "${name}" بنجاح!`, 'success');
+            } else {
+                const examCode = genExamCode();
+                const exam = {
+                    id: 'exam_' + Date.now(),
+                    code: examCode,
+                    name,
+                    description,
+                    duration,
+                    attempts,
+                    classId,
+                    status,
+                    servantUsername: session.username,
+                    questions,
+                    createdAt: new Date().toISOString(),
+                    totalPoints,
+                    startTime: null,
+                    endTime: null
+                };
+                db.exams.push(exam);
+                await saveDB();
+                window.closeExamModal();
+                showToast(`✅ تم إنشاء الاختبار "${name}" بنجاح! كود الاختبار: ${examCode}`, 'success');
+            }
             render();
             return false;
         };
 
-        // ============================================================
-        // دالة تصحيح الإجابات مع تجاهل الأحرف المتشابهة
-        // ============================================================
-        function isAnswerCorrect(userAnswer, modelAnswer) {
-            if (!modelAnswer) return false;
-            const normalizedUser = normalizeText(userAnswer);
-            const normalizedModel = normalizeText(modelAnswer);
-            return normalizedUser === normalizedModel;
-        }
+        window.deleteExam = async function(examId) {
+            const exam = db.exams.find(e => e.id === examId);
+            if (!exam) return;
+            if (!confirm(`⚠️ هل أنت متأكد من حذف الاختبار "${exam.name}" وجميع نتائجه؟`)) return;
+
+            db.exams = db.exams.filter(e => e.id !== examId);
+            db.examResults = db.examResults.filter(r => r.examId !== examId);
+            await saveDB();
+            showToast(`🗑️ تم حذف الاختبار "${exam.name}"`, 'success');
+            render();
+        };
 
         window.startExam = function(examId, childId) {
             const exam = db.exams.find(e => e.id === examId);
@@ -1276,17 +1627,8 @@
                 return;
             }
 
-            const now = new Date();
-            const start = new Date(exam.startTime);
-            const end = new Date(exam.endTime);
-
-            if (now < start) {
-                showToast('⚠️ لم يحن وقت بدء الاختبار بعد.', 'warning');
-                return;
-            }
-
-            if (now > end) {
-                showToast('⚠️ انتهى وقت الاختبار.', 'warning');
+            if (exam.status === 'closed') {
+                showToast('⚠️ هذا الاختبار مغلق.', 'warning');
                 return;
             }
 
@@ -1474,7 +1816,6 @@
                     isCorrect = userAnswers.length === correctAnswers.length &&
                         userAnswers.every(a => correctAnswers.includes(a));
                 } else if (q.type === 'essay' || q.type === 'complete') {
-                    // استخدام دالة التطبيع لتجاهل الأحرف المتشابهة
                     isCorrect = isAnswerCorrect(userAnswer, q.modelAnswer);
                 }
 
@@ -1611,8 +1952,28 @@
             const child = db.children.find(c => c.id === childId);
             if (!child) return;
 
-            const exams = getExamsForClass(child.classId).filter(e => e.status === 'active');
+            const exams = getExamsForClass(child.classId).filter(e => e.status === 'active' || e.status === 'draft');
             const results = getExamResultsForStudent(childId);
+
+            // Apply score filter
+            let filteredResults = results;
+            if (examResultsScoreFilter) {
+                if (examResultsScoreFilter === 'pass') {
+                    filteredResults = results.filter(r => {
+                        const exam = db.exams.find(e => e.id === r.examId);
+                        return exam && r.score >= exam.totalPoints * 0.5;
+                    });
+                } else if (examResultsScoreFilter === 'fail') {
+                    filteredResults = results.filter(r => {
+                        const exam = db.exams.find(e => e.id === r.examId);
+                        return exam && r.score < exam.totalPoints * 0.5;
+                    });
+                } else if (examResultsScoreFilter === 'completed') {
+                    filteredResults = results.filter(r => r.status === 'completed');
+                } else if (examResultsScoreFilter === 'in-progress') {
+                    filteredResults = results.filter(r => r.status === 'in-progress');
+                }
+            }
 
             const container = document.getElementById('examResultContent');
 
@@ -1624,30 +1985,47 @@
             }
 
             let html = `
+                <div class="score-filter">
+                    <span style="font-size:0.8rem;color:var(--text-muted);"><i class="fas fa-filter"></i> فلترة النتائج:</span>
+                    <select onchange="window.setExamResultsScoreFilter(this.value)">
+                        <option value="">الكل</option>
+                        <option value="pass" ${examResultsScoreFilter === 'pass' ? 'selected' : ''}>✅ ناجح</option>
+                        <option value="fail" ${examResultsScoreFilter === 'fail' ? 'selected' : ''}>❌ غير ناجح</option>
+                        <option value="completed" ${examResultsScoreFilter === 'completed' ? 'selected' : ''}>✅ مكتمل</option>
+                        <option value="in-progress" ${examResultsScoreFilter === 'in-progress' ? 'selected' : ''}>⏳ قيد التقدم</option>
+                    </select>
+                </div>
                 <div style="display:grid;gap:12px;">
                     ${exams.map(exam => {
                         const result = results.find(r => r.examId === exam.id);
-                        const now = new Date();
-                        const start = new Date(exam.startTime);
-                        const end = new Date(exam.endTime);
-                        const isActive = now >= start && now <= end;
                         const isCompleted = result && result.status === 'completed';
                         const isInProgress = result && result.status === 'in-progress';
+                        const isActive = exam.status === 'active';
+
+                        if (examResultsScoreFilter && !filteredResults.some(r => r.examId === exam.id)) {
+                            return '';
+                        }
 
                         return `
-                            <div class="glass" style="padding:14px;">
+                            <div class="exam-card">
                                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
                                     <div>
-                                        <h4 style="font-size:1rem;">${esc(exam.name)}</h4>
-                                        <p style="font-size:0.8rem;color:var(--text-muted);">${esc(exam.description || '')}</p>
-                                        <div style="font-size:0.75rem;color:var(--text-muted);">
-                                            <span>📅 ${new Date(exam.startTime).toLocaleString('ar')}</span>
-                                            <span style="margin-right:8px;">⏱️ ${exam.duration} دقيقة</span>
-                                            <span style="margin-right:8px;">📝 ${exam.questions.length} سؤال</span>
-                                            <span style="margin-right:8px;">🏆 ${exam.totalPoints} درجة</span>
+                                        <div class="exam-title">
+                                            <i class="fas fa-pencil-alt" style="color:var(--sky-dark);"></i>
+                                            ${esc(exam.name)}
+                                            <span class="badge ${exam.status === 'active' ? 'badge-ok' : exam.status === 'draft' ? 'badge-pending' : 'badge-bad'}">
+                                                ${exam.status === 'active' ? '✅ نشط' : exam.status === 'draft' ? '⏳ مسودة' : '❌ مغلق'}
+                                            </span>
+                                        </div>
+                                        <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;">${esc(exam.description || '')}</p>
+                                        <div class="exam-meta">
+                                            <span>⏱️ ${exam.duration} دقيقة</span>
+                                            <span>📝 ${exam.questions.length} سؤال</span>
+                                            <span>🏆 ${exam.totalPoints} درجة</span>
+                                            <span>🔄 ${exam.attempts} محاولات</span>
                                         </div>
                                     </div>
-                                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                                    <div class="exam-actions">
                                         ${isCompleted ? `
                                             <button class="btn btn-sm btn-secondary" onclick="window.showExamResult('${exam.id}','${childId}')"><i class="fas fa-eye"></i> النتيجة</button>
                                         ` : ''}
@@ -1657,15 +2035,18 @@
                                         ${isActive && !isCompleted && !isInProgress ? `
                                             <button class="btn btn-sm btn-primary" onclick="window.startExam('${exam.id}','${childId}')"><i class="fas fa-play"></i> بدء الاختبار</button>
                                         ` : ''}
-                                        ${!isActive && !isCompleted ? `
-                                            <span class="badge badge-pending">${now < start ? 'لم يبدأ' : 'انتهى'}</span>
+                                        ${exam.status === 'draft' && !isCompleted && !isInProgress ? `
+                                            <span class="badge badge-pending">⏳ غير متاح بعد</span>
+                                        ` : ''}
+                                        ${exam.status === 'closed' && !isCompleted ? `
+                                            <span class="badge badge-bad">❌ مغلق</span>
                                         ` : ''}
                                     </div>
                                 </div>
                                 ${result && result.retakeRequested ? `<div style="font-size:0.7rem;color:var(--pending);margin-top:4px;">⏳ في انتظار موافقة إعادة الاختبار</div>` : ''}
                             </div>
                         `;
-                    }).join('')}
+                    }).filter(h => h).join('')}
                 </div>
             `;
 
@@ -1674,7 +2055,19 @@
             document.getElementById('examResultModal').querySelector('.modal-header h3').textContent = '📚 الاختبارات المتاحة';
         };
 
+        window.setExamResultsScoreFilter = function(value) {
+            examResultsScoreFilter = value;
+            // Re-render the current modal
+            const modal = document.getElementById('examResultModal');
+            if (modal.classList.contains('active')) {
+                // Find the childId from the current context
+                const childId = window._currentChildId;
+                if (childId) window.viewStudentExams(childId);
+            }
+        };
+
         window.showExamResult = function(examId, childId) {
+            window._currentChildId = childId;
             showExamResult(examId, childId);
         };
 
@@ -1794,9 +2187,9 @@
                         <p style="font-size:0.85rem;color:var(--text-muted);">اعرف رأي فريقك بسهولة</p>
                     </div>
                     <div class="card" style="background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-glass);border-radius:var(--radius-sm);padding:20px;text-align:center;transition:var(--transition);">
-                        <span class="icon" style="font-size:2.4rem;color:var(--sky-dark);display:block;margin-bottom:10px;"><i class="fas fa-key"></i></span>
-                        <h3 style="font-size:1.1rem;">تغيير كلمة المرور</h3>
-                        <p style="font-size:0.85rem;color:var(--text-muted);">قم بتغيير كلمة المرور بسهولة وأمان</p>
+                        <span class="icon" style="font-size:2.4rem;color:var(--sky-dark);display:block;margin-bottom:10px;"><i class="fas fa-barcode"></i></span>
+                        <h3 style="font-size:1.1rem;">استعلام بالباركود</h3>
+                        <p style="font-size:0.85rem;color:var(--text-muted);">امسح الباركود للاستعلام الفوري</p>
                     </div>
                 </section>`;
         }
@@ -1934,8 +2327,11 @@
             const servant = db.servants.find(s => s.username === session.username);
             const assignedClassId = servant?.assignedClass;
 
-            const children = myChildren();
+            let children = myChildren();
             const today = todayDate();
+
+            // Apply search and filter
+            children = filterChildren(children, childSearchQuery, childClassFilter);
 
             const rows = children.map(c => {
                 const todayRec = db.attendance.find(a => a.childId === c.id && a.weekDate === today);
@@ -1962,7 +2358,13 @@
                     </tr>`;
             }).join('');
 
-            // عرض الصف المكلف فقط في إضافة طفل
+            // Class options for filter
+            const classFilterOptions = assignedClassId ?
+                `<option value="${assignedClassId}">${getClassById(assignedClassId)?.name || 'الصف المكلف'}</option>` :
+                `<option value="">كل الصفوف</option>` +
+                db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+
+            // Class options for add child
             const classOptions = assignedClassId ?
                 `<option value="${assignedClassId}" selected>${getClassById(assignedClassId)?.name || 'الصف المكلف'}</option>` :
                 db.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
@@ -2001,10 +2403,19 @@
                         </form>
                     </div>
 
-                    <h2 style="font-size:1.3rem;margin-top:24px;"><i class="fas fa-users" style="color:var(--sky-dark);"></i> أطفالي (${children.length})</h2>
+                    <h2 style="font-size:1.3rem;margin-top:24px;"><i class="fas fa-users" style="color:var(--sky-dark);"></i> أطفالي (${myChildren().length})</h2>
                     <p style="color:var(--text-muted);font-size:0.85rem;">سجّل حضور أو غياب أي طفل بتاريخ اليوم (${today})</p>
+
+                    <div class="search-bar">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="ابحث بالاسم أو الكود..." value="${esc(childSearchQuery)}" oninput="window.setChildSearch(this.value)" />
+                        <select onchange="window.setChildClassFilter(this.value)">
+                            ${classFilterOptions}
+                        </select>
+                    </div>
+
                     ${alertHtml()}
-                    ${children.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد أطفال</p>` : `
+                    ${children.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> ${childSearchQuery || childClassFilter ? 'لا توجد نتائج مطابقة' : 'لا يوجد أطفال'}</p>` : `
                     <div class="glass table-wrap">
                         <table>
                             <thead><tr><th>الاسم</th><th>الصف</th><th>الكود</th><th>اليوم</th><th>إجراءات</th></tr></thead>
@@ -2013,6 +2424,16 @@
                     </div>`}
                 </section>`;
         }
+
+        window.setChildSearch = function(val) {
+            childSearchQuery = val;
+            render();
+        };
+
+        window.setChildClassFilter = function(val) {
+            childClassFilter = val;
+            render();
+        };
 
         // ---- EXAMS PAGE ----
         function viewExams() {
@@ -2024,7 +2445,9 @@
             if (isPending) { setFlash('⏳ حسابك في انتظار الموافقة.', 'warning'); go('home'); return ''; }
             if (!isActive) { setFlash('⛔ حسابك موقوف.', 'error'); go('home'); return ''; }
 
-            const exams = getServantExams();
+            let exams = getServantExams();
+            exams = filterExams(exams, examSearchQuery, examStatusFilter);
+
             const rows = exams.map(exam => {
                 const cls = getClassById(exam.classId);
                 const results = db.examResults.filter(r => r.examId === exam.id);
@@ -2042,7 +2465,11 @@
                         <td>${completed.length} / ${results.length}</td>
                         <td><span class="badge ${statusColors[exam.status] || 'badge-pending'}">${statusLabels[exam.status] || exam.status}</span></td>
                         <td>
-                            <button class="btn btn-sm btn-secondary" onclick="window.viewExamDetails('${exam.id}')"><i class="fas fa-eye"></i></button>
+                            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                                <button class="btn btn-sm btn-secondary" onclick="window.viewExamDetails('${exam.id}')"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-gold" onclick="window.openExamModal('${exam.id}')"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-bad" onclick="window.deleteExam('${exam.id}')"><i class="fas fa-trash"></i></button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -2051,11 +2478,23 @@
             return `
                 <section>
                     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
-                        <h2 style="font-size:1.3rem;"><i class="fas fa-pencil-alt" style="color:var(--sky-dark);"></i> اختباراتي</h2>
+                        <h2 style="font-size:1.3rem;"><i class="fas fa-pencil-alt" style="color:var(--sky-dark);"></i> اختباراتي (${getServantExams().length})</h2>
                         <button class="btn btn-primary" onclick="window.openExamModal()"><i class="fas fa-plus"></i> إنشاء اختبار</button>
                     </div>
+
+                    <div class="search-bar">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="ابحث بالاسم أو الكود..." value="${esc(examSearchQuery)}" oninput="window.setExamSearch(this.value)" />
+                        <select onchange="window.setExamStatusFilter(this.value)">
+                            <option value="">كل الحالات</option>
+                            <option value="active" ${examStatusFilter === 'active' ? 'selected' : ''}>✅ نشط</option>
+                            <option value="draft" ${examStatusFilter === 'draft' ? 'selected' : ''}>⏳ مسودة</option>
+                            <option value="closed" ${examStatusFilter === 'closed' ? 'selected' : ''}>❌ مغلق</option>
+                        </select>
+                    </div>
+
                     ${alertHtml()}
-                    ${exams.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا توجد اختبارات</p>` : `
+                    ${exams.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> ${examSearchQuery || examStatusFilter ? 'لا توجد نتائج مطابقة' : 'لا توجد اختبارات'}</p>` : `
                     <div class="glass table-wrap">
                         <table>
                             <thead><tr><th>الاسم</th><th>الصف</th><th>الكود</th><th>الأسئلة</th><th>الدرجة</th><th>المختبرين</th><th>الحالة</th><th>إجراءات</th></tr></thead>
@@ -2064,6 +2503,16 @@
                     </div>`}
                 </section>`;
         }
+
+        window.setExamSearch = function(val) {
+            examSearchQuery = val;
+            render();
+        };
+
+        window.setExamStatusFilter = function(val) {
+            examStatusFilter = val;
+            render();
+        };
 
         window.viewExamDetails = function(examId) {
             const exam = db.exams.find(e => e.id === examId);
@@ -2080,7 +2529,6 @@
                     <h4 style="font-size:1.1rem;">${esc(exam.name)}</h4>
                     <p style="color:var(--text-muted);font-size:0.85rem;">${esc(exam.description || '')}</p>
                     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
-                        <span class="badge badge-info">📅 ${new Date(exam.startTime).toLocaleString('ar')}</span>
                         <span class="badge badge-info">⏱️ ${exam.duration} دقيقة</span>
                         <span class="badge badge-info">📝 ${exam.questions.length} سؤال</span>
                         <span class="badge badge-info">🏆 ${exam.totalPoints} درجة</span>
@@ -2097,6 +2545,8 @@
                         <div style="font-size:0.85rem;padding:6px 10px;border-bottom:1px solid var(--border-glass);">
                             <strong>${idx + 1}.</strong> ${esc(q.text)}
                             <span style="font-size:0.7rem;color:var(--text-muted);">[${q.type}] (${q.points} درجات)</span>
+                            ${q.correct ? `<span style="font-size:0.7rem;color:var(--ok);margin-right:6px;">✓ ${esc(q.correct)}</span>` : ''}
+                            ${q.modelAnswer ? `<span style="font-size:0.7rem;color:var(--text-muted);margin-right:6px;">✎ ${esc(q.modelAnswer)}</span>` : ''}
                         </div>
                     `).join('')}
                 </div>
@@ -2209,8 +2659,11 @@
             if (isPending) { setFlash('⏳ حسابك في انتظار الموافقة.', 'warning'); go('home'); return ''; }
             if (!isActive) { setFlash('⛔ حسابك موقوف.', 'error'); go('home'); return ''; }
 
-            const children = myChildren();
+            let children = myChildren();
             const weekDate = routeParam || todayDate();
+
+            // Apply search and filter
+            children = filterChildren(children, childSearchQuery, childClassFilter);
 
             const rows = children.map(c => {
                 const rec = db.attendance.find(a => a.childId === c.id && a.weekDate === weekDate);
@@ -2240,8 +2693,14 @@
                             </label>
                         </form>
                     </div>
+
+                    <div class="search-bar">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="ابحث بالاسم أو الكود..." value="${esc(childSearchQuery)}" oninput="window.setChildSearch(this.value)" />
+                    </div>
+
                     ${alertHtml()}
-                    ${children.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> لا يوجد أطفال</p>` : `
+                    ${children.length === 0 ? `<p class="empty"><i class="fas fa-inbox"></i> ${childSearchQuery ? 'لا توجد نتائج مطابقة' : 'لا يوجد أطفال'}</p>` : `
                     <div class="glass">
                         <div class="table-wrap">
                             <table>
@@ -2332,10 +2791,13 @@
             return `
                 <section class="panel glass">
                     <h2 style="font-size:1.3rem;"><i class="fas fa-search" style="color:var(--sky-dark);"></i> استعلام الطالب</h2>
-                    <p style="color:var(--text-muted);font-size:0.9rem;">أدخل الكود الخاص بك لعرض تقريرك واختباراتك.</p>
+                    <p style="color:var(--text-muted);font-size:0.9rem;">أدخل الكود الخاص بك أو امسح الباركود لعرض تقريرك واختباراتك.</p>
                     <form class="form-row" onsubmit="return window.submitStudentLookup(event)">
                         <label style="flex:1;"><i class="fas fa-key"></i> الكود <input name="code" maxlength="10" style="text-transform:uppercase;" required placeholder="أدخل الكود" /></label>
                         <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> استعلام</button>
+                        <button type="button" class="barcode-btn" onclick="window.openBarcodeModal()">
+                            <i class="fas fa-barcode"></i> مسح الباركود
+                        </button>
                     </form>
                     <div id="studentResult"></div>
                 </section>`;
@@ -2354,7 +2816,7 @@
             const records = db.attendance.filter(a => a.childId === child.id).sort((a, b) => b.weekDate.localeCompare(a.weekDate));
             const presentDates = records.filter(r => r.status === 'حاضر').map(r => r.weekDate);
             const absentDates = records.filter(r => r.status === 'غائب').map(r => r.weekDate);
-            const exams = getExamsForClass(child.classId).filter(e => e.status === 'active');
+            const exams = getExamsForClass(child.classId).filter(e => e.status === 'active' || e.status === 'draft');
             const examResults = getExamResultsForStudent(child.id);
 
             const rows = records.map(r => `
@@ -2370,18 +2832,14 @@
                     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
                         ${exams.map(exam => {
                             const result = examResults.find(r => r.examId === exam.id);
-                            const now = new Date();
-                            const start = new Date(exam.startTime);
-                            const end = new Date(exam.endTime);
-                            const isActive = now >= start && now <= end;
                             const isCompleted = result && result.status === 'completed';
                             return `
                                 <div style="background:var(--bg-glass);border-radius:12px;padding:10px 14px;border:1px solid var(--border-glass);flex:1;min-width:150px;">
                                     <div style="font-weight:600;font-size:0.85rem;">${esc(exam.name)}</div>
                                     <div style="font-size:0.7rem;color:var(--text-muted);">
-                                        ${isCompleted ? '✅ تم الاختبار' : (isActive ? '🟢 متاح' : '⏳ غير متاح')}
+                                        ${isCompleted ? '✅ تم الاختبار' : (exam.status === 'active' ? '🟢 متاح' : '⏳ غير متاح')}
                                     </div>
-                                    ${isActive && !isCompleted ? `<button class="btn btn-sm btn-primary" onclick="window.startExam('${exam.id}','${child.id}')" style="margin-top:4px;">بدء الاختبار</button>` : ''}
+                                    ${exam.status === 'active' && !isCompleted ? `<button class="btn btn-sm btn-primary" onclick="window.startExam('${exam.id}','${child.id}')" style="margin-top:4px;">بدء الاختبار</button>` : ''}
                                     ${isCompleted ? `<button class="btn btn-sm btn-secondary" onclick="window.showExamResult('${exam.id}','${child.id}')" style="margin-top:4px;">عرض النتيجة</button>` : ''}
                                 </div>
                             `;
@@ -2778,6 +3236,7 @@
         window.showExamResult = showExamResult;
         window.requestExamRetake = requestExamRetake;
         window.approveExamRetake = approveExamRetake;
+        window.deleteExam = deleteExam;
         window.showToast = showToast;
         window.esc = esc;
         window.genCode = genCode;
@@ -2786,6 +3245,13 @@
         window.getExamResultsForStudent = getExamResultsForStudent;
         window.normalizeText = normalizeText;
         window.isAnswerCorrect = isAnswerCorrect;
+        window.setChildSearch = setChildSearch;
+        window.setChildClassFilter = setChildClassFilter;
+        window.setExamSearch = setExamSearch;
+        window.setExamStatusFilter = setExamStatusFilter;
+        window.setExamResultsScoreFilter = setExamResultsScoreFilter;
+        window.openBarcodeModal = openBarcodeModal;
+        window.closeBarcodeModal = closeBarcodeModal;
     </script>
 </body>
 </html>
