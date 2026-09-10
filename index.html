@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>منصة مدارس الأحد</title>
+    <title>منصة مدارس الأحد - الخادم</title>
     <meta name="theme-color" content="#2196f3" />
     <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=El+Messiri:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         :root{--bg-primary:#f0f8ff;--bg-secondary:#ffffff;--bg-glass:rgba(255,255,255,0.55);--bg-glass-hover:rgba(255,255,255,0.75);--text-primary:#0a1a2f;--text-secondary:#1a3a5c;--text-muted:#5a7a9a;--sky-dark:#2196f3;--sky-gradient:linear-gradient(145deg,#b3e0ff,#4fc3f7);--shadow:0 8px 32px rgba(33,150,243,0.15);--shadow-hover:0 16px 48px rgba(33,150,243,0.25);--border-glass:rgba(33,150,243,0.2);--ok:#2e7d32;--bad:#c62828;--gold:#f9a825;--pending:#f57c00;--admin-gradient:linear-gradient(135deg,#6a1b9a,#4a148c);--transition:all 0.4s cubic-bezier(0.23,1,0.32,1);--radius:32px;--radius-sm:16px;--chat-own:#e3f2fd;--chat-other:#f5f5f5;--correct:#4caf50;--wrong:#f44336;--sidebar-w:260px}
@@ -671,81 +672,90 @@
         // ============================================================
         // BARCODE GENERATOR (SVG Code-128-like visual)
         // ============================================================
-        function generateBarcodeSVG(text, opts = {}) {
-            const width = opts.width || 300;
-            const height = opts.height || 80;
-            const padding = opts.padding || 8;
-            const barWidth = opts.barWidth || 2;
-            const text_ = (text || '').toUpperCase();
-            // Simple deterministic pattern from text - Code128-like appearance
-            const encoded = [];
-            // Start pattern
-            encoded.push({ w: 2, black: true }, { w: 1, black: false }, { w: 2, black: true }, { w: 1, black: false });
-            for (let i = 0; i < text_.length; i++) {
-                const c = text_.charCodeAt(i);
-                // 4 bars per char
-                encoded.push({ w: ((c * 7) % 3) + 1, black: true });
-                encoded.push({ w: ((c * 3) % 3) + 1, black: false });
-                encoded.push({ w: ((c * 5) % 4) + 1, black: true });
-                encoded.push({ w: ((c * 11) % 3) + 1, black: false });
-            }
-            // Stop pattern
-            encoded.push({ w: 2, black: true }, { w: 1, black: false }, { w: 3, black: true });
-            const totalBarsW = encoded.reduce((s, b) => s + b.w, 0) * barWidth;
-            const svgW = Math.max(width, totalBarsW + padding * 2);
-            const availW = svgW - padding * 2;
-            const scale = availW / totalBarsW;
-            let x = padding;
-            let rects = '';
-            encoded.forEach(b => {
-                const w = b.w * barWidth * scale;
-                if (b.black) {
-                    rects += `<rect x="${x.toFixed(2)}" y="${padding}" width="${w.toFixed(2)}" height="${height - padding * 2 - 18}" fill="#000"/>`;
-                }
-                x += w;
-            });
-            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgW} ${height}" width="${svgW}" height="${height}" style="background:#fff;display:block;max-width:100%;height:auto;">
-                <rect width="${svgW}" height="${height}" fill="#fff"/>
-                ${rects}
-                <text x="${svgW / 2}" y="${height - 4}" text-anchor="middle" font-family="monospace" font-size="12" font-weight="700" fill="#000" letter-spacing="2">${esc(text_)}</text>
-            </svg>`;
+        // ============================================================
+// BARCODE GENERATOR - REAL CODE128 using JsBarcode
+// ============================================================
+function generateBarcodeSVG(text, opts = {}) {
+    const code = (text || '').toUpperCase().trim();
+    const width = opts.width || 300;
+    const height = opts.height || 80;
+    // Create a hidden SVG element, render barcode into it
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.style.background = '#fff';
+    try {
+        JsBarcode(svg, code, {
+            format: 'CODE128',
+            width: 2,
+            height: height - 20,
+            displayValue: true,
+            fontSize: 14,
+            font: 'monospace',
+            fontOptions: 'bold',
+            textMargin: 4,
+            margin: 8,
+            background: '#ffffff',
+            lineColor: '#000000'
+        });
+        // Ensure SVG has proper viewBox for scaling
+        const bbox = svg.getBBox();
+        if (bbox.width && bbox.height) {
+            svg.setAttribute('viewBox', `0 0 ${Math.ceil(bbox.width)} ${Math.ceil(bbox.height)}`);
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
         }
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '100%');
+        svg.style.display = 'block';
+        svg.style.maxWidth = '100%';
+        svg.style.height = 'auto';
+        return svg.outerHTML;
+    } catch (e) {
+        console.error('Barcode generation failed:', e);
+        // Fallback: simple text
+        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80" style="background:#fff;">
+            <text x="150" y="45" text-anchor="middle" font-family="monospace" font-size="14" fill="#000">${esc(code)}</text>
+        </svg>`;
+    }
+}
 
         window.downloadBarcode = function(code) {
-            const svg = generateBarcodeSVG(code, { width: 400, height: 120 });
-            const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
-            // Convert SVG to PNG via canvas
-            const img = new Image();
-            const url = URL.createObjectURL(blob);
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = 800;
-                canvas.height = 240;
-                const ctx = canvas.getContext('2d');
-                ctx.fillStyle = '#fff';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                URL.revokeObjectURL(url);
-                canvas.toBlob(pngBlob => {
-                    const pngUrl = URL.createObjectURL(pngBlob);
-                    const a = document.createElement('a');
-                    a.href = pngUrl;
-                    a.download = `barcode-${code}.png`;
-                    a.click();
-                    setTimeout(() => URL.revokeObjectURL(pngUrl), 1000);
-                    showToast('✅ تم تحميل الباركود', 'success');
-                }, 'image/png');
-            };
-            img.onerror = () => {
-                // Fallback: download SVG
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `barcode-${code}.svg`;
-                a.click();
-                showToast('✅ تم تحميل الباركود (SVG)', 'success');
-            };
-            img.src = url;
-        };
+    const c = (code || '').toUpperCase().trim();
+    // Render into a hidden canvas for reliable PNG export
+    const canvas = document.createElement('canvas');
+    try {
+        JsBarcode(canvas, c, {
+            format: 'CODE128',
+            width: 4,
+            height: 160,
+            displayValue: true,
+            fontSize: 26,
+            font: 'monospace',
+            fontOptions: 'bold',
+            textMargin: 8,
+            margin: 20,
+            background: '#ffffff',
+            lineColor: '#000000'
+        });
+        canvas.toBlob(pngBlob => {
+            if (!pngBlob) {
+                showToast('❌ فشل تحميل الباركود', 'error');
+                return;
+            }
+            const pngUrl = URL.createObjectURL(pngBlob);
+            const a = document.createElement('a');
+            a.href = pngUrl;
+            a.download = `barcode-${c}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(pngUrl), 1500);
+            showToast('✅ تم تحميل الباركود', 'success');
+        }, 'image/png');
+    } catch (e) {
+        console.error('Download barcode failed:', e);
+        showToast('❌ فشل توليد الباركود', 'error');
+    }
+};
 
         window.showBarcodeView = function(childId) {
             const child = db.children.find(c => c.id === childId);
@@ -2801,4 +2811,4 @@
         window.setExamStatusFilter = setExamStatusFilter;
     </script>
 </body>
-                        </html>
+</html>
