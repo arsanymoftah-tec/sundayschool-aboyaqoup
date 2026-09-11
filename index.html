@@ -13,10 +13,28 @@
         :root{--bg-primary:#f0f8ff;--bg-secondary:#ffffff;--bg-glass:rgba(255,255,255,0.55);--bg-glass-hover:rgba(255,255,255,0.75);--text-primary:#0a1a2f;--text-secondary:#1a3a5c;--text-muted:#5a7a9a;--sky-dark:#2196f3;--sky-gradient:linear-gradient(145deg,#b3e0ff,#4fc3f7);--shadow:0 8px 32px rgba(33,150,243,0.15);--shadow-hover:0 16px 48px rgba(33,150,243,0.25);--border-glass:rgba(33,150,243,0.2);--ok:#2e7d32;--bad:#c62828;--gold:#f9a825;--pending:#f57c00;--admin-gradient:linear-gradient(135deg,#6a1b9a,#4a148c);--transition:all 0.4s cubic-bezier(0.23,1,0.32,1);--radius:32px;--radius-sm:16px;--chat-own:#e3f2fd;--chat-other:#f5f5f5;--correct:#4caf50;--wrong:#f44336;--sidebar-w:260px}
         [data-theme=dark]{--bg-primary:#0a1628;--bg-secondary:#13203a;--bg-glass:rgba(20,40,80,0.6);--bg-glass-hover:rgba(30,60,120,0.75);--text-primary:#e8f4fd;--text-secondary:#b0d4f0;--text-muted:#7a9ab8;--sky-dark:#64b5f6;--shadow:0 8px 32px rgba(0,0,0,0.4);--shadow-hover:0 16px 48px rgba(0,0,0,0.6);--border-glass:rgba(100,181,246,0.2);--ok:#66bb6a;--bad:#ef5350;--gold:#ffd54f;--pending:#ffa726;--chat-own:#1a2a4a;--chat-other:#1a2a3a;--correct:#66bb6a;--wrong:#ef5350}
         body{font-family:'El Messiri',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;transition:var(--transition);padding:0;position:relative;overflow-x:hidden}
-        body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(100,200,255,0.06) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(33,150,243,0.04) 0%,transparent 50%);animation:floatBg 25s ease-in-out infinite alternate;z-index:0;pointer-events:none}
+        body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(100,200,255,0.06) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(33,150,243,0.04) 0%,transparent 50%);animation:floatBg 25s ease-in-out infinite alternate;z-index:-1;pointer-events:none}
         @keyframes floatBg{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-5%,5%) scale(1.05)}}
         .app-layout{display:flex;min-height:100vh;position:relative;z-index:1}
-        .sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg-glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-left:1px solid var(--border-glass);padding:16px 12px;display:flex;flex-direction:column;gap:6px;transition:var(--transition);position:sticky;top:0;height:100vh;overflow-y:auto}
+        /* ✅ Sidebar FIXED: solid background, no backdrop-filter, high z-index */
+        .sidebar{
+            width:var(--sidebar-w);
+            flex-shrink:0;
+            background:var(--bg-secondary);
+            border-left:1px solid var(--border-glass);
+            padding:16px 12px;
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+            transition:var(--transition);
+            position:sticky;
+            top:0;
+            height:100vh;
+            overflow-y:auto;
+            z-index:100;
+            box-shadow:-2px 0 20px rgba(33,150,243,0.08);
+        }
+        [data-theme=dark] .sidebar{box-shadow:-2px 0 20px rgba(0,0,0,0.4)}
         .sidebar::-webkit-scrollbar{width:4px}
         .sidebar::-webkit-scrollbar-thumb{background:var(--sky-dark);border-radius:10px}
         .sidebar .side-brand{font-family:'Lalezar',cursive;font-size:1.3rem;color:var(--text-primary);display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:8px;text-decoration:none;border-radius:var(--radius-sm)}
@@ -25,7 +43,7 @@
         .sidebar .sky-text{background:var(--sky-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
         .side-user{padding:10px 12px;background:var(--bg-glass-hover);border-radius:var(--radius-sm);margin-bottom:8px;border:1px solid var(--border-glass)}
         .side-user .name{font-weight:700;font-size:0.9rem;display:flex;align-items:center;gap:6px}
-        .side-user .role{font-size:0.7rem;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:6px}
+        .side-user .role{font-size:0.7rem;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
         .side-nav{display:flex;flex-direction:column;gap:4px;flex:1}
         .side-nav a{color:var(--text-secondary);padding:10px 14px;border-radius:var(--radius-sm);font-size:0.9rem;text-decoration:none;transition:var(--transition);display:flex;align-items:center;gap:10px;cursor:pointer;border:1px solid transparent}
         .side-nav a i{width:20px;text-align:center;font-size:1rem}
@@ -34,7 +52,7 @@
         .side-nav a.active i{color:#fff}
         .side-nav .group-label{font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;padding:10px 14px 4px;font-weight:700}
         .side-nav .badge{background:var(--bad);color:#fff;border-radius:50%;padding:0 6px;font-size:0.6rem;font-weight:700;min-width:18px;text-align:center;line-height:18px;margin-right:auto}
-        .main-content{flex:1;min-width:0;padding:12px 16px 60px}
+        .main-content{flex:1;min-width:0;padding:12px 16px 60px;position:relative;z-index:1}
         .container{max-width:1300px;margin:0 auto;padding:0}
         .glass{background:var(--bg-glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border-glass);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;transition:var(--transition);position:relative;overflow:hidden}
         .glass:hover{background:var(--bg-glass-hover);border-color:var(--sky-dark);box-shadow:var(--shadow-hover)}
@@ -78,6 +96,8 @@
         .badge-correct{background:rgba(76,175,80,0.15);color:var(--correct);border:1px solid rgba(76,175,80,0.2)}
         .badge-wrong{background:rgba(244,67,54,0.15);color:var(--wrong);border:1px solid rgba(244,67,54,0.2)}
         .badge-info{background:rgba(33,150,243,0.15);color:var(--sky-dark);border:1px solid rgba(33,150,243,0.2)}
+        .badge-servant{background:rgba(33,150,243,0.15);color:var(--sky-dark);border:1px solid rgba(33,150,243,0.2)}
+        .badge-admin{background:rgba(106,27,154,0.15);color:#6a1b9a;border:1px solid rgba(106,27,154,0.2)}
         .code-pill{background:rgba(33,150,243,0.1);color:var(--sky-dark);padding:2px 14px;border-radius:40px;font-weight:700;letter-spacing:1px;border:1px solid rgba(33,150,243,0.15);font-size:0.75rem;font-family:monospace}
         .copy-btn{background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:30px;padding:3px 10px;color:var(--text-muted);cursor:pointer;transition:var(--transition);font-size:0.7rem;display:inline-flex;align-items:center;gap:4px}
         .copy-btn:hover{background:var(--sky-dark);color:#fff;border-color:var(--sky-dark)}
@@ -244,6 +264,8 @@
         .exam-timer-display.warning{color:var(--pending);border-color:var(--pending);background:rgba(245,124,0,0.1)}
         .exam-timer-display.danger{color:var(--bad);border-color:var(--bad);background:rgba(198,40,40,0.1);animation:timerPulse 1s infinite}
         @keyframes timerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        /* Servant attendance */
+        .servant-attendance-row{display:flex;align-items:center;gap:8px;padding:10px;border-bottom:1px solid var(--border-glass);flex-wrap:wrap}
         /* Mobile fixes */
         @media(max-width:900px){
             .sidebar{
@@ -483,7 +505,7 @@
     <div class="modal-overlay" id="barcodeViewModal">
         <div class="modal glass" style="max-width:460px;">
             <div class="modal-header">
-                <h3 style="font-size:1.1rem;"><i class="fas fa-barcode" style="color:var(--sky-dark);"></i> باركود الطالب</h3>
+                <h3 style="font-size:1.1rem;"><i class="fas fa-barcode" style="color:var(--sky-dark);"></i> الباركود</h3>
                 <button class="modal-close" onclick="window.closeBarcodeViewModal()"><i class="fas fa-times"></i></button>
             </div>
             <div id="barcodeViewContent" style="text-align:center;"></div>
@@ -509,7 +531,7 @@
 
         const EMOJIS = ['😊','😂','❤️','👍','🙏','🌟','🔥','💪','🎉','✨','😍','🤗','😅','🤔','😢','😡','🥳','🤩','😎','🧡','💙','💚','💛','💜','🖤','🤍','💝','💖','💗','💓','💞','💕','💘','💟','☮️','✝️','☦️','🕊️','🙌','👏','🤝','✌️','👋','💯','🔥','⚡','⭐','🌙','☀️','🌈','☁️','❄️','🌊','🌺','🌸','🌹','🌷','🌻','🌼','🌿','🌱','🍀','🌳'];
 
-        let db = { servants: [], children: [], attendance: [], classes: [], chatRooms: [], polls: [], exams: [], examResults: [] };
+        let db = { servants: [], children: [], attendance: [], classes: [], chatRooms: [], polls: [], exams: [], examResults: [], servantAttendance: [] };
         let session = null;
         let route = 'home';
         let routeParam = null;
@@ -526,7 +548,7 @@
         let lastPendingCount = 0;
 
         // Exam state
-        let currentExamState = null; // { examId, childId, resultId, currentIndex, answers: {} }
+        let currentExamState = null;
 
         let childSearchQuery = '';
         let childClassFilter = '';
@@ -544,11 +566,14 @@
                     const data = snap.data();
                     db = data.payload ? data.payload : data;
                 } else {
-                    db = { servants: [], children: [], attendance: [], classes: [], chatRooms: [], polls: [], exams: [], examResults: [] };
+                    db = { servants: [], children: [], attendance: [], classes: [], chatRooms: [], polls: [], exams: [], examResults: [], servantAttendance: [] };
                     await saveDB();
                 }
-                ['servants','children','attendance','classes','chatRooms','polls','exams','examResults'].forEach(k => { if (!db[k]) db[k] = []; });
-                db.servants = db.servants.map(s => ({ ...s, isActive: s.isActive !== undefined ? s.isActive : false, isAdmin: s.isAdmin || false, isPending: s.isPending !== undefined ? s.isPending : true, assignedClass: s.assignedClass || null, pendingSince: s.pendingSince || null }));
+                ['servants','children','attendance','classes','chatRooms','polls','exams','examResults','servantAttendance'].forEach(k => { if (!db[k]) db[k] = []; });
+                db.servants = db.servants.map(s => ({ ...s, isActive: s.isActive !== undefined ? s.isActive : false, isAdmin: s.isAdmin || false, isPending: s.isPending !== undefined ? s.isPending : true, assignedClass: s.assignedClass || null, pendingSince: s.pendingSince || null, code: s.code || null }));
+                let changed = false;
+                db.servants.forEach(s => { if (!s.code) { s.code = genServantCode(); changed = true; } });
+                if (changed) await saveDB();
             } catch (e) { console.error('❌ تحميل:', e); showToast('تعذر الاتصال بقاعدة البيانات.', 'error'); }
         }
         async function saveDB() { try { await setDoc(dataDocRef, { payload: db }); } catch (e) { console.error('❌ حفظ:', e); showToast('حدث خطأ أثناء حفظ البيانات.', 'error'); } }
@@ -557,10 +582,9 @@
                 if (snap.exists()) {
                     const data = snap.data();
                     db = data.payload ? data.payload : data;
-                    ['servants','children','attendance','classes','chatRooms','polls','exams','examResults'].forEach(k => { if (!db[k]) db[k] = []; });
-                    db.servants = db.servants.map(s => ({ ...s, isActive: s.isActive !== undefined ? s.isActive : false, isAdmin: s.isAdmin || false, isPending: s.isPending !== undefined ? s.isPending : true, assignedClass: s.assignedClass || null, pendingSince: s.pendingSince || null }));
+                    ['servants','children','attendance','classes','chatRooms','polls','exams','examResults','servantAttendance'].forEach(k => { if (!db[k]) db[k] = []; });
+                    db.servants = db.servants.map(s => ({ ...s, isActive: s.isActive !== undefined ? s.isActive : false, isAdmin: s.isAdmin || false, isPending: s.isPending !== undefined ? s.isPending : true, assignedClass: s.assignedClass || null, pendingSince: s.pendingSince || null, code: s.code || null }));
                     updateChatBadge();
-                    // Don't re-render if exam is active
                     if (!currentExamState) render();
                 }
             });
@@ -596,11 +620,17 @@
             do { code = Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join(''); } while (db.exams.some(e => e.code === code));
             return code;
         }
+        function genServantCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code;
+            do { code = 'S' + Array.from({ length: 5 }, () => chars[Math.floor(Math.random() * chars.length)]).join(''); } while (db.servants.some(s => s.code === code));
+            return code;
+        }
         function todayDate() { return new Date().toISOString().slice(0, 10); }
         function setFlash(msg, type = 'success') { flash = { msg, type }; }
 
         function go(r, param = null) {
-            if ((r === 'dashboard' || r === 'attendance' || r === 'childReport' || r === 'chat' || r === 'exams' || r === 'analytics') && !session) r = 'login';
+            if ((r === 'dashboard' || r === 'attendance' || r === 'childReport' || r === 'chat' || r === 'exams' || r === 'analytics' || r === 'myAttendance') && !session) r = 'login';
             route = r;
             routeParam = param;
             if (r !== 'exams') { examSearchQuery = ''; examStatusFilter = ''; }
@@ -644,7 +674,21 @@
             return result;
         }
 
-        // ==== FIXED: Comprehensive Arabic text normalization ====
+        // ==== Servant attendance helpers ====
+        function getServantAttendanceForDate(username, date) {
+            return db.servantAttendance.find(a => a.username === username && a.weekDate === date);
+        }
+        function getServantAttendanceStats(username) {
+            const records = db.servantAttendance.filter(a => a.username === username);
+            const present = records.filter(r => r.status === 'حاضر').length;
+            const total = records.length;
+            return { total, present, absent: total - present, percent: total > 0 ? Math.round((present / total) * 100) : 0 };
+        }
+        function getMyServantAttendance() {
+            if (!session) return [];
+            return db.servantAttendance.filter(a => a.username === session.username).sort((a, b) => b.weekDate.localeCompare(a.weekDate));
+        }
+
         function normalizeText(text) {
             if (text === null || text === undefined) return '';
             let t = text.toString();
@@ -738,6 +782,52 @@
             } catch (e) { console.error(e); showToast('❌ فشل توليد الباركود', 'error'); }
         };
 
+        // Print barcode (opens new window)
+        window.printBarcode = function(code, name, role) {
+            const c = (code || '').toUpperCase().trim();
+            const canvas = document.createElement('canvas');
+            try {
+                JsBarcode(canvas, c, { format: 'CODE128', width: 4, height: 160, displayValue: true, fontSize: 26, font: 'monospace', fontOptions: 'bold', textMargin: 8, margin: 20, background: '#ffffff', lineColor: '#000000' });
+                const dataUrl = canvas.toDataURL('image/png');
+                const w = window.open('', '_blank');
+                w.document.write(`
+                    <!DOCTYPE html>
+                    <html dir="rtl" lang="ar">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>طباعة باركود - ${esc(name || c)}</title>
+                        <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;600;700&display=swap" rel="stylesheet">
+                        <style>
+                            body{font-family:'El Messiri',sans-serif;text-align:center;padding:30px;background:#fff;color:#000;}
+                            .card{border:2px dashed #2196f3;padding:24px;border-radius:16px;max-width:400px;margin:0 auto;}
+                            .role{font-size:0.9rem;color:#2196f3;font-weight:700;margin-bottom:8px;}
+                            .name{font-size:1.4rem;font-weight:700;margin-bottom:16px;}
+                            .barcode-img{width:100%;max-width:340px;margin:0 auto 12px;display:block;}
+                            .code{font-family:monospace;font-size:1.2rem;letter-spacing:2px;font-weight:700;color:#2196f3;}
+                            .footer{margin-top:20px;font-size:0.75rem;color:#999;}
+                            @media print{ body{padding:0;} .no-print{display:none;} .card{border:none;} }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="card">
+                            <div class="role">${esc(role || '')}</div>
+                            <div class="name">${esc(name || '')}</div>
+                            <img class="barcode-img" src="${dataUrl}" alt="Barcode" />
+                            <div class="code">${esc(c)}</div>
+                        </div>
+                        <div class="footer no-print" style="margin-top:20px;">
+                            <button onclick="window.print()" style="padding:10px 24px;background:#2196f3;color:#fff;border:none;border-radius:50px;font-family:inherit;font-size:1rem;cursor:pointer;font-weight:600;">
+                                🖨️ طباعة
+                            </button>
+                        </div>
+                    </body>
+                    </html>
+                `);
+                w.document.close();
+                setTimeout(() => { try { w.focus(); } catch(e){} }, 300);
+            } catch (e) { console.error(e); showToast('❌ فشل الطباعة', 'error'); }
+        };
+
         window.showBarcodeView = function(childId) {
             const child = db.children.find(c => c.id === childId);
             if (!child) { showToast('❌ الطالب غير موجود.', 'error'); return; }
@@ -749,8 +839,32 @@
                     <i class="fas fa-layer-group"></i> ${esc(getClassById(child.classId)?.name || 'غير محدد')}
                 </div>
                 <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary btn-sm" onclick="window.printBarcode('${esc(child.code)}','${esc(child.name)}','طالب - ${esc(getClassById(child.classId)?.name || '')}')"><i class="fas fa-print"></i> طباعة</button>
                     <button class="btn btn-primary btn-sm" onclick="window.downloadBarcode('${esc(child.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
                     <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ الكود</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.closeBarcodeViewModal()"><i class="fas fa-times"></i> إغلاق</button>
+                </div>
+            `;
+            document.getElementById('barcodeViewModal').classList.add('active');
+        };
+        // Servant barcode view
+        window.showServantBarcodeView = function(username) {
+            const servant = db.servants.find(s => s.username === username);
+            if (!servant) { showToast('❌ الخادم غير موجود.', 'error'); return; }
+            if (!servant.code) { servant.code = genServantCode(); saveDB(); }
+            const svg = generateBarcodeSVG(servant.code, { width: 340, height: 100 });
+            const roleText = servant.isAdmin ? 'أدمن' : 'خادم';
+            document.getElementById('barcodeViewContent').innerHTML = `
+                <div style="background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;">${svg}</div>
+                <div style="font-weight:700;font-size:1.05rem;margin-bottom:4px;">${esc(servant.name)}</div>
+                <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">
+                    <span class="badge ${servant.isAdmin ? 'badge-admin' : 'badge-servant'}">${roleText}</span>
+                    ${servant.assignedClass ? `<span style="margin-right:6px;"><i class="fas fa-layer-group"></i> ${esc(getClassById(servant.assignedClass)?.name || '')}</span>` : ''}
+                </div>
+                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary btn-sm" onclick="window.printBarcode('${esc(servant.code)}','${esc(servant.name)}','${roleText}${servant.assignedClass ? ' - ' + esc(getClassById(servant.assignedClass)?.name || '') : ''}')"><i class="fas fa-print"></i> طباعة</button>
+                    <button class="btn btn-primary btn-sm" onclick="window.downloadBarcode('${esc(servant.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(servant.code)}',this)"><i class="fas fa-copy"></i> نسخ</button>
                     <button class="btn btn-secondary btn-sm" onclick="window.closeBarcodeViewModal()"><i class="fas fa-times"></i> إغلاق</button>
                 </div>
             `;
@@ -1291,7 +1405,6 @@
             render();
         };
 
-        // Check if exam is available based on time windows
         function isExamAvailable(exam) {
             const now = new Date();
             if (exam.startTime) {
@@ -1360,11 +1473,9 @@
             updateTimer();
             examTimerInterval = setInterval(updateTimer, 1000);
 
-            // Initialize current index
             if (!currentExamState || currentExamState.examId !== exam.id || currentExamState.childId !== childId) {
                 currentExamState = { examId: exam.id, childId, resultId: result.id, currentIndex: 0, answers: { ...(result.answers || {}) } };
             }
-            // Sync answers from result
             currentExamState.answers = { ...(result.answers || {}), ...currentExamState.answers };
 
             renderExamQuestionView(exam, result);
@@ -1380,7 +1491,6 @@
             const savedAnswer = currentExamState.answers[q.id] || '';
             const isEssay = q.type === 'essay' || q.type === 'complete';
 
-            // Build navigation buttons
             let navButtons = '';
             questions.forEach((qq, i) => {
                 const ans = currentExamState.answers[qq.id];
@@ -1398,7 +1508,6 @@
                 </button>`;
             });
 
-            // Build question content
             let questionContent = '';
             if (q.type === 'truefalse') {
                 questionContent = `
@@ -1473,7 +1582,6 @@
                 ${idx < totalQ - 1 ? `<div style="text-align:center;margin-top:10px;"><button class="btn btn-sm btn-gold" onclick="window.requestSubmitExam()"><i class="fas fa-paper-plane"></i> تسليم الاختبار</button></div>` : ''}
             `;
 
-            // Attach essay input listener
             if (isEssay) {
                 const ta = document.getElementById(`essayAnswer_${q.id}`);
                 if (ta) {
@@ -1489,7 +1597,6 @@
             const exam = db.exams.find(e => e.id === currentExamState.examId);
             if (!exam) return;
             if (index < 0 || index >= exam.questions.length) return;
-            // Save current essay answer
             saveCurrentAnswer();
             currentExamState.currentIndex = index;
             const result = db.examResults.find(r => r.id === currentExamState.resultId);
@@ -1519,6 +1626,31 @@
             }
         }
 
+        function updateNavButtons(exam) {
+            const navContainer = document.querySelector('.exam-nav-container');
+            if (!navContainer || !exam) return;
+            let navButtons = '';
+            exam.questions.forEach((qq, i) => {
+                const ans = currentExamState.answers[qq.id];
+                const hasAnswer = ans && ans.toString().trim() !== '';
+                const isCurrent = i === currentExamState.currentIndex;
+                let cls = 'exam-nav-btn';
+                if (isCurrent) cls += ' current';
+                if (hasAnswer) cls += ' answered';
+                else if (!isCurrent) cls += ' unanswered';
+                navButtons += `<button class="${cls}" onclick="window.goToExamQuestion(${i})" type="button">${i + 1}${hasAnswer ? '<span class="check-icon"><i class="fas fa-check"></i></span>' : ''}</button>`;
+            });
+            navContainer.innerHTML = navButtons;
+            const counterBadge = document.querySelector('.review-badge');
+            if (counterBadge) {
+                const answeredCount = exam.questions.filter(qq => {
+                    const a = currentExamState.answers[qq.id];
+                    return a && a.toString().trim() !== '';
+                }).length;
+                counterBadge.textContent = `✅ ${answeredCount} / ${exam.questions.length} تمت الإجابة`;
+            }
+        }
+
         window.selectExamAnswer = function(questionId, value, labelEl) {
             if (!currentExamState) return;
             currentExamState.answers[questionId] = value;
@@ -1530,7 +1662,6 @@
                     saveDB();
                 }
             }
-            // Update visual selection
             const parent = labelEl.parentElement;
             parent.querySelectorAll('label').forEach(l => {
                 l.style.borderColor = 'var(--border-glass)';
@@ -1538,36 +1669,7 @@
             });
             labelEl.style.borderColor = 'var(--sky-dark)';
             labelEl.style.background = 'rgba(33,150,243,0.1)';
-            // Re-render nav buttons to update answered status
-            setTimeout(() => {
-                const exam2 = db.exams.find(e => e.id === currentExamState.examId);
-                if (exam2) {
-                    const navContainer = document.querySelector('.exam-nav-container');
-                    if (navContainer) {
-                        let navButtons = '';
-                        exam2.questions.forEach((qq, i) => {
-                            const ans = currentExamState.answers[qq.id];
-                            const hasAnswer = ans && ans.toString().trim() !== '';
-                            const isCurrent = i === currentExamState.currentIndex;
-                            let cls = 'exam-nav-btn';
-                            if (isCurrent) cls += ' current';
-                            if (hasAnswer) cls += ' answered';
-                            else if (!isCurrent) cls += ' unanswered';
-                            navButtons += `<button class="${cls}" onclick="window.goToExamQuestion(${i})" type="button">${i + 1}${hasAnswer ? '<span class="check-icon"><i class="fas fa-check"></i></span>' : ''}</button>`;
-                        });
-                        navContainer.innerHTML = navButtons;
-                        // Update counter
-                        const counterBadge = document.querySelector('.review-badge');
-                        if (counterBadge) {
-                            const answeredCount = exam2.questions.filter(qq => {
-                                const a = currentExamState.answers[qq.id];
-                                return a && a.toString().trim() !== '';
-                            }).length;
-                            counterBadge.textContent = `✅ ${answeredCount} / ${exam2.questions.length} تمت الإجابة`;
-                        }
-                    }
-                }
-            }, 50);
+            setTimeout(() => { updateNavButtons(exam); }, 50);
         };
 
         window.toggleMultipleAnswer = function(questionId, value, labelEl) {
@@ -1588,35 +1690,8 @@
             currentExamState.answers[questionId] = arr.join(',');
             const result = db.examResults.find(r => r.id === currentExamState.resultId);
             if (result) { result.answers = { ...currentExamState.answers }; saveDB(); }
-            // Update nav
-            setTimeout(() => {
-                const exam2 = db.exams.find(e => e.id === currentExamState.examId);
-                if (exam2) {
-                    const navContainer = document.querySelector('.exam-nav-container');
-                    if (navContainer) {
-                        let navButtons = '';
-                        exam2.questions.forEach((qq, i) => {
-                            const ans = currentExamState.answers[qq.id];
-                            const hasAnswer = ans && ans.toString().trim() !== '';
-                            const isCurrent = i === currentExamState.currentIndex;
-                            let cls = 'exam-nav-btn';
-                            if (isCurrent) cls += ' current';
-                            if (hasAnswer) cls += ' answered';
-                            else if (!isCurrent) cls += ' unanswered';
-                            navButtons += `<button class="${cls}" onclick="window.goToExamQuestion(${i})" type="button">${i + 1}${hasAnswer ? '<span class="check-icon"><i class="fas fa-check"></i></span>' : ''}</button>`;
-                        });
-                        navContainer.innerHTML = navButtons;
-                        const counterBadge = document.querySelector('.review-badge');
-                        if (counterBadge) {
-                            const answeredCount = exam2.questions.filter(qq => {
-                                const a = currentExamState.answers[qq.id];
-                                return a && a.toString().trim() !== '';
-                            }).length;
-                            counterBadge.textContent = `✅ ${answeredCount} / ${exam2.questions.length} تمت الإجابة`;
-                        }
-                    }
-                }
-            }, 50);
+            const exam = db.exams.find(e => e.id === currentExamState.examId);
+            setTimeout(() => { updateNavButtons(exam); }, 50);
         };
 
         window.requestSubmitExam = function() {
@@ -1625,7 +1700,6 @@
             if (!exam) return;
             const result = db.examResults.find(r => r.id === currentExamState.resultId);
             if (result) { result.answers = { ...currentExamState.answers }; saveDB(); }
-            // Show confirm modal
             document.getElementById('submitConfirmModal').classList.add('active');
         };
 
@@ -1635,7 +1709,6 @@
 
         window.reviewAnswers = function() {
             closeSubmitConfirmModal();
-            // Go to first unanswered question if any
             const exam = db.exams.find(e => e.id === currentExamState.examId);
             if (!exam) return;
             let firstUnanswered = -1;
@@ -1657,7 +1730,6 @@
             submitExamAnswers(currentExamState.examId, currentExamState.childId, false);
         };
 
-        // ==== FIXED submit & scoring using currentExamState ====
         window.submitExamAnswers = async function(examId, childId, autoSubmit = false) {
             if (examTimerInterval) clearInterval(examTimerInterval);
             saveCurrentAnswer();
@@ -1666,7 +1738,6 @@
             const result = db.examResults.find(r => r.examId === examId && r.childId === childId && r.status === 'in-progress');
             if (!result) { showToast('❌ لا توجد محاولة نشطة.', 'error'); return; }
             
-            // Use currentExamState answers (FIXED: this is the key fix)
             const answers = { ...(currentExamState ? currentExamState.answers : result.answers || {}) };
             
             let totalScore = 0;
@@ -1696,10 +1767,8 @@
             window.closeTakeExamModal();
             showExamResult(examId, childId);
         };
-
         window.closeTakeExamModal = function() {
             if (examTimerInterval) clearInterval(examTimerInterval);
-            // Save progress before closing
             if (currentExamState) {
                 saveCurrentAnswer();
                 const result = db.examResults.find(r => r.id === currentExamState.resultId);
@@ -1714,7 +1783,6 @@
         };
         window.closeExamResultModal = function() { document.getElementById('examResultModal').classList.remove('active'); render(); };
 
-        // ==== Result with smart retake button ====
         function showExamResult(examId, childId) {
             const exam = db.exams.find(e => e.id === examId);
             const result = db.examResults.find(r => r.examId === examId && r.childId === childId && r.status === 'completed');
@@ -1760,7 +1828,6 @@
                     </div>
                 `;
             });
-            // Smart retake button
             const allResults = db.examResults.filter(r => r.examId === examId && r.childId === childId);
             const completedAttempts = allResults.filter(r => r.status === 'completed').length;
             const attemptsLeft = exam.attempts - completedAttempts;
@@ -1905,6 +1972,86 @@
         window.showExamResult = function(examId, childId) { showExamResult(examId, childId); };
 
         // ============================================================
+        // SERVANT OWN ATTENDANCE VIEW
+        // ============================================================
+        function viewMyAttendance() {
+            if (!session) { go('login'); return ''; }
+            const isActive = isServantActive(session.username);
+            const isPending = isServantPending(session.username);
+            if (isPending) { setFlash('⏳ حسابك في انتظار الموافقة.', 'warning'); go('home'); return ''; }
+            if (!isActive) { setFlash('⛔ حسابك موقوف.', 'error'); go('home'); return ''; }
+            const servant = getServantByUsername(session.username);
+            const records = getMyServantAttendance();
+            const presentDates = records.filter(r => r.status === 'حاضر').map(r => r.weekDate);
+            const absentDates = records.filter(r => r.status === 'غائب').map(r => r.weekDate);
+            const stats = getServantAttendanceStats(session.username);
+            const barcodeSVG = servant.code ? generateBarcodeSVG(servant.code, { width: 300, height: 80 }) : '';
+            const rows = records.map(r => `
+                <tr>
+                    <td>${esc(r.weekDate)}</td>
+                    <td><span class="badge ${r.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}">${esc(r.status)}</span></td>
+                    <td>${esc(r.note || '—')}</td>
+                </tr>`).join('');
+            const weekMap = {};
+            records.forEach(r => {
+                if (!weekMap[r.weekDate]) weekMap[r.weekDate] = { present: 0, absent: 0 };
+                if (r.status === 'حاضر') weekMap[r.weekDate].present++; else weekMap[r.weekDate].absent++;
+            });
+            const sortedWeeks = Object.keys(weekMap).sort().slice(-8);
+            const maxVal = Math.max(1, ...sortedWeeks.map(w => weekMap[w].present + weekMap[w].absent));
+            return `
+                <section>
+                    <div class="glass" style="border-color:var(--sky-dark);margin-bottom:16px;">
+                        <h2 style="font-size:1.3rem;margin:0;"><i class="fas fa-user-check" style="color:var(--sky-dark);"></i> حضورك الشخصي</h2>
+                        <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">متابعة سجل حضورك وغيابك</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="icon"><i class="fas fa-calendar-check"></i></div><div class="num">${stats.total}</div><div class="label">إجمالي السجلات</div></div>
+                        <div class="stat-card" style="border-color:var(--ok);"><div class="icon" style="color:var(--ok);"><i class="fas fa-check-circle"></i></div><div class="num" style="color:var(--ok);">${stats.present}</div><div class="label">مرات الحضور</div></div>
+                        <div class="stat-card" style="border-color:var(--bad);"><div class="icon" style="color:var(--bad);"><i class="fas fa-times-circle"></i></div><div class="num" style="color:var(--bad);">${stats.absent}</div><div class="label">مرات الغياب</div></div>
+                        <div class="stat-card" style="border-color:${stats.percent >= 70 ? 'var(--ok)' : stats.percent >= 40 ? 'var(--pending)' : 'var(--bad)'};"><div class="icon"><i class="fas fa-percentage"></i></div><div class="num" style="color:${stats.percent >= 70 ? 'var(--ok)' : stats.percent >= 40 ? 'var(--pending)' : 'var(--bad)'};">${stats.percent}%</div><div class="label">نسبة حضورك</div></div>
+                    </div>
+                    ${servant.code ? `
+                    <div class="glass" style="margin-top:12px;text-align:center;">
+                        <h3 style="font-size:1rem;margin-bottom:8px;"><i class="fas fa-barcode" style="color:var(--sky-dark);"></i> باركودك الشخصي</h3>
+                        <div style="background:#fff;border-radius:12px;padding:12px;display:inline-block;max-width:100%;">${barcodeSVG}</div>
+                        <div style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;">كود: <code class="code-pill">${esc(servant.code)}</code></div>
+                        <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+                            <button class="btn btn-primary btn-sm" onclick="window.printBarcode('${esc(servant.code)}','${esc(servant.name)}','${servant.isAdmin ? 'أدمن' : 'خادم'}')"><i class="fas fa-print"></i> طباعة</button>
+                            <button class="btn btn-primary btn-sm" onclick="window.downloadBarcode('${esc(servant.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
+                            <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(servant.code)}',this)"><i class="fas fa-copy"></i> نسخ الكود</button>
+                        </div>
+                    </div>` : ''}
+                    ${sortedWeeks.length > 0 ? `
+                    <div class="glass" style="margin-top:16px;">
+                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-chart-bar" style="color:var(--sky-dark);"></i> حضورك الأسبوعي</h3>
+                        <div class="chart-bar-row">
+                            ${sortedWeeks.map(w => {
+                                const p = weekMap[w].present; const a = weekMap[w].absent; const total = p + a;
+                                const h = total > 0 ? (total / maxVal) * 100 : 0;
+                                return `<div class="chart-bar" style="height:${Math.max(h, 4)}%;" title="${w}: ${p} حاضر، ${a} غائب"><span class="val">${total}</span><span class="lbl">${w.slice(5)}</span></div>`;
+                            }).join('')}
+                        </div>
+                    </div>` : ''}
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                        <div class="glass" style="text-align:center;padding:12px;">
+                            <h4 style="color:var(--ok);font-size:1rem;"><i class="fas fa-check-circle"></i> الحضور (${presentDates.length})</h4>
+                            <div style="font-size:0.8rem;">${presentDates.length ? presentDates.map(d => `<span class="badge badge-ok" style="margin:2px;">${esc(d)}</span>`).join(' ') : 'لا يوجد'}</div>
+                        </div>
+                        <div class="glass" style="text-align:center;padding:12px;">
+                            <h4 style="color:var(--bad);font-size:1rem;"><i class="fas fa-times-circle"></i> الغياب (${absentDates.length})</h4>
+                            <div style="font-size:0.8rem;">${absentDates.length ? absentDates.map(d => `<span class="badge badge-bad" style="margin:2px;">${esc(d)}</span>`).join(' ') : 'لا يوجد'}</div>
+                        </div>
+                    </div>
+                    <h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-history"></i> السجل التفصيلي</h3>
+                    ${records.length === 0 ? `<p class="empty">لا يوجد سجلات بعد</p>` : `
+                    <div class="glass table-wrap">
+                        <table><thead><tr><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead><tbody>${rows}</tbody></table>
+                    </div>`}
+                </section>`;
+        }
+
+        // ============================================================
         // SIDEBAR
         // ============================================================
         function renderSidebar() {
@@ -1922,6 +2069,7 @@
                 sideUser.innerHTML = `
                     <div class="name"><i class="fas fa-user-circle"></i> ${esc(session.name)}</div>
                     <div class="role"><span class="badge ${isActive ? 'badge-ok' : isPending ? 'badge-pending' : 'badge-bad'}">${roleText}</span></div>
+                    ${servant && servant.code ? `<div style="font-size:0.65rem;color:var(--text-muted);margin-top:4px;font-family:monospace;">كود: ${esc(servant.code)}</div>` : ''}
                 `;
                 let nav = '';
                 if (isActive) {
@@ -1929,12 +2077,14 @@
                     nav += `<a href="#" class="${route === 'dashboard' ? 'active' : ''}" onclick="window.go('dashboard');return false;"><i class="fas fa-chart-pie"></i> لوحة التحكم</a>`;
                     nav += `<a href="#" class="${route === 'analytics' ? 'active' : ''}" onclick="window.go('analytics');return false;"><i class="fas fa-chart-line"></i> التحليلات</a>`;
                     nav += `<a href="#" class="${route === 'attendance' ? 'active' : ''}" onclick="window.go('attendance');return false;"><i class="fas fa-clipboard-list"></i> تسجيل الحضور</a>`;
+                    nav += `<a href="#" class="${route === 'myAttendance' ? 'active' : ''}" onclick="window.go('myAttendance');return false;"><i class="fas fa-user-check"></i> حضوري الشخصي</a>`;
                     nav += `<div class="group-label">التعليم</div>`;
                     nav += `<a href="#" class="${route === 'exams' ? 'active' : ''}" onclick="window.go('exams');return false;"><i class="fas fa-pencil-alt"></i> الاختبارات</a>`;
                     nav += `<a href="#" class="${route === 'student' ? 'active' : ''}" onclick="window.go('student');return false;"><i class="fas fa-search"></i> استعلام الطالب</a>`;
                     nav += `<div class="group-label">التواصل</div>`;
                     nav += `<a href="#" class="${route === 'chat' ? 'active' : ''}" onclick="window.go('chat');return false;"><i class="fas fa-comment-dots"></i> المحادثات ${unread > 0 ? `<span class="badge">${unread}</span>` : ''}</a>`;
                     nav += `<div class="group-label">الحساب</div>`;
+                    if (servant && servant.code) nav += `<a href="#" onclick="window.showServantBarcodeView('${servant.username}');return false;"><i class="fas fa-barcode"></i> باركودي</a>`;
                     nav += `<a href="#" onclick="window.openPasswordModal();return false;"><i class="fas fa-key"></i> تغيير كلمة المرور</a>`;
                     nav += `<a href="#" onclick="window.logout();return false;"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>`;
                 } else if (isPending) {
@@ -1964,6 +2114,7 @@
                 dashboard: { icon: 'fa-chart-pie', text: 'لوحة التحكم' },
                 analytics: { icon: 'fa-chart-line', text: 'التحليلات' },
                 attendance: { icon: 'fa-clipboard-list', text: 'تسجيل الحضور' },
+                myAttendance: { icon: 'fa-user-check', text: 'حضوري الشخصي' },
                 childReport: { icon: 'fa-file-alt', text: 'تقرير الطالب' },
                 student: { icon: 'fa-search', text: 'استعلام الطالب' },
                 chat: { icon: 'fa-comment-dots', text: 'المحادثات' },
@@ -2004,11 +2155,25 @@
                 const t = cRec.length;
                 return { child: c, present: p, total: t, percent: t > 0 ? Math.round((p / t) * 100) : 0 };
             }).sort((a, b) => b.percent - a.percent || b.present - a.present).slice(0, 5);
+            const myStats = getServantAttendanceStats(session.username);
             return `
                 <section>
                     <div class="glass" style="border-color:var(--sky-dark);margin-bottom:16px;">
                         <h2 style="font-size:1.3rem;margin:0;"><i class="fas fa-chart-line" style="color:var(--sky-dark);"></i> التحليلات والإحصائيات</h2>
-                        <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">نظرة على أداء أطفالك وحضورهم</p>
+                        <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">نظرة على أداء أطفالك وحضورهم وحضورك الشخصي</p>
+                    </div>
+                    <!-- My attendance card -->
+                    <div class="glass" style="border-color:var(--sky-dark);margin-bottom:16px;background:linear-gradient(135deg,rgba(33,150,243,0.08),rgba(79,195,247,0.04));">
+                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-user-check" style="color:var(--sky-dark);"></i> حضورك الشخصي</h3>
+                        <div class="stats-grid" style="margin-bottom:0;">
+                            <div class="stat-card"><div class="num">${myStats.total}</div><div class="label">إجمالي السجلات</div></div>
+                            <div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${myStats.present}</div><div class="label">مرات الحضور</div></div>
+                            <div class="stat-card" style="border-color:var(--bad);"><div class="num" style="color:var(--bad);">${myStats.absent}</div><div class="label">مرات الغياب</div></div>
+                            <div class="stat-card"><div class="num">${myStats.percent}%</div><div class="label">نسبة حضورك</div></div>
+                        </div>
+                        <div style="margin-top:10px;text-align:center;">
+                            <button class="btn btn-sm btn-secondary" onclick="window.go('myAttendance')"><i class="fas fa-eye"></i> عرض التفاصيل</button>
+                        </div>
                     </div>
                     <div class="stats-grid">
                         <div class="stat-card"><div class="icon"><i class="fas fa-child"></i></div><div class="num">${children.length}</div><div class="label">عدد الأطفال</div></div>
@@ -2074,6 +2239,8 @@
             const todayAtt = myChildrenList.filter(c => { const rec = db.attendance.find(a => a.childId === c.id && a.weekDate === today); return rec && rec.status === 'حاضر'; }).length;
             const todayAbs = myChildrenList.filter(c => { const rec = db.attendance.find(a => a.childId === c.id && a.weekDate === today); return rec && rec.status === 'غائب'; }).length;
             const notMarked = myChildrenList.length - todayAtt - todayAbs;
+            const myAttToday = getServantAttendanceForDate(session.username, today);
+            const myStats = getServantAttendanceStats(session.username);
             let children = filterChildren(myChildrenList, childSearchQuery, childClassFilter);
             const rows = children.map(c => {
                 const todayRec = db.attendance.find(a => a.childId === c.id && a.weekDate === today);
@@ -2124,6 +2291,23 @@
                                 </p>
                             </div>
                             <span class="badge badge-ok"><i class="fas fa-circle" style="font-size:0.5rem;"></i> مفعل</span>
+                        </div>
+                    </div>
+
+                    <!-- My attendance today -->
+                    <div class="glass" style="border-color:var(--sky-dark);margin-bottom:16px;background:linear-gradient(135deg,rgba(33,150,243,0.08),rgba(79,195,247,0.04));">
+                        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                            <div>
+                                <h3 style="margin:0;color:var(--sky-dark);font-size:1.1rem;"><i class="fas fa-user-check"></i> حالتك اليوم</h3>
+                                <p style="color:var(--text-muted);font-size:0.8rem;margin:2px 0 0;">${myAttToday ? `تم تسجيلك كـ "${esc(myAttToday.status)}"` : 'لم يتم تسجيل حضورك بعد'}</p>
+                            </div>
+                            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                                ${myAttToday 
+                                    ? `<span class="badge ${myAttToday.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}" style="font-size:0.85rem;padding:6px 16px;">${myAttToday.status === 'حاضر' ? '✅ حاضر' : '❌ غائب'}</span>` 
+                                    : `<span class="badge badge-pending" style="font-size:0.85rem;padding:6px 16px;"><i class="fas fa-clock"></i> لم يُسجَّل</span>`
+                                }
+                                <button class="btn btn-sm btn-secondary" onclick="window.go('myAttendance')"><i class="fas fa-history"></i> سجلي (${myStats.percent}%)</button>
+                            </div>
                         </div>
                     </div>
 
@@ -2496,6 +2680,7 @@
                         <h3 style="font-size:1rem;margin-bottom:8px;"><i class="fas fa-barcode" style="color:var(--sky-dark);"></i> الباركود</h3>
                         <div style="background:#fff;border-radius:12px;padding:12px;display:inline-block;max-width:100%;">${barcodeSVG}</div>
                         <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+                            <button class="btn btn-primary btn-sm" onclick="window.printBarcode('${esc(child.code)}','${esc(child.name)}','طالب - ${esc(getClassById(child.classId)?.name || '')}')"><i class="fas fa-print"></i> طباعة</button>
                             <button class="btn btn-primary btn-sm" onclick="window.downloadBarcode('${esc(child.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
                             <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ الكود</button>
                         </div>
@@ -2805,6 +2990,7 @@
                                     ? `<button class="btn btn-primary" onclick="window.go('dashboard')"><i class="fas fa-chart-pie"></i> لوحة التحكم</button>
                                        <button class="btn btn-secondary" onclick="window.go('analytics')"><i class="fas fa-chart-line"></i> التحليلات</button>
                                        <button class="btn btn-gold" onclick="window.scanAttendanceBarcode()"><i class="fas fa-barcode"></i> حضور بالباركود</button>
+                                       <button class="btn btn-secondary" onclick="window.go('myAttendance')"><i class="fas fa-user-check"></i> حضوري</button>
                                        <button class="btn btn-secondary" onclick="window.go('chat')"><i class="fas fa-comment-dots"></i> المحادثات ${unread > 0 ? `<span class="badge" style="background:var(--bad);color:#fff;border-radius:50%;padding:0 6px;font-size:0.6rem;min-width:18px;text-align:center;line-height:18px;display:inline-block;">${unread}</span>` : ''}</button>`
                                     : `<div class="alert alert-error"><i class="fas fa-times-circle"></i> حسابك موقوف</div>`))
                             : `
@@ -2820,7 +3006,7 @@
                     <div class="glass" style="text-align:center;">
                         <span style="font-size:2.4rem;color:var(--sky-dark);display:block;margin-bottom:10px;"><i class="fas fa-pencil-alt"></i></span>
                         <h3 style="font-size:1.1rem;">الاختبارات</h3>
-                        <p style="font-size:0.85rem;color:var(--text-muted);">إنشاء اختبارات متنوعة مع QR ووقت محدد</p>
+                        <p style="font-size:0.85rem;color:var(--text-muted);">إنشاء اختبارات متنوعة مع QR</p>
                     </div>
                     <div class="glass" style="text-align:center;">
                         <span style="font-size:2.4rem;color:var(--sky-dark);display:block;margin-bottom:10px;"><i class="fas fa-comment-dots"></i></span>
@@ -2874,7 +3060,8 @@
             if (password.length < 6) { msgBox.innerHTML = `<div class="alert alert-error">كلمة المرور 6 أحرف على الأقل.</div>`; return false; }
             if (db.servants.some(s => s.username === username)) { msgBox.innerHTML = `<div class="alert alert-error">اسم المستخدم مستخدم.</div>`; return false; }
             const passwordHash = await sha256(password);
-            db.servants.push({ name, username, passwordHash, isActive: false, isPending: true, assignedClass: null, pendingSince: todayDate() });
+            const servantCode = genServantCode();
+            db.servants.push({ name, username, passwordHash, code: servantCode, isActive: false, isPending: true, assignedClass: null, pendingSince: todayDate() });
             await saveDB();
             showToast('✅ تم التسجيل! في انتظار الموافقة.', 'success');
             go('home');
@@ -2945,13 +3132,13 @@
             renderSidebar();
             renderTopBar();
             const app = document.getElementById('app');
-            if ((route === 'dashboard' || route === 'attendance' || route === 'childReport' || route === 'chat' || route === 'exams' || route === 'analytics') && !session) route = 'login';
+            if ((route === 'dashboard' || route === 'attendance' || route === 'childReport' || route === 'chat' || route === 'exams' || route === 'analytics' || route === 'myAttendance') && !session) route = 'login';
             if (session) {
                 const servant = db.servants.find(s => s.username === session.username);
                 if (servant && servant.isPending) {
-                    if (['dashboard','attendance','chat','exams','analytics'].includes(route)) { setFlash('⏳ حسابك في انتظار الموافقة.', 'warning'); route = 'home'; }
+                    if (['dashboard','attendance','chat','exams','analytics','myAttendance'].includes(route)) { setFlash('⏳ حسابك في انتظار الموافقة.', 'warning'); route = 'home'; }
                 } else if (servant && !servant.isActive && !servant.isPending) {
-                    if (['dashboard','attendance','chat','exams','analytics'].includes(route)) { setFlash('⛔ موقوف.', 'error'); route = 'home'; }
+                    if (['dashboard','attendance','chat','exams','analytics','myAttendance'].includes(route)) { setFlash('⛔ موقوف.', 'error'); route = 'home'; }
                 }
             }
             if (session && isServantActive(session.username) && !isServantPending(session.username)) {
@@ -2967,6 +3154,7 @@
                 case 'dashboard': app.innerHTML = viewDashboard(); break;
                 case 'analytics': app.innerHTML = viewAnalytics(); break;
                 case 'attendance': app.innerHTML = viewAttendance(); break;
+                case 'myAttendance': app.innerHTML = viewMyAttendance(); break;
                 case 'childReport': app.innerHTML = viewChildReport(routeParam); break;
                 case 'student': app.innerHTML = viewStudent(); break;
                 case 'chat': app.innerHTML = viewChat(); setTimeout(() => { const c = document.getElementById('chatMessages'); if (c) c.scrollTop = c.scrollHeight; }, 300); break;
@@ -3008,16 +3196,18 @@
             openExamModal, closeExamModal, addQuestion, updateQuestionUI, addOption, removeOption, submitExam,
             startExam, submitExamAnswers, closeTakeExamModal, closeExamResultModal,
             viewExamDetails, viewStudentExams, showExamResult, handleRetakeAttempt, requestExamRetake, approveExamRetake,
-            deleteExam, showToast, esc, genCode, genExamCode,
+            deleteExam, showToast, esc, genCode, genExamCode, genServantCode,
             getExamsForClass, getExamResultsForStudent, normalizeText, isAnswerCorrect,
-            generateBarcodeSVG, downloadBarcode, showBarcodeView, closeBarcodeViewModal,
+            generateBarcodeSVG, downloadBarcode, showBarcodeView, showServantBarcodeView, closeBarcodeViewModal,
+            printBarcode,
             generateQRCodeSVG,
             openBarcodeModal, closeBarcodeModal, scanAttendanceBarcode,
             setChildSearch, setChildClassFilter, setExamSearch, setExamStatusFilter,
             goToExamQuestion, nextExamQuestion, prevExamQuestion, selectExamAnswer, toggleMultipleAnswer,
             requestSubmitExam, closeSubmitConfirmModal, reviewAnswers, confirmSubmitExam,
-            isExamAvailable
+            isExamAvailable,
+            getServantAttendanceForDate, getServantAttendanceStats
         });
     </script>
 </body>
-    </html>
+                                                  </html>
