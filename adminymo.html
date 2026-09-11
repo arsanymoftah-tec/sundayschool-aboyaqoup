@@ -13,10 +13,28 @@
         :root{--bg-primary:#f0f8ff;--bg-secondary:#ffffff;--bg-glass:rgba(255,255,255,0.55);--bg-glass-hover:rgba(255,255,255,0.75);--text-primary:#0a1a2f;--text-secondary:#1a3a5c;--text-muted:#5a7a9a;--sky-dark:#2196f3;--admin-gradient:linear-gradient(135deg,#6a1b9a,#4a148c);--shadow:0 8px 32px rgba(106,27,154,0.15);--shadow-hover:0 16px 48px rgba(106,27,154,0.25);--border-glass:rgba(106,27,154,0.2);--ok:#2e7d32;--bad:#c62828;--gold:#f9a825;--pending:#f57c00;--transition:all 0.4s cubic-bezier(0.23,1,0.32,1);--radius:32px;--radius-sm:16px;--chat-own:#e3f2fd;--chat-other:#f5f5f5;--correct:#4caf50;--wrong:#f44336;--sidebar-w:280px}
         [data-theme=dark]{--bg-primary:#0a1628;--bg-secondary:#13203a;--bg-glass:rgba(20,40,80,0.6);--bg-glass-hover:rgba(30,60,120,0.75);--text-primary:#e8f4fd;--text-secondary:#b0d4f0;--text-muted:#7a9ab8;--sky-dark:#64b5f6;--shadow:0 8px 32px rgba(0,0,0,0.4);--shadow-hover:0 16px 48px rgba(0,0,0,0.6);--border-glass:rgba(100,181,246,0.2);--ok:#66bb6a;--bad:#ef5350;--gold:#ffd54f;--pending:#ffa726;--chat-own:#1a2a4a;--chat-other:#1a2a3a;--correct:#66bb6a;--wrong:#ef5350}
         body{font-family:'El Messiri',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;transition:var(--transition);padding:0;position:relative;overflow-x:hidden}
-        body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 20% 30%,rgba(106,27,154,0.06) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(106,27,154,0.04) 0%,transparent 50%);animation:floatBg 25s ease-in-out infinite alternate;z-index:0;pointer-events:none}
+        body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 20% 30%,rgba(106,27,154,0.06) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(106,27,154,0.04) 0%,transparent 50%);animation:floatBg 25s ease-in-out infinite alternate;z-index:-1;pointer-events:none}
         @keyframes floatBg{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-5%,5%) scale(1.05)}}
         .app-layout{display:flex;min-height:100vh;position:relative;z-index:1}
-        .sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg-glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-left:1px solid var(--border-glass);padding:16px 12px;display:flex;flex-direction:column;gap:6px;transition:var(--transition);position:sticky;top:0;height:100vh;overflow-y:auto}
+        /* ✅ Sidebar FIXED */
+        .sidebar{
+            width:var(--sidebar-w);
+            flex-shrink:0;
+            background:var(--bg-secondary);
+            border-left:1px solid var(--border-glass);
+            padding:16px 12px;
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+            transition:var(--transition);
+            position:sticky;
+            top:0;
+            height:100vh;
+            overflow-y:auto;
+            z-index:100;
+            box-shadow:-2px 0 20px rgba(106,27,154,0.08);
+        }
+        [data-theme=dark] .sidebar{box-shadow:-2px 0 20px rgba(0,0,0,0.4)}
         .sidebar::-webkit-scrollbar{width:4px}
         .sidebar::-webkit-scrollbar-thumb{background:#6a1b9a;border-radius:10px}
         .sidebar .side-brand{font-family:'Lalezar',cursive;font-size:1.3rem;color:var(--text-primary);display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:8px;text-decoration:none;border-radius:var(--radius-sm)}
@@ -34,7 +52,7 @@
         .side-nav a.active i{color:#fff}
         .side-nav .group-label{font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;padding:10px 14px 4px;font-weight:700}
         .side-nav .badge{background:var(--bad);color:#fff;border-radius:50%;padding:0 6px;font-size:0.6rem;font-weight:700;min-width:18px;text-align:center;line-height:18px;margin-right:auto}
-        .main-content{flex:1;min-width:0;padding:12px 16px 60px}
+        .main-content{flex:1;min-width:0;padding:12px 16px 60px;position:relative;z-index:1}
         .container{max-width:1400px;margin:0 auto;padding:0}
         .glass{background:var(--bg-glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border-glass);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;transition:var(--transition);position:relative;overflow:hidden}
         .glass:hover{background:var(--bg-glass-hover);border-color:#6a1b9a;box-shadow:var(--shadow-hover)}
@@ -217,7 +235,7 @@
         .perf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
         .perf-grid .val{font-family:'Lalezar',cursive;font-size:1.9rem;color:#ffd54f}
         .perf-grid .lbl{font-size:0.75rem;opacity:0.95}
-        /* Exam navigation & question cards */
+        /* Exam navigation */
         .exam-nav-container{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0;padding:12px;background:var(--bg-glass);border-radius:var(--radius-sm);border:1px solid var(--border-glass);position:sticky;top:0;z-index:10}
         .exam-nav-btn{width:40px;height:40px;border-radius:12px;border:2px solid var(--border-glass);background:var(--bg-secondary);color:var(--text-secondary);font-size:0.9rem;font-weight:700;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;position:relative;font-family:'El Messiri',sans-serif}
         .exam-nav-btn:hover{transform:translateY(-2px);border-color:#6a1b9a}
@@ -485,7 +503,7 @@
     <div class="modal-overlay" id="barcodeViewModal">
         <div class="modal glass" style="max-width:460px;">
             <div class="modal-header">
-                <h3 style="font-size:1.1rem;"><i class="fas fa-barcode" style="color:#6a1b9a;"></i> باركود الطالب</h3>
+                <h3 style="font-size:1.1rem;"><i class="fas fa-barcode" style="color:#6a1b9a;"></i> الباركود</h3>
                 <button class="modal-close" onclick="window.closeBarcodeViewModal()"><i class="fas fa-times"></i></button>
             </div>
             <div id="barcodeViewContent" style="text-align:center;"></div>
@@ -509,6 +527,22 @@
         </div>
     </div>
 
+    <!-- SERVANT ATTENDANCE MODAL -->
+    <div class="modal-overlay" id="servantAttendanceModal">
+        <div class="modal glass" style="max-width:900px;">
+            <div class="modal-header">
+                <h3 style="font-size:1.1rem;"><i class="fas fa-user-check" style="color:#6a1b9a;"></i> تسجيل حضور الخدام</h3>
+                <button class="modal-close" onclick="window.closeServantAttendanceModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+                <label style="flex:0 1 200px;">التاريخ <input type="date" id="servantAttDate" /></label>
+                <button class="btn btn-gold btn-sm" onclick="window.scanServantAttendanceBarcode()" style="align-self:flex-end;"><i class="fas fa-barcode"></i> حضور بالباركود</button>
+                <button class="btn btn-admin btn-sm" onclick="window.saveServantAttendance()" style="align-self:flex-end;"><i class="fas fa-save"></i> حفظ الكل</button>
+            </div>
+            <div id="servantAttendanceList" style="max-height:60vh;overflow-y:auto;"></div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
@@ -528,7 +562,7 @@
 
         const EMOJIS = ['😊','😂','❤️','👍','🙏','🌟','🔥','💪','🎉','✨','😍','🤗','😅','🤔','😢','😡','🥳','🤩','😎','🧡','💙','💚','💛','💜','🖤','🤍','💝','💖','💗','💓','💞','💕','💘','💟','☮️','✝️','☦️','🕊️','🙌','👏','🤝','✌️','👋','💯','🔥','⚡','⭐','🌙','☀️','🌈','☁️','❄️','🌊','🌺','🌸','🌹','🌷','🌻','🌼','🌿','🌱','🍀','🌳'];
 
-        let db = { servants: [], children: [], attendance: [], classes: [], chatRooms: [], polls: [], exams: [], examResults: [] };
+        let db = { servants: [], children: [], attendance: [], classes: [], chatRooms: [], polls: [], exams: [], examResults: [], servantAttendance: [] };
         let session = null;
         let route = 'home';
         let routeParam = null;
@@ -541,7 +575,7 @@
         let barcodeStream = null;
         let barcodeDetector = null;
         let barcodeScanning = false;
-        let barcodeMode = 'lookup';
+        let barcodeMode = 'lookup'; // 'lookup' | 'attendance' | 'servant-attendance'
         let sidebarOpen = false;
         let lastPendingCount = 0;
 
@@ -569,11 +603,15 @@
                     const data = snap.data();
                     db = data.payload ? data.payload : data;
                 } else {
-                    db = { servants: [], children: [], attendance: [], classes: [], chatRooms: [], polls: [], exams: [], examResults: [] };
+                    db = { servants: [], children: [], attendance: [], classes: [], chatRooms: [], polls: [], exams: [], examResults: [], servantAttendance: [] };
                     await saveDB();
                 }
-                ['servants','children','attendance','classes','chatRooms','polls','exams','examResults'].forEach(k => { if (!db[k]) db[k] = []; });
-                db.servants = db.servants.map(s => ({ ...s, isActive: s.isActive !== undefined ? s.isActive : false, isAdmin: s.isAdmin || false, isPending: s.isPending !== undefined ? s.isPending : false, assignedClass: s.assignedClass || null, pendingSince: s.pendingSince || null }));
+                ['servants','children','attendance','classes','chatRooms','polls','exams','examResults','servantAttendance'].forEach(k => { if (!db[k]) db[k] = []; });
+                db.servants = db.servants.map(s => ({ ...s, isActive: s.isActive !== undefined ? s.isActive : false, isAdmin: s.isAdmin || false, isPending: s.isPending !== undefined ? s.isPending : false, assignedClass: s.assignedClass || null, pendingSince: s.pendingSince || null, code: s.code || null }));
+                // Ensure every servant has a code
+                let changed = false;
+                db.servants.forEach(s => { if (!s.code) { s.code = genServantCode(); changed = true; } });
+                if (changed) await saveDB();
             } catch (e) { console.error('❌ تحميل:', e); showToast('تعذر الاتصال بقاعدة البيانات.', 'error'); }
         }
         async function saveDB() { try { await setDoc(dataDocRef, { payload: db }); } catch (e) { console.error('❌ حفظ:', e); showToast('حدث خطأ أثناء حفظ البيانات.', 'error'); } }
@@ -582,10 +620,9 @@
                 if (snap.exists()) {
                     const data = snap.data();
                     db = data.payload ? data.payload : data;
-                    ['servants','children','attendance','classes','chatRooms','polls','exams','examResults'].forEach(k => { if (!db[k]) db[k] = []; });
-                    db.servants = db.servants.map(s => ({ ...s, isActive: s.isActive !== undefined ? s.isActive : false, isAdmin: s.isAdmin || false, isPending: s.isPending !== undefined ? s.isPending : false, assignedClass: s.assignedClass || null, pendingSince: s.pendingSince || null }));
+                    ['servants','children','attendance','classes','chatRooms','polls','exams','examResults','servantAttendance'].forEach(k => { if (!db[k]) db[k] = []; });
+                    db.servants = db.servants.map(s => ({ ...s, isActive: s.isActive !== undefined ? s.isActive : false, isAdmin: s.isAdmin || false, isPending: s.isPending !== undefined ? s.isPending : false, assignedClass: s.assignedClass || null, pendingSince: s.pendingSince || null, code: s.code || null }));
                     updateChatBadge();
-                    // Don't re-render if exam is active
                     if (!currentExamState) render();
                 }
             });
@@ -620,6 +657,12 @@
             do { code = Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join(''); } while (db.exams.some(e => e.code === code));
             return code;
         }
+        function genServantCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code;
+            do { code = 'S' + Array.from({ length: 5 }, () => chars[Math.floor(Math.random() * chars.length)]).join(''); } while (db.servants.some(s => s.code === code));
+            return code;
+        }
         function todayDate() { return new Date().toISOString().slice(0, 10); }
         function setFlash(msg, type = 'success') { flash = { msg, type }; }
 
@@ -649,9 +692,35 @@
         function getExamsForClass(classId) { return db.exams.filter(e => e.classId === classId); }
         function getExamResultsForStudent(childId) { return db.examResults.filter(r => r.childId === childId); }
 
+        // ==== Servant attendance helpers ====
+        function getServantAttendanceForDate(username, date) {
+            return db.servantAttendance.find(a => a.username === username && a.weekDate === date);
+        }
+        function getServantAttendanceStats(username) {
+            const records = db.servantAttendance.filter(a => a.username === username);
+            const present = records.filter(r => r.status === 'حاضر').length;
+            const total = records.length;
+            return { total, present, percent: total > 0 ? Math.round((present / total) * 100) : 0 };
+        }
+        function getAllServantsAttendanceStats() {
+            const activeServants = db.servants.filter(s => !s.isPending && s.isActive);
+            const allRecords = db.servantAttendance;
+            const presentCount = allRecords.filter(r => r.status === 'حاضر').length;
+            const absentCount = allRecords.filter(r => r.status === 'غائب').length;
+            const totalRecords = allRecords.length;
+            const percent = totalRecords > 0 ? Math.round((presentCount / totalRecords) * 100) : 0;
+            // Weekly stats
+            const weeksMap = {};
+            allRecords.forEach(r => {
+                if (!weeksMap[r.weekDate]) weeksMap[r.weekDate] = { present: 0, absent: 0 };
+                if (r.status === 'حاضر') weeksMap[r.weekDate].present++;
+                else weeksMap[r.weekDate].absent++;
+            });
+            return { activeServants: activeServants.length, presentCount, absentCount, totalRecords, percent, weeksMap };
+        }
         function filterServants(list, query, statusFilter) {
             let result = list;
-            if (query) { const q = query.toLowerCase().trim(); result = result.filter(s => s.name.toLowerCase().includes(q) || s.username.toLowerCase().includes(q)); }
+            if (query) { const q = query.toLowerCase().trim(); result = result.filter(s => s.name.toLowerCase().includes(q) || s.username.toLowerCase().includes(q) || (s.code && s.code.toLowerCase().includes(q))); }
             if (statusFilter) {
                 if (statusFilter === 'active') result = result.filter(s => s.isActive);
                 else if (statusFilter === 'inactive') result = result.filter(s => !s.isActive);
@@ -746,6 +815,53 @@
                 }, 'image/png');
             } catch (e) { console.error(e); showToast('❌ فشل التوليد', 'error'); }
         };
+
+        // Print barcode (opens new window)
+        window.printBarcode = function(code, name, role) {
+            const c = (code || '').toUpperCase().trim();
+            const canvas = document.createElement('canvas');
+            try {
+                JsBarcode(canvas, c, { format: 'CODE128', width: 4, height: 160, displayValue: true, fontSize: 26, font: 'monospace', fontOptions: 'bold', textMargin: 8, margin: 20, background: '#ffffff', lineColor: '#000000' });
+                const dataUrl = canvas.toDataURL('image/png');
+                const w = window.open('', '_blank');
+                w.document.write(`
+                    <!DOCTYPE html>
+                    <html dir="rtl" lang="ar">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>طباعة باركود - ${esc(name || c)}</title>
+                        <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;600;700&display=swap" rel="stylesheet">
+                        <style>
+                            body{font-family:'El Messiri',sans-serif;text-align:center;padding:30px;background:#fff;color:#000;}
+                            .card{border:2px dashed #6a1b9a;padding:24px;border-radius:16px;max-width:400px;margin:0 auto;}
+                            .role{font-size:0.9rem;color:#6a1b9a;font-weight:700;margin-bottom:8px;}
+                            .name{font-size:1.4rem;font-weight:700;margin-bottom:16px;}
+                            .barcode-img{width:100%;max-width:340px;margin:0 auto 12px;display:block;}
+                            .code{font-family:monospace;font-size:1.2rem;letter-spacing:2px;font-weight:700;color:#6a1b9a;}
+                            .footer{margin-top:20px;font-size:0.75rem;color:#999;}
+                            @media print{ body{padding:0;} .no-print{display:none;} .card{border:none;} }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="card">
+                            <div class="role">${esc(role || '')}</div>
+                            <div class="name">${esc(name || '')}</div>
+                            <img class="barcode-img" src="${dataUrl}" alt="Barcode" />
+                            <div class="code">${esc(c)}</div>
+                        </div>
+                        <div class="footer no-print" style="margin-top:20px;">
+                            <button onclick="window.print()" style="padding:10px 24px;background:#6a1b9a;color:#fff;border:none;border-radius:50px;font-family:inherit;font-size:1rem;cursor:pointer;font-weight:600;">
+                                🖨️ طباعة
+                            </button>
+                        </div>
+                    </body>
+                    </html>
+                `);
+                w.document.close();
+                setTimeout(() => { try { w.focus(); } catch(e){} }, 300);
+            } catch (e) { console.error(e); showToast('❌ فشل الطباعة', 'error'); }
+        };
+
         window.showBarcodeView = function(childId) {
             const child = db.children.find(c => c.id === childId);
             if (!child) { showToast('❌ الطالب غير موجود.', 'error'); return; }
@@ -755,8 +871,9 @@
                 <div style="font-weight:700;font-size:1.05rem;margin-bottom:4px;">${esc(child.name)}</div>
                 <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;"><i class="fas fa-layer-group"></i> ${esc(getClassById(child.classId)?.name || 'غير محدد')}</div>
                 <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-admin btn-sm" onclick="window.printBarcode('${esc(child.code)}','${esc(child.name)}','طالب - ${esc(getClassById(child.classId)?.name || '')}')"><i class="fas fa-print"></i> طباعة</button>
                     <button class="btn btn-admin btn-sm" onclick="window.downloadBarcode('${esc(child.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
-                    <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ الكود</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ</button>
                     <button class="btn btn-secondary btn-sm" onclick="window.closeBarcodeViewModal()"><i class="fas fa-times"></i> إغلاق</button>
                 </div>
             `;
@@ -764,11 +881,36 @@
         };
         window.closeBarcodeViewModal = function() { document.getElementById('barcodeViewModal').classList.remove('active'); };
 
+        // Servant barcode view
+        window.showServantBarcodeView = function(username) {
+            const servant = db.servants.find(s => s.username === username);
+            if (!servant) { showToast('❌ الخادم غير موجود.', 'error'); return; }
+            if (!servant.code) { servant.code = genServantCode(); saveDB(); }
+            const svg = generateBarcodeSVG(servant.code, { width: 340, height: 100 });
+            const roleText = servant.isAdmin ? 'أدمن' : 'خادم';
+            document.getElementById('barcodeViewContent').innerHTML = `
+                <div style="background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;">${svg}</div>
+                <div style="font-weight:700;font-size:1.05rem;margin-bottom:4px;">${esc(servant.name)}</div>
+                <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">
+                    <span class="badge ${servant.isAdmin ? 'badge-admin' : 'badge-servant'}">${roleText}</span>
+                    ${servant.assignedClass ? `<span style="margin-right:6px;"><i class="fas fa-layer-group"></i> ${esc(getClassById(servant.assignedClass)?.name || '')}</span>` : ''}
+                </div>
+                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                    <button class="btn btn-admin btn-sm" onclick="window.printBarcode('${esc(servant.code)}','${esc(servant.name)}','${roleText}${servant.assignedClass ? ' - ' + esc(getClassById(servant.assignedClass)?.name || '') : ''}')"><i class="fas fa-print"></i> طباعة</button>
+                    <button class="btn btn-admin btn-sm" onclick="window.downloadBarcode('${esc(servant.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(servant.code)}',this)"><i class="fas fa-copy"></i> نسخ</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.closeBarcodeViewModal()"><i class="fas fa-times"></i> إغلاق</button>
+                </div>
+            `;
+            document.getElementById('barcodeViewModal').classList.add('active');
+        };
+
         function generateQRCodeSVG(text, size = 150) {
             const url = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}&bgcolor=FFFFFF&color=000000&margin=10`;
             return `<div class="qr-box"><img src="${url}" alt="QR: ${esc(text)}" style="width:${size}px;height:${size}px;border-radius:8px;" onerror="this.parentElement.innerHTML='<div style=&quot;color:#999;font-size:0.8rem;&quot;>QR غير متاح</div>'" /></div>`;
         }
 
+        // ==== Barcode scanner ====
         window.openBarcodeModal = async function() {
             barcodeMode = 'lookup';
             const header = document.getElementById('barcodeModal').querySelector('.modal-header h3');
@@ -781,8 +923,17 @@
             if (!session || !session.isAdmin) { showToast('⛔ غير مصرح.', 'error'); return; }
             barcodeMode = 'attendance';
             const header = document.getElementById('barcodeModal').querySelector('.modal-header h3');
-            header.innerHTML = '<i class="fas fa-user-check" style="color:var(--ok);"></i> تسجيل الحضور بالباركود';
+            header.innerHTML = '<i class="fas fa-user-check" style="color:var(--ok);"></i> تسجيل حضور الطالب بالباركود';
             document.getElementById('barcodeResult').innerHTML = '<div class="alert alert-info"><i class="fas fa-info-circle"></i> امسح باركود الطالب لتسجيل حضوره فوراً</div>';
+            document.getElementById('barcodeModal').classList.add('active');
+            await startCamera();
+        };
+        window.scanServantAttendanceBarcode = async function() {
+            if (!session || !session.isAdmin) { showToast('⛔ غير مصرح.', 'error'); return; }
+            barcodeMode = 'servant-attendance';
+            const header = document.getElementById('barcodeModal').querySelector('.modal-header h3');
+            header.innerHTML = '<i class="fas fa-user-check" style="color:#6a1b9a;"></i> تسجيل حضور الخادم بالباركود';
+            document.getElementById('barcodeResult').innerHTML = '<div class="alert alert-info"><i class="fas fa-info-circle"></i> امسح باركود الخادم لتسجيل حضوره فوراً</div>';
             document.getElementById('barcodeModal').classList.add('active');
             await startCamera();
         };
@@ -815,8 +966,34 @@
                 const barcodes = await barcodeDetector.detect(video);
                 if (barcodes.length > 0) {
                     const code = barcodes[0].rawValue.trim().toUpperCase();
-                    const child = db.children.find(c => c.code === code);
                     const resultBox = document.getElementById('barcodeResult');
+                    const today = todayDate();
+
+                    if (barcodeMode === 'servant-attendance') {
+                        const servant = db.servants.find(s => (s.code || '').toUpperCase() === code);
+                        if (!servant) {
+                            resultBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-times-circle"></i> كود الخادم "${esc(code)}" غير معروف</div>`;
+                            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                            await new Promise(r => setTimeout(r, 1500));
+                            return requestAnimationFrame(scanBarcodeLoop);
+                        }
+                        if (servant.isPending) {
+                            resultBox.innerHTML = `<div class="alert alert-warning"><i class="fas fa-clock"></i> حساب "${esc(servant.name)}" في انتظار الموافقة</div>`;
+                            await new Promise(r => setTimeout(r, 1500));
+                            return requestAnimationFrame(scanBarcodeLoop);
+                        }
+                        const idx = db.servantAttendance.findIndex(a => a.username === servant.username && a.weekDate === today);
+                        const rec = { username: servant.username, weekDate: today, status: 'حاضر', note: idx >= 0 ? db.servantAttendance[idx].note : 'تسجيل بالباركود (أدمن)' };
+                        if (idx >= 0) db.servantAttendance[idx] = rec; else db.servantAttendance.push(rec);
+                        await saveDB();
+                        resultBox.innerHTML = `<div class="alert alert-success"><i class="fas fa-check-circle"></i> ✅ تم تسجيل حضور الخادم <strong>${esc(servant.name)}</strong></div>`;
+                        showToast(`✅ حضور خادم: ${servant.name}`, 'success');
+                        if (navigator.vibrate) navigator.vibrate(200);
+                        await new Promise(r => setTimeout(r, 1800));
+                        return requestAnimationFrame(scanBarcodeLoop);
+                    }
+
+                    const child = db.children.find(c => c.code === code);
                     if (!child) {
                         resultBox.innerHTML = `<div class="alert alert-error"><i class="fas fa-times-circle"></i> الكود "${esc(code)}" غير معروف</div>`;
                         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
@@ -824,7 +1001,6 @@
                         return requestAnimationFrame(scanBarcodeLoop);
                     }
                     if (barcodeMode === 'attendance') {
-                        const today = todayDate();
                         const idx = db.attendance.findIndex(a => a.childId === child.id && a.weekDate === today);
                         const rec = { childId: child.id, weekDate: today, status: 'حاضر', note: idx >= 0 ? db.attendance[idx].note : 'تسجيل بالباركود (أدمن)' };
                         if (idx >= 0) db.attendance[idx] = rec; else db.attendance.push(rec);
@@ -850,6 +1026,80 @@
             } catch (e) {}
             requestAnimationFrame(scanBarcodeLoop);
         }
+
+        // ============================================================
+        // SERVANT ATTENDANCE MODAL
+        // ============================================================
+        window.openServantAttendanceModal = function() {
+            if (!session || !session.isAdmin) { showToast('⛔ غير مصرح.', 'error'); return; }
+            document.getElementById('servantAttDate').value = todayDate();
+            renderServantAttendanceList();
+            document.getElementById('servantAttendanceModal').classList.add('active');
+        };
+        window.closeServantAttendanceModal = function() {
+            document.getElementById('servantAttendanceModal').classList.remove('active');
+        };
+        window.renderServantAttendanceList = function() {
+            const date = document.getElementById('servantAttDate').value || todayDate();
+            const servants = db.servants.filter(s => !s.isPending);
+            const container = document.getElementById('servantAttendanceList');
+            if (servants.length === 0) {
+                container.innerHTML = `<p class="empty">لا يوجد خدام</p>`;
+                return;
+            }
+            const rows = servants.map(s => {
+                const rec = getServantAttendanceForDate(s.username, date);
+                const status = rec ? rec.status : 'حاضر';
+                const note = rec ? (rec.note || '') : '';
+                const isAdminUser = s.isAdmin;
+                return `<tr>
+                    <td>
+                        <i class="fas fa-user-circle" style="color:#6a1b9a;margin-left:6px;"></i>
+                        ${esc(s.name)}
+                        ${isAdminUser ? '<span class="badge badge-admin" style="font-size:0.55rem;">أدمن</span>' : ''}
+                        ${!s.isActive ? '<span class="badge badge-bad" style="font-size:0.55rem;">موقوف</span>' : ''}
+                    </td>
+                    <td><code class="code-pill" style="font-size:0.7rem;">${esc(s.code || '—')}</code></td>
+                    <td>${s.assignedClass ? esc(getClassById(s.assignedClass)?.name || '') : '—'}</td>
+                    <td>
+                        <div class="status-group">
+                            <label><input type="radio" name="satt_${s.username}" value="حاضر" ${status === 'حاضر' ? 'checked' : ''}> حاضر</label>
+                            <label><input type="radio" name="satt_${s.username}" value="غائب" ${status === 'غائب' ? 'checked' : ''}> غائب</label>
+                        </div>
+                    </td>
+                    <td><input type="text" data-satt-note="${s.username}" value="${esc(note)}" placeholder="ملاحظة" style="width:100%;padding:6px 12px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass);font-size:0.8rem;" /></td>
+                </tr>`;
+            }).join('');
+            container.innerHTML = `
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>الاسم</th><th>الكود</th><th>الصف</th><th>الحالة</th><th>ملاحظة</th></tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>
+            `;
+        };
+        window.saveServantAttendance = async function() {
+            if (!session || !session.isAdmin) { showToast('⛔ غير مصرح.', 'error'); return; }
+            const date = document.getElementById('servantAttDate').value || todayDate();
+            const servants = db.servants.filter(s => !s.isPending);
+            let count = 0;
+            servants.forEach(s => {
+                const radios = document.getElementsByName('satt_' + s.username);
+                let status = 'حاضر';
+                radios.forEach(r => { if (r.checked) status = r.value; });
+                const noteInput = document.querySelector(`[data-satt-note="${s.username}"]`);
+                const note = noteInput ? noteInput.value.trim() : '';
+                const idx = db.servantAttendance.findIndex(a => a.username === s.username && a.weekDate === date);
+                const rec = { username: s.username, weekDate: date, status, note };
+                if (idx >= 0) db.servantAttendance[idx] = rec; else db.servantAttendance.push(rec);
+                count++;
+            });
+            await saveDB();
+            showToast(`✅ تم حفظ حضور ${count} خادم لتاريخ ${date}`, 'success');
+            window.closeServantAttendanceModal();
+            render();
+        };
 
         // ============================================================
         // CHAT
@@ -1293,17 +1543,10 @@
             render();
         };
 
-        // Check if exam is available based on time windows
         function isExamAvailable(exam) {
             const now = new Date();
-            if (exam.startTime) {
-                const start = new Date(exam.startTime);
-                if (now < start) return { available: false, reason: `يبدأ الاختبار في ${start.toLocaleString('ar')}` };
-            }
-            if (exam.endTime) {
-                const end = new Date(exam.endTime);
-                if (now > end) return { available: false, reason: `انتهى وقت الاختبار في ${end.toLocaleString('ar')}` };
-            }
+            if (exam.startTime) { const start = new Date(exam.startTime); if (now < start) return { available: false, reason: `يبدأ الاختبار في ${start.toLocaleString('ar')}` }; }
+            if (exam.endTime) { const end = new Date(exam.endTime); if (now > end) return { available: false, reason: `انتهى وقت الاختبار في ${end.toLocaleString('ar')}` }; }
             return { available: true };
         }
 
@@ -1395,12 +1638,10 @@
                     <label style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;border:2px solid ${savedAnswer === 'صح' ? '#6a1b9a' : 'var(--border-glass)'};background:${savedAnswer === 'صح' ? 'rgba(106,27,154,0.1)' : 'transparent'};cursor:pointer;margin-bottom:8px;transition:var(--transition);" onclick="window.selectExamAnswer('${q.id}','صح',this)">
                         <input type="radio" name="q_${q.id}" value="صح" ${savedAnswer === 'صح' ? 'checked' : ''} style="width:20px;height:20px;accent-color:#6a1b9a;" />
                         <span style="font-weight:600;">صح</span>
-                        <i class="fas fa-check-circle" style="margin-right:auto;color:var(--ok);${savedAnswer === 'صح' ? '' : 'opacity:0.2;'}"></i>
                     </label>
                     <label style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;border:2px solid ${savedAnswer === 'خطأ' ? '#6a1b9a' : 'var(--border-glass)'};background:${savedAnswer === 'خطأ' ? 'rgba(106,27,154,0.1)' : 'transparent'};cursor:pointer;margin-bottom:8px;transition:var(--transition);" onclick="window.selectExamAnswer('${q.id}','خطأ',this)">
                         <input type="radio" name="q_${q.id}" value="خطأ" ${savedAnswer === 'خطأ' ? 'checked' : ''} style="width:20px;height:20px;accent-color:#6a1b9a;" />
                         <span style="font-weight:600;">خطأ</span>
-                        <i class="fas fa-times-circle" style="margin-right:auto;color:var(--bad);${savedAnswer === 'خطأ' ? '' : 'opacity:0.2;'}"></i>
                     </label>
                 `;
             } else if (q.type === 'single') {
@@ -1441,7 +1682,6 @@
                             <span style="display:inline-block;background:#6a1b9a;color:#fff;width:28px;height:28px;line-height:28px;text-align:center;border-radius:8px;font-size:0.85rem;margin-left:8px;">${idx + 1}</span>
                             ${esc(q.text)}
                             <span style="font-size:0.7rem;color:var(--text-muted);display:inline-block;margin-right:6px;">(${q.points} درجة)</span>
-                            <span style="font-size:0.6rem;color:var(--text-muted);margin-right:6px;">[${q.type === 'truefalse' ? 'صح/خطأ' : q.type === 'single' ? 'اختيار واحد' : q.type === 'multiple' ? 'اختيار متعدد' : q.type === 'essay' ? 'مقالي' : 'أكمل'}]</span>
                         </div>
                         <div class="question-options">
                             ${questionContent}
@@ -1465,11 +1705,7 @@
 
             if (isEssay) {
                 const ta = document.getElementById(`essayAnswer_${q.id}`);
-                if (ta) {
-                    ta.addEventListener('input', () => {
-                        currentExamState.answers[q.id] = ta.value;
-                    });
-                }
+                if (ta) { ta.addEventListener('input', () => { currentExamState.answers[q.id] = ta.value; }); }
             }
         }
 
@@ -1481,10 +1717,7 @@
             saveCurrentAnswer();
             currentExamState.currentIndex = index;
             const result = db.examResults.find(r => r.id === currentExamState.resultId);
-            if (result) {
-                result.answers = { ...currentExamState.answers };
-                saveDB();
-            }
+            if (result) { result.answers = { ...currentExamState.answers }; saveDB(); }
             renderExamQuestionView(exam, result || { answers: currentExamState.answers });
         };
         window.nextExamQuestion = function() { goToExamQuestion(currentExamState.currentIndex + 1); };
@@ -1504,7 +1737,7 @@
 
         function updateNavButtons(exam) {
             const navContainer = document.querySelector('.exam-nav-container');
-            if (!navContainer) return;
+            if (!navContainer || !exam) return;
             let navButtons = '';
             exam.questions.forEach((qq, i) => {
                 const ans = currentExamState.answers[qq.id];
@@ -1533,10 +1766,7 @@
             const exam = db.exams.find(e => e.id === currentExamState.examId);
             if (exam) {
                 const result = db.examResults.find(r => r.id === currentExamState.resultId);
-                if (result) {
-                    result.answers = { ...currentExamState.answers };
-                    saveDB();
-                }
+                if (result) { result.answers = { ...currentExamState.answers }; saveDB(); }
             }
             const parent = labelEl.parentElement;
             parent.querySelectorAll('label').forEach(l => {
@@ -1601,7 +1831,6 @@
             submitExamAnswers(currentExamState.examId, currentExamState.childId, false);
         };
 
-        // ==== FIXED submit & scoring ====
         window.submitExamAnswers = async function(examId, childId, autoSubmit = false) {
             if (examTimerInterval) clearInterval(examTimerInterval);
             saveCurrentAnswer();
@@ -1616,17 +1845,13 @@
             exam.questions.forEach(q => {
                 const userAnswer = (answers[q.id] || '').toString();
                 let isCorrect = false;
-                if (q.type === 'truefalse') {
-                    isCorrect = userAnswer.trim() === (q.correct || '').trim();
-                } else if (q.type === 'single') {
-                    isCorrect = normalizeText(userAnswer) === normalizeText(q.correct);
-                } else if (q.type === 'multiple') {
+                if (q.type === 'truefalse') { isCorrect = userAnswer.trim() === (q.correct || '').trim(); }
+                else if (q.type === 'single') { isCorrect = normalizeText(userAnswer) === normalizeText(q.correct); }
+                else if (q.type === 'multiple') {
                     const uA = userAnswer.split(',').map(a => a.trim()).filter(Boolean).map(normalizeText).sort();
                     const cA = (q.correct || '').split(',').map(a => a.trim()).filter(Boolean).map(normalizeText).sort();
                     isCorrect = uA.length === cA.length && uA.length > 0 && uA.every((a, i) => a === cA[i]);
-                } else if (q.type === 'essay' || q.type === 'complete') {
-                    isCorrect = isAnswerCorrect(userAnswer, q.modelAnswer);
-                }
+                } else if (q.type === 'essay' || q.type === 'complete') { isCorrect = isAnswerCorrect(userAnswer, q.modelAnswer); }
                 if (isCorrect) totalScore += q.points;
             });
             result.status = 'completed';
@@ -1644,10 +1869,7 @@
             if (currentExamState) {
                 saveCurrentAnswer();
                 const result = db.examResults.find(r => r.id === currentExamState.resultId);
-                if (result && result.status === 'in-progress') {
-                    result.answers = { ...currentExamState.answers };
-                    saveDB();
-                }
+                if (result && result.status === 'in-progress') { result.answers = { ...currentExamState.answers }; saveDB(); }
             }
             document.getElementById('takeExamModal').classList.remove('active');
             document.body.classList.remove('exam-focus-mode');
@@ -1698,13 +1920,9 @@
             const attemptsLeft = exam.attempts - completedAttempts;
             const hasPendingRequest = allResults.some(r => r.retakeRequested);
             let retakeBtn = '';
-            if (attemptsLeft > 0) {
-                retakeBtn = `<button class="btn btn-primary btn-sm" onclick="window.handleRetakeAttempt('${examId}','${childId}')"><i class="fas fa-redo"></i> إعادة المحاولة (${attemptsLeft} متبقية)</button>`;
-            } else if (hasPendingRequest) {
-                retakeBtn = `<span class="badge badge-pending" style="padding:8px 16px;"><i class="fas fa-clock"></i> طلب إعادة قيد المراجعة</span>`;
-            } else {
-                retakeBtn = `<button class="btn btn-gold btn-sm" onclick="window.handleRetakeAttempt('${examId}','${childId}')"><i class="fas fa-paper-plane"></i> طلب إعادة الاختبار</button>`;
-            }
+            if (attemptsLeft > 0) { retakeBtn = `<button class="btn btn-primary btn-sm" onclick="window.handleRetakeAttempt('${examId}','${childId}')"><i class="fas fa-redo"></i> إعادة المحاولة (${attemptsLeft} متبقية)</button>`; }
+            else if (hasPendingRequest) { retakeBtn = `<span class="badge badge-pending" style="padding:8px 16px;"><i class="fas fa-clock"></i> طلب إعادة قيد المراجعة</span>`; }
+            else { retakeBtn = `<button class="btn btn-gold btn-sm" onclick="window.handleRetakeAttempt('${examId}','${childId}')"><i class="fas fa-paper-plane"></i> طلب إعادة الاختبار</button>`; }
             html += `
                 </div>
                 <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
@@ -1892,6 +2110,7 @@
                     <a href="#" class="${route === 'admin' && activeTab === 'servants' ? 'active' : ''}" onclick="window.go('admin');window.switchTab('servants');return false;"><i class="fas fa-users"></i> الخدام</a>
                     <a href="#" class="${route === 'admin' && activeTab === 'children' ? 'active' : ''}" onclick="window.go('admin');window.switchTab('children');return false;"><i class="fas fa-child"></i> الأطفال</a>
                     <a href="#" class="${route === 'admin' && activeTab === 'attendance' ? 'active' : ''}" onclick="window.go('admin');window.switchTab('attendance');return false;"><i class="fas fa-clipboard-list"></i> الحضور</a>
+                    <a href="#" class="${route === 'admin' && activeTab === 'servant-attendance' ? 'active' : ''}" onclick="window.go('admin');window.switchTab('servant-attendance');return false;"><i class="fas fa-user-check"></i> حضور الخدام</a>
                     <a href="#" class="${route === 'admin' && activeTab === 'exams' ? 'active' : ''}" onclick="window.go('admin');window.switchTab('exams');return false;"><i class="fas fa-pencil-alt"></i> الاختبارات</a>
                     <div class="group-label">الإضافة</div>
                     <a href="#" class="${route === 'admin' && activeTab === 'add-servant' ? 'active' : ''}" onclick="window.go('admin');window.switchTab('add-servant');return false;"><i class="fas fa-user-plus"></i> إضافة خادم</a>
@@ -1934,7 +2153,7 @@
         function viewAnalytics() {
             if (!session || !session.isAdmin) { go('adminLogin'); return ''; }
             const totalChildren = db.children.length;
-            const totalServants = db.servants.length;
+            const totalServants = db.servants.filter(s => !s.isPending).length;
             const totalClasses = db.classes.length;
             const totalExams = db.exams.length;
             const totalResults = db.examResults.filter(r => r.status === 'completed').length;
@@ -1951,6 +2170,10 @@
                 const childCount = db.children.filter(c => c.servantUsername === s.username).length;
                 return { servant: s, childCount };
             }).sort((a, b) => b.childCount - a.childCount).slice(0, 5);
+            // Servant attendance analytics
+            const sAttStats = getAllServantsAttendanceStats();
+            const sortedSAttWeeks = Object.keys(sAttStats.weeksMap).sort().slice(-8);
+            const maxSAttVal = Math.max(1, ...sortedSAttWeeks.map(w => sAttStats.weeksMap[w].present + sAttStats.weeksMap[w].absent));
             return `
                 <section>
                     <div class="glass" style="border-color:#6a1b9a;margin-bottom:16px;">
@@ -1963,12 +2186,22 @@
                         <div class="stat-card"><div class="icon"><i class="fas fa-layer-group"></i></div><div class="num">${totalClasses}</div><div class="label">الصفوف</div></div>
                         <div class="stat-card"><div class="icon"><i class="fas fa-pencil-alt"></i></div><div class="num">${totalExams}</div><div class="label">الاختبارات</div></div>
                         <div class="stat-card"><div class="icon"><i class="fas fa-clipboard-check"></i></div><div class="num">${totalResults}</div><div class="label">مشاركات</div></div>
-                        <div class="stat-card" style="border-color:var(--ok);"><div class="icon" style="color:var(--ok);"><i class="fas fa-check-circle"></i></div><div class="num" style="color:var(--ok);">${presentCount}</div><div class="label">حضور</div></div>
-                        <div class="stat-card" style="border-color:var(--bad);"><div class="icon" style="color:var(--bad);"><i class="fas fa-times-circle"></i></div><div class="num" style="color:var(--bad);">${absentCount}</div><div class="label">غياب</div></div>
-                        <div class="stat-card"><div class="icon"><i class="fas fa-percentage"></i></div><div class="num">${presentPercent}%</div><div class="label">نسبة الحضور</div></div>
+                        <div class="stat-card" style="border-color:var(--ok);"><div class="icon" style="color:var(--ok);"><i class="fas fa-check-circle"></i></div><div class="num" style="color:var(--ok);">${presentCount}</div><div class="label">حضور أطفال</div></div>
+                        <div class="stat-card" style="border-color:var(--bad);"><div class="icon" style="color:var(--bad);"><i class="fas fa-times-circle"></i></div><div class="num" style="color:var(--bad);">${absentCount}</div><div class="label">غياب أطفال</div></div>
+                        <div class="stat-card"><div class="icon"><i class="fas fa-percentage"></i></div><div class="num">${presentPercent}%</div><div class="label">نسبة حضور الأطفال</div></div>
+                    </div>
+                    <!-- Servant attendance analytics -->
+                    <div class="glass" style="border-color:#6a1b9a;margin-bottom:16px;background:linear-gradient(135deg,rgba(106,27,154,0.08),rgba(74,20,140,0.04));">
+                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-user-check" style="color:#6a1b9a;"></i> حضور الخدام</h3>
+                        <div class="stats-grid" style="margin-bottom:0;">
+                            <div class="stat-card"><div class="num">${sAttStats.activeServants}</div><div class="label">خدام نشطين</div></div>
+                            <div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${sAttStats.presentCount}</div><div class="label">حضور خدام</div></div>
+                            <div class="stat-card" style="border-color:var(--bad);"><div class="num" style="color:var(--bad);">${sAttStats.absentCount}</div><div class="label">غياب خدام</div></div>
+                            <div class="stat-card"><div class="num">${sAttStats.percent}%</div><div class="label">نسبة حضور الخدام</div></div>
+                        </div>
                     </div>
                     <div class="glass" style="margin-bottom:16px;">
-                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> الحضور الأسبوعي (آخر 8 أسابيع)</h3>
+                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> حضور الأطفال الأسبوعي (آخر 8 أسابيع)</h3>
                         ${sortedWeeks.length === 0 ? `<p class="empty">لا توجد بيانات</p>` : `
                             <div class="chart-bar-row">
                                 ${sortedWeeks.map(w => {
@@ -1979,6 +2212,17 @@
                             </div>
                         `}
                     </div>
+                    ${sortedSAttWeeks.length > 0 ? `
+                    <div class="glass" style="margin-bottom:16px;">
+                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> حضور الخدام الأسبوعي (آخر 8 أسابيع)</h3>
+                        <div class="chart-bar-row">
+                            ${sortedSAttWeeks.map(w => {
+                                const p = sAttStats.weeksMap[w].present; const a = sAttStats.weeksMap[w].absent; const total = p + a;
+                                const h = total > 0 ? (total / maxSAttVal) * 100 : 0;
+                                return `<div class="chart-bar" style="height:${Math.max(h, 4)}%;" title="${w}: ${p} حاضر، ${a} غائب"><span class="val">${total}</span><span class="lbl">${w.slice(5)}</span></div>`;
+                            }).join('')}
+                        </div>
+                    </div>` : ''}
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:16px;">
                         <div class="glass">
                             <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-layer-group" style="color:#6a1b9a;"></i> توزيع الأطفال على الصفوف</h3>
@@ -1997,7 +2241,7 @@
                         </div>
                     </div>
                     <div class="glass">
-                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-calendar-alt" style="color:#6a1b9a;"></i> آخر 5 سجلات حضور</h3>
+                        <h3 style="font-size:1.1rem;margin-bottom:12px;"><i class="fas fa-calendar-alt" style="color:#6a1b9a;"></i> آخر 5 سجلات حضور أطفال</h3>
                         ${db.attendance.length === 0 ? `<p class="empty">لا توجد سجلات</p>` : `
                         <div class="table-wrap">
                             <table>
@@ -2090,14 +2334,14 @@
         // ============================================================
         function viewAdmin() {
             if (!session || !session.isAdmin) { showToast('⛔ للأدمن فقط.', 'error'); go('adminLogin'); return ''; }
-            const totalServants = db.servants.length;
+            const totalServants = db.servants.filter(s => !s.isPending).length;
             const totalChildren = db.children.length;
             const totalAttendance = db.attendance.length;
             const totalClasses = db.classes.length;
             const totalExams = db.exams.length;
             const activeServants = db.servants.filter(s => s.isActive === true && !s.isPending).length;
             const pendingCount = getPendingCount();
-            const tabs = ['classes','pending','servants','children','attendance','exams','add-servant','add-child','reports'];
+            const tabs = ['classes','pending','servants','children','attendance','servant-attendance','exams','add-servant','add-child','reports'];
             const active = tabs.includes(activeTab) ? activeTab : 'classes';
             return `
                 <section>
@@ -2108,7 +2352,8 @@
                             <button class="btn btn-admin btn-sm" onclick="window.exportData()"><i class="fas fa-download"></i> تصدير</button>
                             <button class="btn btn-secondary btn-sm" onclick="window.go('analytics')"><i class="fas fa-chart-line"></i> تحليلات</button>
                             <button class="btn btn-primary btn-sm" onclick="window.openExamModal()"><i class="fas fa-plus"></i> اختبار</button>
-                            <button class="btn btn-gold btn-sm" onclick="window.scanAttendanceBarcode()"><i class="fas fa-barcode"></i> حضور بالباركود</button>
+                            <button class="btn btn-gold btn-sm" onclick="window.scanAttendanceBarcode()"><i class="fas fa-barcode"></i> حضور طالب</button>
+                            <button class="btn btn-admin btn-sm" onclick="window.openServantAttendanceModal()"><i class="fas fa-user-check"></i> حضور خادم</button>
                         </div>
                     </div>
                     <div class="stats-grid">
@@ -2117,8 +2362,8 @@
                         <div class="stat-card"><div class="icon"><i class="fas fa-layer-group"></i></div><div class="num">${totalClasses}</div><div class="label">الصفوف</div></div>
                         <div class="stat-card"><div class="icon"><i class="fas fa-child"></i></div><div class="num">${totalChildren}</div><div class="label">الأطفال</div></div>
                         <div class="stat-card"><div class="icon"><i class="fas fa-pencil-alt"></i></div><div class="num">${totalExams}</div><div class="label">الاختبارات</div></div>
-                        <div class="stat-card"><div class="icon"><i class="fas fa-clipboard-list"></i></div><div class="num">${totalAttendance}</div><div class="label">سجلات الحضور</div></div>
-                        <div class="stat-card" style="border-color:#6a1b9a;"><div class="icon" style="color:#6a1b9a;"><i class="fas fa-star"></i></div><div class="num" style="color:#6a1b9a;">${db.servants.filter(s => s.isAdmin).length}</div><div class="label">الأدمن</div></div>
+                        <div class="stat-card"><div class="icon"><i class="fas fa-clipboard-list"></i></div><div class="num">${totalAttendance}</div><div class="label">سجلات حضور الأطفال</div></div>
+                        <div class="stat-card" style="border-color:#6a1b9a;"><div class="icon" style="color:#6a1b9a;"><i class="fas fa-user-check"></i></div><div class="num" style="color:#6a1b9a;">${db.servantAttendance.length}</div><div class="label">سجلات حضور الخدام</div></div>
                     </div>
                     <div class="tab-content active">
                         ${active === 'classes' ? renderAdminClassesTab() : ''}
@@ -2126,6 +2371,7 @@
                         ${active === 'servants' ? renderAdminServantsTab() : ''}
                         ${active === 'children' ? renderAdminChildrenTab() : ''}
                         ${active === 'attendance' ? renderAdminAttendanceTab() : ''}
+                        ${active === 'servant-attendance' ? renderAdminServantAttendanceTab() : ''}
                         ${active === 'exams' ? renderAdminExamsTab() : ''}
                         ${active === 'add-servant' ? renderAddServantTab() : ''}
                         ${active === 'add-child' ? renderAddChildTab() : ''}
@@ -2240,14 +2486,40 @@
                 const isActive = s.isActive === true;
                 const isAdminUser = s.isAdmin || false;
                 const assignedClass = s.assignedClass ? db.classes.find(c => c.id === s.assignedClass) : null;
-                return `<tr><td><i class="fas fa-user-circle" style="color:#6a1b9a;"></i> ${esc(s.name)}</td><td><code>${esc(s.username)}</code></td><td><span class="badge ${isActive ? 'badge-ok' : 'badge-bad'}">${isActive ? '🟢' : '🔴'}</span>${isAdminUser ? '<span class="badge badge-admin">⭐</span>' : '<span class="badge badge-servant">👨‍🏫</span>'}</td><td>${assignedClass ? esc(assignedClass.name) : '—'}</td><td>${childCount}</td><td><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;"><button class="btn btn-sm ${isActive ? 'btn-bad' : 'btn-ok'}" onclick="window.toggleServantStatus('${s.username}')">${isActive ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'}</button><select id="classEdit_${s.username}" style="padding:4px 8px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass);color:var(--text-primary);font-size:0.75rem;"><option value="">تغيير الصف</option>${db.classes.map(c => `<option value="${c.id}" ${c.id === s.assignedClass ? 'selected' : ''}>${c.name}</option>`).join('')}</select><button class="btn btn-sm btn-secondary" onclick="window.updateServantClass('${s.username}')"><i class="fas fa-save"></i></button>${!isAdminUser && s.username !== 'admin' ? `<button class="btn btn-sm btn-bad" onclick="window.deleteServant('${s.username}')"><i class="fas fa-trash"></i></button>` : ''}${!isAdminUser ? `<button class="btn btn-sm btn-gold" onclick="window.makeAdmin('${s.username}')"><i class="fas fa-star"></i></button>` : ''}${!isAdminUser ? `<button class="btn btn-sm btn-secondary" onclick="window.openResetPasswordFor('${s.username}')"><i class="fas fa-key"></i></button>` : ''}</div></td></tr>`;
+                const stats = getServantAttendanceStats(s.username);
+                const barcodeSVG = s.code ? generateBarcodeSVG(s.code, { width: 90, height: 40 }) : '';
+                return `<tr>
+                    <td><i class="fas fa-user-circle" style="color:#6a1b9a;"></i> ${esc(s.name)}</td>
+                    <td><code>${esc(s.username)}</code></td>
+                    <td><span class="badge ${isActive ? 'badge-ok' : 'badge-bad'}">${isActive ? '🟢' : '🔴'}</span>${isAdminUser ? '<span class="badge badge-admin">⭐</span>' : '<span class="badge badge-servant">👨‍🏫</span>'}</td>
+                    <td>${assignedClass ? esc(assignedClass.name) : '—'}</td>
+                    <td>${childCount}</td>
+                    <td>${stats.present}/${stats.total} <span class="badge ${stats.percent >= 70 ? 'badge-ok' : stats.percent >= 40 ? 'badge-pending' : 'badge-bad'}" style="font-size:0.6rem;">${stats.percent}%</span></td>
+                    <td>
+                        ${s.code ? `<div class="student-code-cell"><code class="code-pill" style="font-size:0.65rem;">${esc(s.code)}</code><button class="copy-btn" onclick="window.copyCode('${esc(s.code)}',this)"><i class="fas fa-copy"></i></button><div class="barcode-mini" onclick="window.showServantBarcodeView('${s.username}')" style="cursor:pointer;">${barcodeSVG}</div></div>` : '—'}
+                    </td>
+                    <td>
+                        <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
+                            <button class="btn btn-sm btn-admin" onclick="window.showServantBarcodeView('${s.username}')" title="طباعة الباركود"><i class="fas fa-print"></i></button>
+                            <button class="btn btn-sm ${isActive ? 'btn-bad' : 'btn-ok'}" onclick="window.toggleServantStatus('${s.username}')" title="${isActive ? 'إيقاف' : 'تفعيل'}">${isActive ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'}</button>
+                            <select id="classEdit_${s.username}" style="padding:4px 8px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass);color:var(--text-primary);font-size:0.75rem;"><option value="">تغيير الصف</option>${db.classes.map(c => `<option value="${c.id}" ${c.id === s.assignedClass ? 'selected' : ''}>${c.name}</option>`).join('')}</select>
+                            <button class="btn btn-sm btn-secondary" onclick="window.updateServantClass('${s.username}')" title="حفظ الصف"><i class="fas fa-save"></i></button>
+                            ${!isAdminUser && s.username !== 'admin' ? `<button class="btn btn-sm btn-bad" onclick="window.deleteServant('${s.username}')" title="حذف"><i class="fas fa-trash"></i></button>` : ''}
+                            ${!isAdminUser ? `<button class="btn btn-sm btn-gold" onclick="window.makeAdmin('${s.username}')" title="ترقية"><i class="fas fa-star"></i></button>` : ''}
+                            ${!isAdminUser ? `<button class="btn btn-sm btn-secondary" onclick="window.openResetPasswordFor('${s.username}')" title="كلمة المرور"><i class="fas fa-key"></i></button>` : ''}
+                        </div>
+                    </td>
+                </tr>`;
             }).join('');
             return `
                 <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-users"></i> الخدام (${db.servants.filter(s => !s.isPending).length})</h3>
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+                        <h3 style="font-size:1.1rem;"><i class="fas fa-users"></i> الخدام (${db.servants.filter(s => !s.isPending).length})</h3>
+                        <button class="btn btn-admin btn-sm" onclick="window.openServantAttendanceModal()"><i class="fas fa-user-check"></i> تسجيل حضور الخدام</button>
+                    </div>
                     <div class="search-bar">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" placeholder="ابحث..." value="${esc(servantSearchQuery)}" oninput="window.setServantSearch(this.value)" />
+                        <input type="text" placeholder="ابحث بالاسم أو الكود..." value="${esc(servantSearchQuery)}" oninput="window.setServantSearch(this.value)" />
                         <select onchange="window.setServantStatusFilter(this.value)">
                             <option value="">الكل</option>
                             <option value="active" ${servantStatusFilter === 'active' ? 'selected' : ''}>🟢 نشط</option>
@@ -2259,7 +2531,7 @@
                     ${servants.length === 0 ? `<p class="empty">لا يوجد خدام</p>` : `
                     <div class="table-wrap">
                         <table>
-                            <thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الحالة</th><th>الصف</th><th>الأطفال</th><th>إجراءات</th></tr></thead>
+                            <thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الحالة</th><th>الصف</th><th>الأطفال</th><th>حضور</th><th>الباركود</th><th>إجراءات</th></tr></thead>
                             <tbody>${rows}</tbody>
                         </table>
                     </div>`}
@@ -2310,7 +2582,7 @@
             }).join('');
             return `
                 <div class="glass">
-                    <h3 style="font-size:1.1rem;"><i class="fas fa-clipboard-list"></i> سجلات الحضور (${records.length})</h3>
+                    <h3 style="font-size:1.1rem;"><i class="fas fa-clipboard-list"></i> سجلات حضور الأطفال (${records.length})</h3>
                     <div class="search-bar">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" placeholder="ابحث..." value="${esc(attendanceSearchQuery)}" oninput="window.setAttendanceSearch(this.value)" />
@@ -2327,6 +2599,47 @@
                         </table>
                     </div>`}
                 </div>`;
+        }
+        function renderAdminServantAttendanceTab() {
+            const records = db.servantAttendance.slice().sort((a, b) => b.weekDate.localeCompare(a.weekDate));
+            const limited = records.slice(0, 150);
+            const rows = limited.map(a => {
+                const servant = db.servants.find(s => s.username === a.username);
+                const cls = servant && servant.assignedClass ? db.classes.find(c => c.id === servant.assignedClass) : null;
+                return `<tr>
+                    <td>${servant ? esc(servant.name) : '❓'}</td>
+                    <td>${servant && servant.code ? `<code class="code-pill" style="font-size:0.65rem;">${esc(servant.code)}</code>` : '—'}</td>
+                    <td>${cls ? esc(cls.name) : '—'}</td>
+                    <td>${esc(a.weekDate)}</td>
+                    <td><span class="badge ${a.status === 'حاضر' ? 'badge-ok' : 'badge-bad'}">${esc(a.status)}</span></td>
+                    <td>${esc(a.note || '—')}</td>
+                </tr>`;
+            }).join('');
+            // Aggregate stats
+            const stats = getAllServantsAttendanceStats();
+            return `
+                <div class="glass" style="margin-bottom:16px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+                        <h3 style="font-size:1.1rem;"><i class="fas fa-user-check" style="color:#6a1b9a;"></i> حضور الخدام (${records.length} سجل)</h3>
+                        <button class="btn btn-admin btn-sm" onclick="window.openServantAttendanceModal()"><i class="fas fa-plus"></i> تسجيل حضور</button>
+                    </div>
+                    <div class="stats-grid" style="margin-bottom:0;">
+                        <div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${stats.presentCount}</div><div class="label">حضور</div></div>
+                        <div class="stat-card" style="border-color:var(--bad);"><div class="num" style="color:var(--bad);">${stats.absentCount}</div><div class="label">غياب</div></div>
+                        <div class="stat-card"><div class="num">${stats.percent}%</div><div class="label">نسبة الحضور</div></div>
+                    </div>
+                </div>
+                ${limited.length === 0 ? `<p class="empty">لا يوجد سجلات حضور خدام</p>` : `
+                <div class="glass">
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>الخادم</th><th>الكود</th><th>الصف</th><th>التاريخ</th><th>الحالة</th><th>ملاحظة</th></tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                    ${records.length > 150 ? `<p style="text-align:center;color:var(--text-muted);font-size:0.75rem;margin-top:8px;">يتم عرض آخر 150 سجل من إجمالي ${records.length}</p>` : ''}
+                </div>`}
+            `;
         }
         function renderAddServantTab() {
             return `
@@ -2368,11 +2681,12 @@
             if (password.length < 6) { msgBox.innerHTML = `<div class="alert alert-error">6 أحرف على الأقل.</div>`; return false; }
             if (db.servants.some(s => s.username === username)) { msgBox.innerHTML = `<div class="alert alert-error">مستخدم بالفعل.</div>`; return false; }
             const passwordHash = await sha256(password);
-            db.servants.push({ name, username, passwordHash, isActive, isAdmin, isPending: false, assignedClass: classId, pendingSince: null });
+            const code = genServantCode();
+            db.servants.push({ name, username, passwordHash, code, isActive, isAdmin, isPending: false, assignedClass: classId, pendingSince: null });
             await saveDB();
             const roleMsg = isAdmin ? 'أدمن' : 'خادم';
-            msgBox.innerHTML = `<div class="alert alert-success">✅ تم إضافة "${name}" كـ ${roleMsg}</div>`;
-            showToast(`✅ تم إضافة "${name}"`, 'success');
+            msgBox.innerHTML = `<div class="alert alert-success">✅ تم إضافة "${name}" كـ ${roleMsg} - كود: ${code}</div>`;
+            showToast(`✅ تم إضافة "${name}" - كود: ${code}`, 'success');
             setTimeout(() => { activeTab = 'servants'; render(); }, 1500);
             return false;
         };
@@ -2413,7 +2727,7 @@
             return false;
         };
         function renderReportsTab() {
-            const totalServants = db.servants.length;
+            const totalServants = db.servants.filter(s => !s.isPending).length;
             const totalChildren = db.children.length;
             const totalAttendance = db.attendance.length;
             const totalExams = db.exams.length;
@@ -2422,6 +2736,7 @@
             const presentCount = db.attendance.filter(a => a.status === 'حاضر').length;
             const absentCount = db.attendance.filter(a => a.status === 'غائب').length;
             const classDistribution = db.classes.map(cls => ({ name: cls.name, count: db.children.filter(c => c.classId === cls.id).length })).sort((a, b) => b.count - a.count);
+            const sAttStats = getAllServantsAttendanceStats();
             return `
                 <div class="glass">
                     <h3 style="font-size:1.1rem;"><i class="fas fa-chart-bar" style="color:#6a1b9a;"></i> التقارير</h3>
@@ -2430,7 +2745,8 @@
                         <div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${activeServants}</div><div class="label">نشطين</div></div>
                         <div class="stat-card" style="border-color:var(--pending);"><div class="num" style="color:var(--pending);">${pendingCount}</div><div class="label">بانتظار</div></div>
                         <div class="stat-card"><div class="num">${totalChildren}</div><div class="label">أطفال</div></div>
-                        <div class="stat-card"><div class="num">${totalAttendance}</div><div class="label">سجلات</div></div>
+                        <div class="stat-card"><div class="num">${totalAttendance}</div><div class="label">حضور أطفال</div></div>
+                        <div class="stat-card"><div class="num">${db.servantAttendance.length}</div><div class="label">حضور خدام</div></div>
                         <div class="stat-card"><div class="num">${totalExams}</div><div class="label">اختبارات</div></div>
                         <div class="stat-card" style="border-color:var(--ok);"><div class="num" style="color:var(--ok);">${presentCount}</div><div class="label">حضور</div></div>
                         <div class="stat-card" style="border-color:var(--bad);"><div class="num" style="color:var(--bad);">${absentCount}</div><div class="label">غياب</div></div>
@@ -2500,8 +2816,9 @@
             if (!assignedClassId) { showToast('⚠️ اختر الصف.', 'warning'); render(); return; }
             try {
                 servant.isPending = false; servant.isActive = true; servant.assignedClass = assignedClassId;
+                if (!servant.code) servant.code = genServantCode();
                 await saveDB();
-                showToast(`✅ تمت الموافقة على "${servant.name}"`, 'success');
+                showToast(`✅ تمت الموافقة على "${servant.name}" - كود: ${servant.code}`, 'success');
                 activeTab = 'pending'; render();
             } catch (e) { showToast('❌ خطأ.', 'error'); render(); }
         };
@@ -2642,7 +2959,8 @@
             }).join('');
             const servantsRows = servants.map(s => {
                 const childCount = db.children.filter(c => c.servantUsername === s.username).length;
-                return `<tr><td><i class="fas fa-user-circle" style="color:#6a1b9a;"></i> ${esc(s.name)}</td><td><code>${esc(s.username)}</code></td><td>${childCount}</td><td><span class="badge ${s.isActive ? 'badge-ok' : 'badge-bad'}">${s.isActive ? '🟢' : '🔴'}</span></td></tr>`;
+                const stats = getServantAttendanceStats(s.username);
+                return `<tr><td><i class="fas fa-user-circle" style="color:#6a1b9a;"></i> ${esc(s.name)}</td><td><code>${esc(s.username)}</code></td><td>${childCount}</td><td><span class="badge ${s.isActive ? 'badge-ok' : 'badge-bad'}">${s.isActive ? '🟢' : '🔴'}</span></td><td>${stats.present}/${stats.total} (${stats.percent}%)</td><td><button class="btn btn-sm btn-admin" onclick="window.showServantBarcodeView('${s.username}')"><i class="fas fa-print"></i></button></td></tr>`;
             }).join('');
             const attCount = db.attendance.filter(a => { const child = db.children.find(c => c.id === a.childId); return child && child.classId === cls.id; }).length;
             return `
@@ -2664,7 +2982,7 @@
                     <h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-child"></i> الأطفال</h3>
                     ${children.length === 0 ? `<p class="empty">لا يوجد أطفال</p>` : `<div class="glass table-wrap"><table><thead><tr><th>الاسم</th><th>الكود والباركود</th><th>سجلات</th><th>آخر حضور</th><th></th></tr></thead><tbody>${childrenRows}</tbody></table></div>`}
                     <h3 style="font-size:1.1rem;margin-top:16px;"><i class="fas fa-chalkboard-teacher"></i> الخدام</h3>
-                    ${servants.length === 0 ? `<p class="empty">لا يوجد خدام</p>` : `<div class="glass table-wrap"><table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الأطفال</th><th>الحالة</th></tr></thead><tbody>${servantsRows}</tbody></table></div>`}
+                    ${servants.length === 0 ? `<p class="empty">لا يوجد خدام</p>` : `<div class="glass table-wrap"><table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الأطفال</th><th>الحالة</th><th>حضور</th><th>باركود</th></tr></thead><tbody>${servantsRows}</tbody></table></div>`}
                 </section>`;
         }
         function viewChildReport(childId) {
@@ -2705,8 +3023,9 @@
                         <h3 style="font-size:1rem;margin-bottom:8px;"><i class="fas fa-barcode" style="color:#6a1b9a;"></i> الباركود</h3>
                         <div style="background:#fff;border-radius:12px;padding:12px;display:inline-block;max-width:100%;">${barcodeSVG}</div>
                         <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+                            <button class="btn btn-admin btn-sm" onclick="window.printBarcode('${esc(child.code)}','${esc(child.name)}','طالب - ${esc(cls?.name || '')}')"><i class="fas fa-print"></i> طباعة</button>
                             <button class="btn btn-admin btn-sm" onclick="window.downloadBarcode('${esc(child.code)}')"><i class="fas fa-download"></i> تحميل PNG</button>
-                            <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ الكود</button>
+                            <button class="btn btn-secondary btn-sm" onclick="window.copyCode('${esc(child.code)}',this)"><i class="fas fa-copy"></i> نسخ</button>
                         </div>
                     </div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
@@ -2727,7 +3046,9 @@
                 </section>`;
         }
 
+        // ============================================================
         // CHAT VIEW
+        // ============================================================
         function viewChat() {
             if (!session || !session.isAdmin) { go('adminLogin'); return ''; }
             const user = getServantByUsername(session.username);
@@ -2948,21 +3269,24 @@
             deleteExam, startExam, submitExamAnswers, closeTakeExamModal, closeExamResultModal,
             openExamModal, closeExamModal, addQuestion, updateQuestionUI, addOption, removeOption, submitExam,
             approveExamRetake, handleRetakeAttempt,
-            genCode, genExamCode,
+            genCode, genExamCode, genServantCode,
             openResetPasswordModal, closeResetPasswordModal, submitResetPassword, openResetPasswordFor,
             openPasswordModal, closePasswordModal, submitChangePassword,
             openPollModal, closePollModal, addPollOption, submitPoll, votePoll,
             toggleEmojiPicker, insertEmoji,
             showToast, esc, normalizeText, isAnswerCorrect,
-            generateBarcodeSVG, downloadBarcode, showBarcodeView, closeBarcodeViewModal,
+            generateBarcodeSVG, downloadBarcode, showBarcodeView, showServantBarcodeView, closeBarcodeViewModal,
+            printBarcode,
             generateQRCodeSVG,
-            openBarcodeModal, closeBarcodeModal, scanAttendanceBarcode,
+            openBarcodeModal, closeBarcodeModal, scanAttendanceBarcode, scanServantAttendanceBarcode,
             setServantSearch, setServantStatusFilter, setChildSearch, setChildClassFilter,
             setExamSearch, setExamStatusFilter, setAttendanceSearch, setAttendanceClassFilter, setPendingSearch,
             goToExamQuestion, nextExamQuestion, prevExamQuestion, selectExamAnswer, toggleMultipleAnswer,
             requestSubmitExam, closeSubmitConfirmModal, reviewAnswers, confirmSubmitExam,
-            isExamAvailable
+            isExamAvailable,
+            openServantAttendanceModal, closeServantAttendanceModal, renderServantAttendanceList, saveServantAttendance,
+            getServantAttendanceForDate, getServantAttendanceStats, getAllServantsAttendanceStats
         });
     </script>
 </body>
-                </html>
+                    </html>
